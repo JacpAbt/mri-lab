@@ -1,0 +1,138 @@
+{
+  "vendored": "2026-09-01",
+  "research_root": "C:\\Users\\Jacopo Abate\\Desktop\\Mine\\Programmazione\\experiments_mri_llm",
+  "files": [
+    {
+      "src": "experiments/regimes/sensitivity_ladder.py",
+      "dst": "src/mrilab/instruments/sensitivity_ladder.py",
+      "src_sha256": "f896230054701eaaf27f9e5a3c0c6368c26b05516a7ec06d339358f2dde705bf",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/vitals.py",
+      "dst": "src/mrilab/instruments/vitals.py",
+      "src_sha256": "6efecde1839346bb8eeea1ad64edd97c2ca7d53adfdc75b0cd88a47a30c8cc64",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/icl_readiness.py",
+      "dst": "src/mrilab/instruments/icl_readiness.py",
+      "src_sha256": "ac46433ee9db78f02b3db49e1ca30755a46bb7eb2424f13db2035a58fbacbe03",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/icl_ladder.py",
+      "dst": "src/mrilab/instruments/icl_ladder.py",
+      "src_sha256": "b4470d1b7d0273f736c86b40186f7d4bd5aaf96cd71ec49bb10e8f62c624d54f",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/payload_ladder.py",
+      "dst": "src/mrilab/instruments/payload_ladder.py",
+      "src_sha256": "f6a63d140de48c00f395ccee2ea9032ca63106f15a9c8b82caa00e7a035c4b9d",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/honesty_battery.py",
+      "dst": "src/mrilab/instruments/honesty_battery.py",
+      "src_sha256": "41ded44b1dc24442401e557b423874615828bd0a7a938e466ae40d278dd71320",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/prefs.py",
+      "dst": "src/mrilab/instruments/prefs.py",
+      "src_sha256": "c66a29a26ddb018a13d212d7e4430cfd6e3616c772eb4ac07edf2a6f6227d898",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/pref_battery.py",
+      "dst": "src/mrilab/instruments/pref_battery.py",
+      "src_sha256": "f6221eee366583b9291e8e13d658f3b5ac13251e1bf028f151e3e03fe388fa65",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/m1_signals.py",
+      "dst": "src/mrilab/instruments/m1_signals.py",
+      "src_sha256": "1754c225811ebb043da69e993c36ef09a3471a60a7a47708a59af3d9d56c4d31",
+      "patches": 1
+    },
+    {
+      "src": "experiments/regimes/induction_ladder.py",
+      "dst": "src/mrilab/instruments/induction_ladder.py",
+      "src_sha256": "153ad4d755c17b17cdbe2fb30ef1aa2717fbd2f46c3e663ca5de11a8bfd96e7d",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/erosion_arms.py",
+      "dst": "src/mrilab/instruments/erosion_arms.py",
+      "src_sha256": "3f514ab962a67ccaf0de77a92fbd8107b501b01365bdeeefb26f986af996eb51",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/repetition_arms.py",
+      "dst": "src/mrilab/instruments/repetition_arms.py",
+      "src_sha256": "dba4dda4db3cccf6f90678e4149bca9c617d8157188962f2c46854f5b4ab9f92",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/kd_arms.py",
+      "dst": "src/mrilab/instruments/kd_arms.py",
+      "src_sha256": "4798062f2ecdb5f2503fc062cde8793d42455580f7fefe2a999d46a7ad99b56b",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/l8_arms.py",
+      "dst": "src/mrilab/instruments/l8_arms.py",
+      "src_sha256": "f68955da51ec0dffbd54b5540277bb2e49cdd6c736d00b6670f09a96e8b07294",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/s_cross.py",
+      "dst": "src/mrilab/instruments/s_cross.py",
+      "src_sha256": "c6560aba8c9b0ca94169b5673d6a83367ab8307a035b52260429d3a8f34a4cb9",
+      "patches": 2
+    },
+    {
+      "src": "experiments/regimes/dp_profile.py",
+      "dst": "src/mrilab/instruments/dp_profile.py",
+      "src_sha256": "ea37cb0c08507fcd8a9c3a9abcfa6d3c9854ee3f42eff181886a26b90cb5c285",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/z_ter.py",
+      "dst": "src/mrilab/instruments/z_ter.py",
+      "src_sha256": "f9155a665ed1c6f2528e5f2df9c8305d6e173d56bf5801115b02375a4077e5f7",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/u1_run.py",
+      "dst": "src/mrilab/instruments/u1_run.py",
+      "src_sha256": "dc9b75de90eff763a489408b3707dc5c47ad0c155bc212fd83cf2d694f78d0e0",
+      "patches": 0
+    },
+    {
+      "src": "experiments/regimes/match_capability.py",
+      "dst": "src/mrilab/instruments/match_capability.py",
+      "src_sha256": "3bb9c8b86993cda4a3ba59bc28bed448fcbe7b8cfc4f0532360f07412be99bbc",
+      "patches": 0
+    },
+    {
+      "src": "mri_compressor/model_utils.py",
+      "dst": "src/mrilab/inspector/model_utils.py",
+      "src_sha256": "d93d46c87cf2a27cac9578b1df2ea743a6f7898831942d87865199b4c4f3cc39",
+      "patches": 0
+    },
+    {
+      "src": "mri_compressor/data_utils.py",
+      "dst": "src/mrilab/datasets/data_utils.py",
+      "src_sha256": "aee41d1fbfb305bfdcef8da3aeb38a5a61997620b41d1d8b0fa397667607886c",
+      "patches": 0
+    },
+    {
+      "src": "experiments/fdgc/datasets.py",
+      "dst": "src/mrilab/datasets/fdgc_datasets.py",
+      "src_sha256": "7f048ad1f8d5b2f72d78474d8819a2be7bcce35c54c6c88edd448a71a38b97a9",
+      "patches": "manual-trim (see file header for kept symbols)"
+    }
+  ]
+}

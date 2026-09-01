@@ -17,7 +17,8 @@ from pathlib import Path
 SRC = Path(__file__).resolve().parents[2] / "src" / "mrilab"
 TORCH_SIDE_DIRS = ("instruments", "datasets", "inspector")
 
-# import roots the research venv is known to provide (extend only when vendoring demands)
+# import roots the research venv is known to provide (extend only when vendoring
+# demands AND runtime_lock.json confirms the package is present in that venv)
 ALLOWED_ROOTS = {
     "torch",
     "transformers",
@@ -25,6 +26,8 @@ ALLOWED_ROOTS = {
     "numpy",
     "einops",
     "bitsandbytes",
+    "huggingface_hub",  # m1_signals (runtime_lock: 1.15.0)
+    "flash_attn",  # model_utils backend detection, try-guarded (runtime_lock: 2.8.3)
     # intra-package (torch-side only)
     "mrilab",
 }
