@@ -1,0 +1,185 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI-Lab Load</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* ROUND 3 — LOAD (the Gate). Varies: the ENTRY FLOW. Airy end of the density
+   gradient; three doors as intake rows (not cards); recents wear their
+   measured PORTRAIT as a face. 0 JS. */
+:root{
+  --paper:#F5F6F3; --panel:#FCFCFA; --ink:#1B1E1C; --dim:#59605B; --line:#D8DCD6;
+  --grid:#ECEEE9; --teal:#0D7066; --ok:#1E6E41; --warn:#92590F; --block:#A31D40;
+  --chip:#EDEFEA;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#2B312D;
+    --grid:#1B201D; --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590;
+    --chip:#202522;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#2B312D;
+  --grid:#1B201D; --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590;
+  --chip:#202522;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:14px/1.55 "IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums;min-height:100vh}
+.sans{font-family:"IBM Plex Sans",system-ui,sans-serif}
+header{display:flex;gap:14px;align-items:baseline;padding:14px 26px;
+  border-bottom:1px solid var(--line)}
+.brand{font-family:"IBM Plex Sans",system-ui,sans-serif;font-weight:600;letter-spacing:.1em}
+.brand b{color:var(--teal)}
+header .right{margin-left:auto;color:var(--dim);font-size:12px;display:flex;gap:14px}
+kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;
+  padding:0 5px;background:var(--chip);font-size:11px}
+main{max-width:880px;margin:0 auto;padding:64px 26px 40px}
+h1{font:600 26px/1.3 "IBM Plex Sans",system-ui,sans-serif;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--dim);margin:0 0 40px;max-width:62ch}
+
+.door{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:18px;align-items:center;
+  padding:20px 0;border-top:1px solid var(--line)}
+.door:last-of-type{border-bottom:1px solid var(--line)}
+.door .tag{color:var(--dim);font-size:11px;letter-spacing:.14em;line-height:1.7}
+.door .tag b{display:block;color:var(--ink);font-size:13px;letter-spacing:.02em;
+  font-family:"IBM Plex Sans",system-ui,sans-serif}
+.door .body{min-width:0}
+.door input,.door select{width:100%;background:var(--panel);border:1px solid var(--line);
+  color:var(--ink);font:inherit;padding:8px 11px;border-radius:3px}
+.door input::placeholder{color:var(--dim)}
+.door input:focus-visible,.door select:focus-visible,.btn:focus-visible{
+  outline:2px solid var(--teal);outline-offset:1px}
+.door .hint{color:var(--dim);font-size:11.5px;margin-top:5px}
+.pair{display:flex;gap:8px}
+.btn{background:var(--panel);border:1px solid var(--ink);color:var(--ink);
+  font:inherit;padding:8px 16px;border-radius:3px;cursor:pointer;white-space:nowrap}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--chip)} .btn.primary:hover{opacity:.92}
+
+.recents{margin-top:44px}
+.recents h2{font:600 11px/1 "IBM Plex Sans",system-ui,sans-serif;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+.rrow{display:flex;gap:10px;flex-wrap:wrap}
+.rcard{display:flex;gap:10px;align-items:center;border:1px solid var(--line);
+  background:var(--panel);border-radius:4px;padding:8px 12px 8px 8px;text-decoration:none;
+  color:var(--ink)}
+.rcard:hover{border-color:var(--teal)}
+.rcard .meta{font-size:12px;line-height:1.5}
+.rcard .meta .who{font-weight:500}
+.rcard .meta .what{color:var(--dim);font-size:11px}
+.rcard .chip{font-size:10px;border:1px solid;border-radius:3px;padding:0 6px;margin-left:8px}
+.c-ok{color:var(--ok);border-color:var(--ok)} .c-warn{color:var(--warn);border-color:var(--warn)}
+/* the portrait as the model's face: same canon at 30px */
+.face{width:34px;height:34px;flex:none}
+
+.why{margin-top:56px;color:var(--dim);font-size:12.5px;max-width:66ch;
+  border-top:1px dashed var(--line);padding-top:14px}
+.why b{color:var(--ink);font-weight:500}
+footer{max-width:880px;margin:0 auto;padding:0 26px 22px;color:var(--dim);font-size:11px;
+  display:flex;gap:18px}
+</style>
+
+<header>
+  <span class="brand">MRI-<b>LAB</b></span>
+  <span class="right"><span><kbd>⌘K</kbd> anywhere</span><span>registry 61b54c1e</span><span>fingerprint ✓</span></span>
+</header>
+
+<main>
+  <h1>What is your model?</h1>
+  <p class="sub">Three ways in. Everything downstream is a measured room:
+  readiness, fragility, economics, lineage — each with its evidence.</p>
+
+  <div class="door">
+    <div class="tag"><b>Checkpoint</b>I HAVE WEIGHTS</div>
+    <div class="body">
+      <input value="EleutherAI/pythia-160m @ step143000" aria-label="repo and revision">
+      <div class="hint">HF repo@revision or a local path · full panel ≈ 20–40 min, readiness alone runs on CPU</div>
+    </div>
+    <button class="btn primary">[ SCAN ]</button>
+  </div>
+
+  <div class="door">
+    <div class="tag"><b>Recipe</b>I HAVE AN ARCH<br>AND DATASETS</div>
+    <div class="body">
+      <div class="pair">
+        <select aria-label="architecture"><option>pythia-160m-class (12L × 12H · d768)</option></select>
+        <select aria-label="datasets"><option>c4 + code + math (3 intents)</option></select>
+      </div>
+      <div class="hint">→ placement rules, per-corpus crash profiles (GPU, ~4 min/corpus at 160m — measured), the sensor plan. Configures instruments; promises nothing.</div>
+    </div>
+    <button class="btn">[ PROFILE ]</button>
+  </div>
+
+  <div class="door">
+    <div class="tag"><b>Live run</b>I AM TRAINING<br>NOW</div>
+    <div class="body">
+      <input placeholder="/checkpoints/run-042  ·  or an HF revision stream" aria-label="checkpoint stream">
+      <div class="hint">→ clocks + smoothed gauges + CI gates. Advisory only — knobs unlock per landed closed-loop cell, none yet.</div>
+    </div>
+    <button class="btn">[ WATCH ]</button>
+  </div>
+
+  <div class="recents">
+    <h2>Recent subjects — worn as their measured portraits</h2>
+    <div class="rrow">
+      <a class="rcard" href="#">
+        <svg class="face" viewBox="0 0 34 34" aria-hidden="true">
+          <g fill="none" stroke="var(--ink)" opacity=".85">
+            <circle cx="17" cy="17" r="5"/><circle cx="17" cy="17" r="9"/><circle cx="17" cy="17" r="13"/></g>
+          <g stroke="var(--teal)" opacity=".9"><line x1="17" y1="17" x2="17" y2="3"/><line x1="17" y1="17" x2="29" y2="9"/><line x1="17" y1="17" x2="30" y2="21"/><line x1="17" y1="17" x2="9" y2="30"/><line x1="17" y1="17" x2="4" y2="13"/></g>
+          <g stroke="var(--warn)"><line x1="27" y1="12" x2="31" y2="14"/><line x1="29" y1="20" x2="32" y2="19"/><line x1="24" y1="28" x2="27" y2="30"/><line x1="10" y1="28" x2="8" y2="31"/><line x1="5" y1="20" x2="2" y2="21"/><line x1="7" y1="8" x2="4" y2="6"/></g>
+          <circle cx="17" cy="17" r="16" fill="none" stroke="var(--dim)" stroke-dasharray="3 2.5"/>
+        </svg>
+        <span class="meta"><span class="who">pythia-160m@143k</span><br>
+          <span class="what">rules · quenched</span></span>
+        <span class="chip c-warn">int4 6/6</span>
+      </a>
+      <a class="rcard" href="#">
+        <svg class="face" viewBox="0 0 34 34" aria-hidden="true">
+          <g fill="none" stroke="var(--ink)" opacity=".85">
+            <circle cx="17" cy="17" r="5"/><circle cx="17" cy="17" r="9"/><circle cx="17" cy="17" r="13"/></g>
+          <g stroke="var(--teal)" opacity=".9"><line x1="17" y1="17" x2="17" y2="4"/><line x1="17" y1="17" x2="28" y2="10"/><line x1="17" y1="17" x2="28" y2="24"/><line x1="17" y1="17" x2="10" y2="29"/></g>
+        </svg>
+        <span class="meta"><span class="who">pythia-160m@40k</span><br>
+          <span class="what">rules · flat twin</span></span>
+        <span class="chip c-ok">FT 0.10×</span>
+      </a>
+      <a class="rcard" href="#">
+        <svg class="face" viewBox="0 0 34 34" aria-hidden="true">
+          <g fill="none" stroke="var(--ink)" opacity=".85">
+            <circle cx="17" cy="17" r="5"/><circle cx="17" cy="17" r="9"/><circle cx="17" cy="17" r="13"/></g>
+          <g stroke="var(--teal)"><line x1="17" y1="17" x2="17" y2="2"/><line x1="17" y1="17" x2="30" y2="8"/><line x1="17" y1="17" x2="31" y2="19"/><line x1="17" y1="17" x2="24" y2="31"/><line x1="17" y1="17" x2="8" y2="30"/><line x1="17" y1="17" x2="3" y2="17"/><line x1="17" y1="17" x2="7" y2="6"/></g>
+          <g stroke="var(--warn)" opacity=".8"><line x1="28" y1="13" x2="31" y2="14"/><line x1="27" y1="23" x2="30" y2="25"/></g>
+        </svg>
+        <span class="meta"><span class="who">OLMo-2-1B@4001B</span><br>
+          <span class="what">rules · high R</span></span>
+        <span class="chip c-ok">R +5.4</span>
+      </a>
+      <a class="rcard" href="#">
+        <svg class="face" viewBox="0 0 34 34" aria-hidden="true">
+          <g fill="none" stroke="var(--ink)" opacity=".85">
+            <circle cx="17" cy="17" r="5"/><circle cx="17" cy="17" r="9"/><circle cx="17" cy="17" r="13"/></g>
+          <g stroke="var(--teal)" opacity=".9"><line x1="17" y1="17" x2="17" y2="3"/><line x1="17" y1="17" x2="29" y2="10"/><line x1="17" y1="17" x2="28" y2="24"/><line x1="17" y1="17" x2="9" y2="29"/><line x1="17" y1="17" x2="5" y2="12"/></g>
+          <g stroke="var(--warn)" opacity=".8"><line x1="27" y1="12" x2="30" y2="13"/><line x1="28" y1="21" x2="31" y2="22"/><line x1="12" y1="28" x2="10" y2="30"/></g>
+          <circle cx="17" cy="17" r="15" fill="none" stroke="var(--dim)" stroke-dasharray="3 2.5" opacity=".6"/>
+        </svg>
+        <span class="meta"><span class="who">rejuv_3e-5</span><br>
+          <span class="what">repaired · int4 ½</span></span>
+        <span class="chip c-ok">dL ½</span>
+      </a>
+    </div>
+  </div>
+
+  <p class="why"><b>Why portraits?</b> The face is the frozen state encoding —
+  spokes = readiness, hatch = curvature, dashed ring = norm growth. You will
+  learn to see “quenched endpoint” in a 34-pixel thumbnail before you read a
+  number. <a href="#" style="color:var(--teal)">How to read it →</a></p>
+</main>
+
+<footer>
+  <span>page ≈ 11 KB · 0 JS</span>
+  <span style="margin-left:auto">every view is a URL · works without JS</span>
+</footer>

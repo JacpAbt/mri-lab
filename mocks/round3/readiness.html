@@ -1,0 +1,252 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI-Lab Readiness Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* ROUND 3 — READINESS room. Varies: the FIGURE-AS-INSTRUMENT contract, fully
+   realized — caption, touch-to-claim, HOW-TO-READ overlay (shown ON), legend
+   as gauges, CI-hollow points, refusal chrome, gap with unlock. ~1.5 KB JS. */
+:root{
+  --paper:#F5F6F3; --panel:#FCFCFA; --ink:#1B1E1C; --dim:#59605B; --line:#D8DCD6;
+  --grid:#ECEEE9; --teal:#0D7066; --ok:#1E6E41; --warn:#92590F; --block:#A31D40;
+  --chip:#EDEFEA; --pythia:#2a78d6; --olmo:#1baf7a; --anno:#8a4fbe;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#2B312D;
+    --grid:#1B201D; --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590;
+    --chip:#202522; --pythia:#3987e5; --olmo:#199e70; --anno:#b58ae0;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#2B312D;
+  --grid:#1B201D; --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590;
+  --chip:#202522; --pythia:#3987e5; --olmo:#199e70; --anno:#b58ae0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:13.5px/1.5 "IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums}
+.page{max-width:1160px;margin:0 auto;padding:0 22px 26px}
+.subject{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.face{width:30px;height:30px;flex:none}
+.who{font-weight:500} .sha{color:var(--dim);font-size:11.5px}
+nav{display:flex;gap:22px;font-size:12px;letter-spacing:.08em;color:var(--dim);padding:8px 0 12px}
+nav a{color:inherit;text-decoration:none}
+nav a.on{color:var(--ink);border-bottom:2px solid var(--teal);padding-bottom:2px}
+h1{font:600 19px/1.35 "IBM Plex Sans",system-ui,sans-serif;margin:8px 0 2px}
+.answer{color:var(--dim);margin:0 0 14px;max-width:74ch}
+.answer b{color:var(--ok)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:14px;align-items:start}
+@media (max-width:940px){.layout{grid-template-columns:1fr}}
+section{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+h2{margin:0 0 8px;font:600 10.5px/1 "IBM Plex Sans",system-ui,sans-serif;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--dim);display:flex;gap:8px}
+h2 .src{margin-left:auto;font-weight:400;text-transform:none;letter-spacing:0}
+.figpanel{background:
+  linear-gradient(var(--grid) 1px,transparent 1px),
+  linear-gradient(90deg,var(--grid) 1px,transparent 1px),var(--panel);
+  background-size:20px 20px,20px 20px,auto}
+svg{width:100%;height:auto;display:block}
+svg text{font:11px "IBM Plex Mono",monospace;fill:var(--dim)}
+.bandrect{fill:var(--chip)} .grid line{stroke:var(--grid)} .ax{stroke:var(--dim);stroke-width:1.2}
+.g-olmo circle{fill:var(--olmo);stroke:var(--ink);stroke-width:.8}
+.g-pythia circle{fill:var(--pythia)}
+.hollow{fill:var(--paper) !important;stroke:var(--pythia) !important;stroke-width:1.6 !important}
+.ring{fill:none;stroke:var(--ink);stroke-width:2}
+.safety{stroke:var(--ok);stroke-dasharray:5 4;stroke-width:1.4}
+.lab{font-weight:700;font-size:11.5px}
+.pt{cursor:pointer}
+.pt:hover{stroke:var(--ink);stroke-width:2.2}
+/* the HOW-TO-READ overlay (state: ON) */
+.anno line{stroke:var(--anno);stroke-width:1.1}
+.anno text{fill:var(--anno);font-weight:600;font-size:11px}
+.anno rect{fill:var(--paper);opacity:.85}
+.figbar{display:flex;gap:10px;align-items:center;font-size:11.5px;color:var(--dim);margin-top:8px}
+.figbar .toggle{margin-left:auto;border:1px solid var(--anno);color:var(--anno);
+  background:none;font:inherit;border-radius:3px;padding:2px 9px;cursor:pointer}
+.figbar .toggle[aria-pressed="true"]{background:var(--anno);color:var(--paper)}
+.figbar .toggle:focus-visible{outline:2px solid var(--anno);outline-offset:1px}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--paper);
+  font:12px/1.4 "IBM Plex Sans",sans-serif;padding:5px 9px;border-radius:3px;opacity:0;
+  transition:opacity .1s;z-index:9}
+/* legend = gauges */
+.g{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:baseline;
+  padding:8px 0;border-top:1px dashed var(--line)}
+.g:first-of-type{border-top:0}
+.g .name{color:var(--dim);font-size:12px}
+.g .name b{display:block;color:var(--ink);font-size:13px;font-weight:500}
+.g .val{font-weight:600;font-size:16px;text-align:right}
+.good{color:var(--ok)}
+/* the open claim panel (touch-to-claim, one shown) */
+.claim{border-left:3px solid var(--teal);padding:8px 0 8px 12px;font-size:12.5px}
+.claim .id{color:var(--teal);font-weight:600}
+.claim .meta{color:var(--dim);margin-top:4px}
+.claim .meta b{color:var(--ink);font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:2px}
+th,td{padding:4px 8px 4px 0;text-align:left}
+th{color:var(--dim);font-weight:400}
+tr+tr th,tr+tr td{border-top:1px dashed var(--line)}
+td.v{text-align:right;font-weight:500}
+.ok{color:var(--ok)} .no{color:var(--block)}
+.refusal{border:1px solid var(--warn);border-left:4px solid var(--warn);border-radius:3px;
+  padding:8px 11px;color:var(--warn);font-size:12.5px;margin-top:12px}
+.gapblk{border:1px dashed var(--warn);border-radius:3px;padding:8px 11px;color:var(--dim);
+  font-size:12.5px;margin-top:10px}
+.gapblk b{color:var(--warn)}
+footer{display:flex;gap:16px;margin-top:14px;padding-top:10px;border-top:1px solid var(--line);
+  color:var(--dim);font-size:11px}
+</style>
+
+<div class="page">
+  <div class="subject">
+    <svg class="face" viewBox="0 0 34 34" aria-hidden="true" style="width:30px">
+      <g fill="none" stroke="var(--ink)" opacity=".85"><circle cx="17" cy="17" r="5"/><circle cx="17" cy="17" r="9"/><circle cx="17" cy="17" r="13"/></g>
+      <g stroke="var(--teal)" opacity=".9"><line x1="17" y1="17" x2="17" y2="3"/><line x1="17" y1="17" x2="29" y2="9"/><line x1="17" y1="17" x2="30" y2="21"/><line x1="17" y1="17" x2="9" y2="30"/></g>
+      <g stroke="var(--warn)"><line x1="27" y1="12" x2="31" y2="14"/><line x1="29" y1="20" x2="32" y2="19"/></g>
+      <circle cx="17" cy="17" r="16" fill="none" stroke="var(--dim)" stroke-dasharray="3 2.5"/>
+    </svg>
+    <span class="who">EleutherAI/pythia-160m @ step143000</span>
+    <span class="sha">sha d560…f87e · fp32</span>
+  </div>
+  <nav>
+    <a href="#">OVERVIEW</a><a class="on" href="#">READINESS</a><a href="#">FRAGILITY</a>
+    <a href="#">ECONOMICS</a><a href="#">LINEAGE</a><a href="#">PREFLIGHT</a>
+  </nav>
+
+  <h1>What does teaching become here?</h1>
+  <p class="answer"><b>Rules.</b> This checkpoint sits past the neutral crossing
+  (4.7–5.5) and past the safety crossing (≈3.46, measured this morning) —
+  taught families install as rules, safety policy included.</p>
+
+  <div class="layout">
+    <section class="figpanel">
+      <h2>The readiness surface <span class="src">22 measured points · 2 families · no fit drawn</span></h2>
+      <svg viewBox="0 0 640 372" role="img" aria-label="unseen-rule gain vs held-out loss; 22 measured points with the crossing band and both crossings marked">
+        <rect class="bandrect" x="334" y="14" width="110.5" height="312"/>
+        <g class="grid"><line x1="44" y1="180.4" x2="624" y2="180.4"/><line x1="44" y1="97.2" x2="624" y2="97.2"/></g>
+        <line class="ax" x1="44" y1="263.6" x2="624" y2="263.6"/>
+        <line class="safety" x1="162.7" y1="14" x2="162.7" y2="326"/>
+        <text x="99" y="352" text-anchor="middle">3.0</text><text x="237" y="352" text-anchor="middle">4.0</text><text x="375" y="352" text-anchor="middle">5.0</text><text x="514" y="352" text-anchor="middle">6.0 ← held-out loss</text>
+        <text x="38" y="267" text-anchor="end">0</text><text x="38" y="184" text-anchor="end">+2</text><text x="38" y="101" text-anchor="end">+4</text><text x="38" y="20" text-anchor="end">+6 nats</text>
+        <g class="g-olmo">
+          <circle class="pt" cx="68.7" cy="32.3" r="5"/><circle class="pt" cx="82.1" cy="29" r="5"/>
+          <circle class="pt" cx="88.7" cy="53.1" r="5"/><circle class="pt" cx="105.9" cy="74.7" r="5"/>
+          <circle class="pt" cx="125.5" cy="167.5" r="5"/><circle class="pt" cx="598.2" cy="256.9" r="5"/>
+        </g>
+        <g class="g-pythia">
+          <circle class="pt" cx="77.6" cy="86.8" r="5"/><circle class="pt" cx="135.1" cy="89.3" r="5"/>
+          <circle class="pt" cx="145.2" cy="141.7" r="5"/><circle class="pt" cx="151.2" cy="119.2" r="5"/>
+          <circle class="pt" cx="155.2" cy="149.2" r="5"/><circle class="pt" cx="173" cy="132.1" r="5"/>
+          <circle class="pt" cx="173.1" cy="237.8" r="5"/>
+          <circle class="pt hollow" cx="203.4" cy="276.5" r="5"/>
+          <circle class="pt" cx="220.6" cy="148.8" r="5"/><circle class="pt" cx="234.3" cy="219.1" r="5"/>
+          <circle class="pt" cx="240.4" cy="191.6" r="5"/><circle class="pt" cx="314.5" cy="217.4" r="5"/>
+          <circle class="pt" cx="326.7" cy="259" r="5"/><circle class="pt" cx="449.3" cy="296.9" r="5"/>
+          <circle class="pt" cx="486.2" cy="276.1" r="5"/>
+        </g>
+        <circle class="ring" cx="151.7" cy="85.1" r="9.5"/>
+        <text class="lab" x="70" y="17" style="fill:var(--olmo)">OLMo-2-1B ○</text>
+        <text class="lab" x="250" y="210" style="fill:var(--pythia)">pythia 70m–1.4b ●</text>
+
+        <!-- HOW-TO-READ overlay: state ON -->
+        <g class="anno" id="anno">
+          <line x1="151.7" y1="75" x2="112" y2="46" /><rect x="46" y="30" width="66" height="14"/>
+          <text x="49" y="41">you are here</text>
+          <line x1="389" y1="170" x2="389" y2="120"/><rect x="352" y="100" width="118" height="26"/>
+          <text x="356" y="111">no-verdict band:</text><text x="356" y="123">crossing 4.7–5.5</text>
+          <line x1="203.4" y1="282" x2="238" y2="308"/><rect x="240" y="298" width="180" height="26"/>
+          <text x="244" y="309">hollow = CI spans zero →</text><text x="244" y="321">no verdict (the 70m corner)</text>
+          <line x1="162.7" y1="40" x2="196" y2="40"/><rect x="198" y="30" width="164" height="26"/>
+          <text x="202" y="41">safety crosses HERE (3.46),</text><text x="202" y="53">~1.1 nats after neutral · Cell Q</text>
+          <line x1="560" y1="240" x2="530" y2="268"/><rect x="424" y="262" width="176" height="14"/>
+          <text x="428" y="273">each dot = a measured checkpoint</text>
+        </g>
+      </svg>
+      <div class="figbar">
+        <span>Hover a point for its revision · click for its row.</span>
+        <button class="toggle" id="annoBtn" aria-pressed="true">? HOW TO READ — ON</button>
+      </div>
+    </section>
+
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <section>
+        <h2>Legend = gauges <span class="src">this checkpoint</span></h2>
+        <div class="g"><span style="color:var(--pythia)">●</span>
+          <span class="name"><b>unseen-rule gain (primary)</b>k=16 · n=96 items</span>
+          <span class="val good">+4.29</span></div>
+        <div class="g"><span style="color:var(--dim)">CI</span>
+          <span class="name"><b>bootstrap 95%</b>1000 draws</span>
+          <span class="val">[+3.60, +5.01]</span></div>
+        <div class="g"><span style="color:var(--ok)">▲</span>
+          <span class="name"><b>safety crossing</b>in-context · Cell Q 09-01</span>
+          <span class="val good">3.38 &lt; 3.46 · past</span></div>
+      </section>
+
+      <section>
+        <h2>Touched claim <span class="src">from the ringed point</span></h2>
+        <div class="claim">
+          <span class="id">readiness-crossing</span> · measured · LIVE
+          <div>The item→rule crossing sits between held-out loss ~5.5 and ~4.7
+          in every family measured; above it taught rules land as items and
+          anti-generalize.</div>
+          <div class="meta"><b>n:</b> 22 pts · 5 sizes · 2 families ·
+          within-run replication (P-CL2)<br>
+          <b>bounds:</b> 2.1–2.6× band at matched loss; crossing location is
+          payload-class-dependent (safety ~1.1 later); verdicts only where the
+          CI clears zero.<br>
+          <b>source:</b> BLUEPRINT §38/§41 · PANEL O-PRIME + Q</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Payload classes <span class="src">does the law hold per class?</span></h2>
+        <table>
+          <tr><th>lexical (dialect)</th><td class="v ok">crosses · reference</td></tr>
+          <tr><th>morphological</th><td class="v ok">crosses</td></tr>
+          <tr><th>propositional</th><td class="v ok">crosses</td></tr>
+          <tr><th>counter-prior</th><td class="v ok">rises with capability</td></tr>
+          <tr><th>safety (harm+decept.)</th><td class="v ok">crosses · ~1.1 later</td></tr>
+          <tr><th>arbitrary-label null</th><td class="v">~0 · 24/25 CIs span 0</td></tr>
+          <tr><th>semantic depth (graded)</th><td class="v no">OPEN → O″</td></tr>
+        </table>
+      </section>
+    </div>
+  </div>
+
+  <div class="refusal">⛔ NOT LICENSED: G ratio for the step2000-era points — the
+  seen-gain denominator does not clear the G1 floor there. Unseen gain in nats
+  is shown instead (the gauge's primary form).</div>
+
+  <div class="gapblk"><b>OPEN ON THIS AXIS:</b> gradient-channel safety installs
+  (→ Cell Q-bis) · graded semantic depth (→ O-double-prime, frozen, chained
+  behind L8) · 32B frontier stage (detached on Modal).</div>
+
+  <footer>
+    <span>rows: icl_readiness_uniform_* · registry 61b54c1e</span>
+    <span style="margin-left:auto">page ≈ 20 KB · 1.5 KB JS (tooltip + overlay)</span>
+  </footer>
+</div>
+<div id="tip" role="status"></div>
+
+<script>
+const D={"68.7":"OLMo @4001B · loss 2.78 · +5.56","82.1":"OLMo @923B · 2.88 · +5.64",
+"88.7":"OLMo @210B · 2.92 · +5.06","105.9":"OLMo @49B · 3.05 · +4.54","125.5":"OLMo @21B · 3.19 · +2.31",
+"598.2":"OLMo @1B · 6.61 · +0.16","77.6":"1.4b @71000 · 2.84 · +4.25","135.1":"410m @12000 · 3.26 · +4.19",
+"145.2":"410m @6000 · 3.33 · +2.93","151.2":"160m @40000 · 3.38 · +3.47","151.7":"160m @143000 · 3.38 · +4.29",
+"155.2":"410m @8000 · 3.41 · +2.75","173":"160m @8000 · 3.53 · +3.16","173.1":"410m @4000 · 3.54 · +0.62",
+"203.4":"70m @143000 · 3.75 · −0.31 [CI spans 0 → no verdict]","220.6":"410m @2000 · 3.88 · +2.76",
+"234.3":"160m @2000 · 3.98 · +1.07","240.4":"70m @3000 · 4.02 · +1.73","314.5":"160m @1000 · 4.56 · +1.11",
+"326.7":"410m @1000 · 4.65 · +0.11","449.3":"160m @512 · 5.53 · −0.81","486.2":"410m @512 · 5.80 · −0.30"};
+const tip=document.getElementById('tip');
+document.querySelectorAll('.pt').forEach(c=>{
+  c.addEventListener('pointerenter',()=>{tip.textContent=D[c.getAttribute('cx')]||'';tip.style.opacity=1});
+  c.addEventListener('pointermove',e=>{tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-10)+'px'});
+  c.addEventListener('pointerleave',()=>tip.style.opacity=0);
+});
+const btn=document.getElementById('annoBtn'),anno=document.getElementById('anno');
+btn.addEventListener('click',()=>{const on=btn.getAttribute('aria-pressed')!=='true';
+  btn.setAttribute('aria-pressed',on);anno.style.display=on?'':'none';
+  btn.textContent=on?'? HOW TO READ — ON':'? HOW TO READ'});
+</script>
