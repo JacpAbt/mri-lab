@@ -1,0 +1,162 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI-Lab Radiology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* MOCK C — "RADIOLOGY": the MRI metaphor made literal. A clinical report sheet:
+   TECHNIQUE / FINDINGS / IMPRESSION, flagged values, and a film panel (the one
+   dark element on the light page) with a CSS-only scan sweep. */
+:root{
+  --sheet:#FBFCFD; --ground:#EEF1F4; --ink:#243039; --dim:#5D6B77; --rule:#D8E0E6;
+  --cyan:#2E96A6; --film:#0D1A21; --filmink:#5FD3E2; --amber:#A85A0A; --red:#AC2440;
+  --ok:#1E6E52; --band:#E7EFF3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sheet:#141B20; --ground:#0D1318; --ink:#DCE6EC; --dim:#8FA0AC; --rule:#2A363F;
+    --cyan:#54C2D2; --film:#0A161D; --filmink:#67DCEB; --amber:#DFA35C; --red:#E4738D;
+    --ok:#66BD9A; --band:#1B252C;
+  }
+}
+:root[data-theme="dark"]{
+  --sheet:#141B20; --ground:#0D1318; --ink:#DCE6EC; --dim:#8FA0AC; --rule:#2A363F;
+  --cyan:#54C2D2; --film:#0A161D; --filmink:#67DCEB; --amber:#DFA35C; --red:#E4738D;
+  --ok:#66BD9A; --band:#1B252C;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font:15px/1.55 "Source Sans 3",system-ui,sans-serif}
+.sheet{max-width:860px;margin:28px auto;background:var(--sheet);
+  border:1px solid var(--rule);border-radius:3px;padding:36px 44px 28px;
+  box-shadow:0 1px 3px rgba(20,40,50,.06)}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.letterhead{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.letterhead h1{margin:0;font:650 21px/1 "Source Serif 4",Georgia,serif;letter-spacing:.02em}
+.letterhead .dept{color:var(--dim);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+.letterhead .acc{margin-left:auto;text-align:right;color:var(--dim);font-size:12px}
+.patient{display:grid;grid-template-columns:repeat(4,1fr);gap:4px 22px;
+  padding:12px 0;border-bottom:1px solid var(--rule);font-size:13.5px}
+.patient b{display:block;font-weight:600;color:var(--dim);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase}
+h2{font:650 13px/1 "Source Serif 4",Georgia,serif;letter-spacing:.22em;margin:26px 0 10px;color:var(--ink)}
+h2::after{content:"";display:block;height:1px;background:var(--rule);margin-top:6px}
+p{max-width:66ch;margin:8px 0}
+.film{background:var(--film);border-radius:4px;padding:18px 18px 10px;margin:14px 0;
+  display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;overflow:hidden}
+.filmlabel{color:var(--filmink);font-size:10.5px;letter-spacing:.2em;opacity:.85}
+.scanwrap{position:relative}
+.scan{display:block;width:100%;max-width:420px;margin:0 auto}
+.sweep{position:absolute;top:0;bottom:0;width:26%;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(95,211,226,.16),transparent);
+  animation:sweep 5.5s ease-in-out infinite}
+@keyframes sweep{0%{left:-26%}55%{left:100%}100%{left:100%}}
+@media (prefers-reduced-motion: reduce){.sweep{animation:none;left:37%}}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:6px 10px 6px 0;vertical-align:top}
+thead th{color:var(--dim);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  border-bottom:1px solid var(--rule)}
+tbody tr+tr td{border-top:1px solid var(--band)}
+td.v{text-align:right;white-space:nowrap}
+.flag{font-weight:600}
+.flag.h{color:var(--red)} .flag.a{color:var(--amber)} .flag.n{color:var(--ok)}
+.range{color:var(--dim);font-size:12px}
+.impression{background:var(--band);border-left:4px solid var(--cyan);
+  padding:14px 18px;border-radius:2px;margin-top:10px}
+.impression ol{margin:6px 0 0 18px;padding:0}
+.impression li{margin:6px 0;max-width:64ch}
+.note{color:var(--dim);font-size:12.5px}
+.sig{display:flex;justify-content:space-between;align-items:end;border-top:1px solid var(--rule);
+  margin-top:26px;padding-top:12px;color:var(--dim);font-size:12px;flex-wrap:wrap;gap:8px}
+.stamp{border:1.5px solid var(--cyan);color:var(--cyan);border-radius:3px;
+  padding:3px 10px;font-size:10.5px;letter-spacing:.18em;transform:rotate(-1.6deg)}
+.newpill{display:inline-block;background:var(--cyan);color:var(--sheet);border-radius:2px;
+  padding:0 6px;font-size:10px;letter-spacing:.12em;vertical-align:2px}
+a{color:var(--cyan)}
+</style>
+
+<div class="sheet">
+  <div class="letterhead">
+    <h1>MRI-Lab</h1><span class="dept">Model Radiology · Measurement Report</span>
+    <div class="acc mono">ACC Nº rep_71bff2ce0574<br>REGISTRY 61b54c1e3eee6ed4</div>
+  </div>
+
+  <div class="patient mono">
+    <div><b>Subject</b>pythia-160m</div>
+    <div><b>Revision</b>step143000 (4001B eq.)</div>
+    <div><b>Anatomy</b>12 L × 12 H · d 768 · 84.93 M</div>
+    <div><b>Acquisition</b>fp32 · RTX 3090 · 2026-09-01</div>
+  </div>
+
+  <h2>TECHNIQUE</h2>
+  <p>Frozen vitals panel with exact Cell L seeds (C, R, dL_abs, S_wt, S_grad);
+  placement against the 22-point readiness surface (2 families) and the six
+  measured int4 pricing pairs; crash test at declared reference LR
+  <span class="mono">1e-5 / 200 steps</span>. Noise floor of the fp32 forward
+  pass ≈ <span class="mono">2e-4</span> nats. No sedation required.</p>
+
+  <div class="film">
+    <div class="filmlabel">SAGITTAL&nbsp;SECTION<br>LAYERS&nbsp;0–11<br><br>SCAN&nbsp;SPEED<br>50&nbsp;ms&nbsp;/&nbsp;FRAME</div>
+    <div class="scanwrap">
+      <!-- layer stack: bar length = per-layer share (illustrative geometry, real gauges labeled) -->
+      <svg class="scan" viewBox="0 0 420 240" role="img" aria-label="stylized layer section of pythia-160m">
+        <g font-family="IBM Plex Mono,monospace" font-size="9" fill="#5FD3E2">
+          <text x="8" y="16" opacity=".8">L11</text><rect x="42" y="8"  width="332" height="11" rx="2" fill="#5FD3E2" opacity=".88"/>
+          <text x="8" y="35" opacity=".8">L10</text><rect x="42" y="27" width="316" height="11" rx="2" fill="#5FD3E2" opacity=".78"/>
+          <text x="8" y="54" opacity=".8">L9</text> <rect x="42" y="46" width="296" height="11" rx="2" fill="#5FD3E2" opacity=".70"/>
+          <text x="8" y="73" opacity=".8">L8</text> <rect x="42" y="65" width="282" height="11" rx="2" fill="#5FD3E2" opacity=".62"/>
+          <text x="8" y="92" opacity=".8">L7</text> <rect x="42" y="84" width="262" height="11" rx="2" fill="#5FD3E2" opacity=".56"/>
+          <text x="8" y="111" opacity=".8">L6</text><rect x="42" y="103" width="238" height="11" rx="2" fill="#5FD3E2" opacity=".50"/>
+          <text x="8" y="130" opacity=".8">L5</text><rect x="42" y="122" width="216" height="11" rx="2" fill="#5FD3E2" opacity=".45"/>
+          <text x="8" y="149" opacity=".8">L4</text><rect x="42" y="141" width="196" height="11" rx="2" fill="#5FD3E2" opacity=".40"/>
+          <text x="8" y="168" opacity=".8">L3</text><rect x="42" y="160" width="172" height="11" rx="2" fill="#5FD3E2" opacity=".36"/>
+          <text x="8" y="187" opacity=".8">L2</text><rect x="42" y="179" width="150" height="11" rx="2" fill="#5FD3E2" opacity=".33"/>
+          <text x="8" y="206" opacity=".8">L1</text><rect x="42" y="198" width="128" height="11" rx="2" fill="#5FD3E2" opacity=".30"/>
+          <text x="8" y="225" opacity=".8">L0</text><rect x="42" y="217" width="110" height="11" rx="2" fill="#5FD3E2" opacity=".28"/>
+          <text x="414" y="16" text-anchor="end">emb ✓ 1.000</text>
+        </g>
+      </svg>
+      <div class="sweep"></div>
+    </div>
+  </div>
+
+  <h2>FINDINGS</h2>
+  <table>
+    <thead><tr><th>System</th><th>Observation</th><th style="text-align:right">Value</th><th style="text-align:right">Reference</th><th></th></tr></thead>
+    <tbody class="mono" style="font-size:13.5px">
+      <tr><td>Capability</td><td>held-out C4 loss</td><td class="v">3.3796</td><td class="v range">surface 2.78–6.61</td><td class="flag n">·</td></tr>
+      <tr><td>Readiness</td><td>unseen-rule gain @k=16</td><td class="v">+4.292</td><td class="v range">crossing 4.7–5.5</td><td class="flag n">RULES</td></tr>
+      <tr><td>Safety <span class="newpill">NEW</span></td><td>vs safety crossing (Cell Q)</td><td class="v">3.38 &lt; 3.46</td><td class="v range">Δ ≈ 1.1 nats after neutral</td><td class="flag n">PAST</td></tr>
+      <tr><td>Curvature</td><td>dL_abs (quench face)</td><td class="v">2.0207</td><td class="v range">run min 0.119</td><td class="flag h">×17 ▲</td></tr>
+      <tr><td>Norms</td><td>S_wt (×‖W‖²/N)</td><td class="v">2.1588</td><td class="v range">mid-run 0.019</td><td class="flag a">▲</td></tr>
+      <tr><td>Quantization</td><td>int4 RTN damage (measured)</td><td class="v">+0.832</td><td class="v range">rank 6/6 pairs</td><td class="flag h">HIGH</td></tr>
+      <tr><td>Fine-tuning</td><td>crash @1e-5·200: damage/gain</td><td class="v">+0.374 / +0.019</td><td class="v range">flat twin +0.006/+0.053</td><td class="flag h">19.7×</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Comparison study: <span class="mono">step40000</span> is capability-matched to
+  0.003 nats with 12× lower curvature — the collateral gap between the twins is ~200× per nat
+  learned (U-prime). S_grad read at ρ=0.10 is regime-flagged (saturated; clean regime needs ρ≈3e-4).</p>
+
+  <h2>IMPRESSION</h2>
+  <div class="impression">
+    <ol>
+      <li><b>Mature, rule-forming substrate.</b> Well past the item→rule crossing;
+      taught families install as rules, including safety policy (in-context, Cell Q).</li>
+      <li><b>Quenched endpoint.</b> Out-of-equilibrium sharp (dL_abs ×17 vs run minimum):
+      highest int4 fragility of the six measured pairs. A brief re-warm halved int4 damage
+      on this artifact's rejuvenated sibling <i>(n=1 pair, RTN-simulated)</i>.</li>
+      <li><b>Fine-tune with the probe, not the gauge.</b> Static curvature is not licensed
+      on the gradient channel (killed 4×); the measured crash test puts collateral at
+      19.7× per nat learned at LR 1e-5 — probe at your own horizon before training.</li>
+    </ol>
+  </div>
+  <p class="note">Evidence classes: findings above are <b>measured</b> (n on file per claim);
+  items marked <i>n=1</i> are single-pair results. This report renders registry text verbatim;
+  it cannot state claims the registry does not hold. Not a benchmark score.</p>
+
+  <div class="sig">
+    <span>Rendered by mri-lab · env torch 2.9.1+cu128 · transformers 5.3.0 · fingerprint matched</span>
+    <span class="stamp">EVIDENCE-DISCIPLINED</span>
+    <span class="mono">page ≈ 18 KB · 0 JS</span>
+  </div>
+</div>

@@ -1,0 +1,203 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI-Lab Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* MOCK B — "DECK": night-ops control room. Deliberately single-theme (dark is
+   the identity, painted explicitly). The wow: the MODEL GLYPH — a canvas
+   figure seeded by the architecture (12 layers × 12 heads, 85M params) and
+   driven by the REAL measured trajectory as you scrub training. ~9 KB of JS. */
+:root{
+  --void:#0A0D13; --panel:#10141D; --edge:#1D2433; --ink:#DCE5F1; --dim:#7E8AA0;
+  --phase:#5FC6FF; --quench:#F5A15A; --cross:#79E092; --alert:#F0685F; --chipbg:#161B27;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--ink);
+  font:14px/1.4 "Saira Semi Condensed",system-ui,sans-serif}
+.num{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums}
+header{display:flex;align-items:baseline;gap:16px;padding:12px 20px;border-bottom:1px solid var(--edge)}
+header h1{margin:0;font:600 15px/1 "Saira Semi Condensed";letter-spacing:.24em}
+header h1 i{color:var(--phase);font-style:normal}
+.sub{color:var(--dim);letter-spacing:.06em}
+.live{margin-left:auto;color:var(--cross);letter-spacing:.14em;font-size:12px}
+.live::before{content:"●";margin-right:6px;animation:blink 2.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce){.live::before{animation:none}}
+.deck{display:grid;grid-template-columns:230px minmax(0,1fr) 250px;gap:14px;padding:16px 20px;align-items:start}
+@media (max-width:900px){.deck{grid-template-columns:1fr}}
+.rail{display:flex;flex-direction:column;gap:10px}
+.tile{background:var(--panel);border:1px solid var(--edge);border-radius:6px;padding:10px 12px}
+.tile h3{margin:0 0 2px;font:600 10.5px/1 "Saira Semi Condensed";letter-spacing:.18em;color:var(--dim)}
+.tile .v{font:600 24px/1.15 "JetBrains Mono";letter-spacing:-.02em}
+.tile .u{color:var(--dim);font-size:11px}
+.mini{height:26px;margin-top:6px}
+.stage{background:radial-gradient(60% 55% at 50% 42%,#121A2B 0%,var(--panel) 68%);
+  border:1px solid var(--edge);border-radius:8px;padding:14px;text-align:center;position:relative}
+#glyph{width:min(560px,100%);height:auto;display:block;margin:0 auto}
+.readout{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;color:var(--dim);font-size:12px;letter-spacing:.08em;padding:0 6px}
+.scrub{width:100%;margin:10px 0 2px;accent-color:var(--phase)}
+.scrub:focus-visible{outline:2px solid var(--phase);outline-offset:3px}
+.marks{position:relative;height:34px;font-size:10px;color:var(--dim)}
+.marks span{position:absolute;transform:translateX(-50%);letter-spacing:.04em}
+.marks .safety{color:var(--cross);top:15px;white-space:nowrap}
+.phaseline{display:flex;gap:14px;justify-content:center;color:var(--dim);font-size:11px;letter-spacing:.12em;margin-top:8px}
+.phaseline b{color:var(--ink);font-weight:600}
+.tick{border-left:2px solid var(--edge);padding:7px 0 7px 10px;margin:0 0 8px;font-size:12.5px}
+.tick .t{color:var(--dim);font-size:10.5px;letter-spacing:.1em}
+.tick.hot{border-color:var(--quench)} .tick.go{border-color:var(--cross)} .tick.bad{border-color:var(--alert)}
+.claims{display:flex;gap:10px;padding:0 20px 18px;flex-wrap:wrap}
+.claim{background:var(--chipbg);border:1px solid var(--edge);border-radius:5px;
+  padding:7px 11px;font-size:12px;color:var(--dim);max-width:340px}
+.claim b{color:var(--ink)} .claim .sig{color:var(--phase);margin-right:6px}
+footer{color:var(--dim);font-size:11px;padding:0 20px 16px;letter-spacing:.06em}
+a{color:var(--phase)}
+</style>
+
+<header>
+  <h1>MRI·<i>LAB</i> DECK</h1>
+  <span class="sub num">pythia-160m · 12L × 12H · d768 · 84.93M · fp32</span>
+  <span class="live">TRACKING STORED TRAJECTORY</span>
+</header>
+
+<div class="deck">
+  <div class="rail" aria-label="gauges">
+    <div class="tile"><h3>C · HELD-OUT LOSS</h3><div class="v num" id="gC">3.380</div><div class="u">nats · frozen 32-doc C4</div><canvas class="mini" id="mC" width="200" height="26"></canvas></div>
+    <div class="tile"><h3>R · UNSEEN GAIN</h3><div class="v num" id="gR" style="color:var(--cross)">+4.29</div><div class="u">nats @k=16 · CI [+3.60,+5.01]</div><canvas class="mini" id="mR" width="200" height="26"></canvas></div>
+    <div class="tile"><h3>dL_abs · CURVATURE</h3><div class="v num" id="gD" style="color:var(--quench)">2.021</div><div class="u">γ=5e-3 · quench face</div><canvas class="mini" id="mD" width="200" height="26"></canvas></div>
+    <div class="tile"><h3>S_wt · ×WEIGHT SCALE</h3><div class="v num" id="gS">2.159</div><div class="u">ρ=0.10 · norm clock</div><canvas class="mini" id="mS" width="200" height="26"></canvas></div>
+  </div>
+
+  <div class="stage">
+    <div class="readout"><span id="stateL">CHECKPOINT step143000</span><span id="stateR">REGIME: RULES · QUENCHED</span></div>
+    <canvas id="glyph" width="560" height="560" aria-label="model glyph: 12 layer rings, jitter = loss, filaments = readiness, warmth = curvature"></canvas>
+    <label for="scrub" style="position:absolute;left:-9999px">training position</label>
+    <input class="scrub" id="scrub" type="range" min="0" max="1000" value="1000">
+    <div class="marks num">
+      <span style="left:0%">512</span><span style="left:12%">1k</span><span style="left:24%">2k</span>
+      <span style="left:49%">8k</span><span style="left:77%">40k</span><span style="left:100%">143k</span>
+      <span class="safety" style="left:8.5%">▲ rule crossing</span>
+      <span class="safety" style="left:62%">▲ safety crossing (Q · 09-01)</span>
+    </div>
+    <div class="phaseline"><span>JITTER=<b>loss</b></span><span>FILAMENTS=<b>readiness</b></span><span>WARMTH=<b>curvature</b></span><span>HALO=<b>‖W‖²/N</b></span></div>
+  </div>
+
+  <div class="rail" aria-label="events">
+    <div class="tile" style="padding-bottom:4px"><h3>EVENT TICKER · MEASURED</h3><div style="height:8px"></div>
+      <div class="tick go"><span class="t num">~step 700 · loss 4.7–5.5</span><br>rule crossing — unseen gain turns positive (−0.81 → +1.11)</div>
+      <div class="tick"><span class="t num">step 8000 · dL .119</span><br>flattest point of the run — everything-helps regime</div>
+      <div class="tick go"><span class="t num">loss 3.46 · CELL Q</span><br>SAFETY crossing — harm+deception install as rules, 8/8 CI-clear</div>
+      <div class="tick hot"><span class="t num">step 143000 · dL 2.02</span><br>endpoint spike ×17 — out-of-equilibrium sharp; int4 rank 6/6</div>
+      <div class="tick bad"><span class="t num">crash @1e-5 · 200</span><br>damage +0.374 vs flat twin +0.006 — 19.7× vs 0.10× per gain</div>
+    </div>
+  </div>
+</div>
+
+<div class="claims">
+  <div class="claim"><span class="sig">▮</span><b>measured</b> · anneal freezes coordinates, not curvature — rotation ↓14× while dL climbs (P-L4 6/6)</div>
+  <div class="claim"><span class="sig">▮</span><b>measured</b> · safety is readiness-gated, ~1.1 nats after the neutral rule — in-context, 21 ckpts, ≤9B (Cell Q)</div>
+  <div class="claim"><span class="sig">⛔</span><b>refusal</b> · no static gauge predicts fine-tuning outcomes (killed 4×) — the deck shows probes, never forecasts</div>
+</div>
+<footer>page ≈ 22 KB · 9 KB vanilla JS · canvas pauses when hidden · honors prefers-reduced-motion (static frame)</footer>
+
+<script>
+/* ---- real measured trajectory (bundle: icl_readiness_uniform_160m + sens_ladder_160m) */
+const CK=[ // step, loss, unseen, seen, dL_abs, S_wt
+ [512,5.5347,-0.805,0.958,0.9408,0.0195],
+ [1000,4.5587,1.107,5.982,0.5678,0.0166],
+ [2000,3.9778,1.066,9.917,0.1895,0.0194],
+ [8000,3.5335,3.164,11.657,0.1187,0.0410],
+ [40000,3.3763,3.467,10.990,0.1720,0.1362],
+ [143000,3.3796,4.292,9.259,2.0207,2.1588]];
+const L=Math.log, pos=CK.map(c=>(L(c[0])-L(512))/(L(143000)-L(512)));
+const lerp=(a,b,t)=>a+(b-a)*t;
+function stateAt(t){ // t in [0,1] on the log-step axis
+  let i=0; while(i<pos.length-2 && t>pos[i+1]) i++;
+  const u=(t-pos[i])/(pos[i+1]-pos[i]);
+  const g=k=>lerp(CK[i][k],CK[i+1][k],Math.max(0,Math.min(1,u)));
+  return {step:Math.round(Math.exp(lerp(L(CK[i][0]),L(CK[i+1][0]),u))),
+          loss:g(1),unseen:g(2),seen:g(3),dl:g(4),swt:g(5)};
+}
+/* ---- glyph: architecture is the seed, state is the driver */
+const cv=document.getElementById('glyph'),ctx=cv.getContext('2d');
+const DPR=Math.min(2,window.devicePixelRatio||1);
+cv.width=560*DPR; cv.height=560*DPR;
+const LAYERS=12,HEADS=12,CX=280*DPR,CY=280*DPR;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function hash(n){return Math.abs(Math.sin(n*127.1)*43758.5453)%1}
+function mix(c1,c2,t){const p=(a,b)=>Math.round(a+(b-a)*t);
+  return `rgb(${p(c1[0],c2[0])},${p(c1[1],c2[1])},${p(c1[2],c2[2])})`}
+const PHASE=[95,198,255], QUENCH=[245,161,90], CROSS=[121,224,146];
+let T=1, time=0, lastSign=1;
+function draw(){
+  const s=stateAt(T);
+  const jit=Math.max(0,(s.loss-3.1)/2.5);           // loss → tremor
+  const ready=Math.max(0,Math.min(1,s.unseen/5.0)); // readiness → filaments
+  const anti=s.unseen<0 ? Math.min(1,-s.unseen) : 0;
+  const heat=Math.max(0,Math.min(1,Math.log10(s.dl/0.11)/1.35)); // dL → warmth
+  const halo=Math.max(0,Math.min(1,Math.log10(1+s.swt*9)/1.3));  // S_wt → halo
+  ctx.clearRect(0,0,cv.width,cv.height);
+  // halo (norm growth)
+  if(halo>0.02){const g=ctx.createRadialGradient(CX,CY,170*DPR,CX,CY,(200+55*halo)*DPR);
+    g.addColorStop(0,'rgba(245,161,90,0)');g.addColorStop(1,`rgba(245,161,90,${0.16*halo})`);
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(CX,CY,(205+55*halo)*DPR,0,7);ctx.fill();}
+  // filaments: readiness = coherent radial paths; anti = scattered inward shards
+  ctx.lineWidth=1*DPR;
+  const nf=Math.round(6+46*ready);
+  for(let f=0;f<nf;f++){const a=f/nf*6.2832+hash(f)*0.3;
+    const r1=(30+hash(f+9)*30)*DPR,r2=(150+ready*46)*DPR;
+    ctx.strokeStyle=mix(PHASE,QUENCH,heat*0.7);ctx.globalAlpha=0.10+0.25*ready;
+    ctx.beginPath();ctx.moveTo(CX+Math.cos(a)*r1,CY+Math.sin(a)*r1);
+    ctx.quadraticCurveTo(CX+Math.cos(a+0.15)*r2*0.6,CY+Math.sin(a+0.15)*r2*0.6,
+      CX+Math.cos(a)*r2,CY+Math.sin(a)*r2);ctx.stroke();}
+  for(let f=0;f<Math.round(40*anti);f++){const a=hash(f+40)*6.2832,r=(55+hash(f+7)*100)*DPR;
+    ctx.strokeStyle='#F0685F';ctx.globalAlpha=0.20;
+    ctx.beginPath();ctx.moveTo(CX+Math.cos(a)*r,CY+Math.sin(a)*r);
+    ctx.lineTo(CX+Math.cos(a+2.6)*r*0.35,CY+Math.sin(a+2.6)*r*0.35);ctx.stroke();}
+  ctx.globalAlpha=1;
+  // 12 layer rings × 12 head nodes; jitter by loss, freeze late (schedule clock)
+  for(let l=0;l<LAYERS;l++){const R=(44+l*11.5)*DPR;
+    ctx.strokeStyle=mix(PHASE,QUENCH,heat*(0.35+0.65*l/LAYERS));
+    ctx.globalAlpha=0.16+0.05*(l/LAYERS);ctx.lineWidth=1*DPR;
+    ctx.beginPath();ctx.arc(CX,CY,R,0,7);ctx.stroke();ctx.globalAlpha=1;
+    for(let h=0;h<HEADS;h++){const a=(h/HEADS)*6.2832+l*0.13;
+      const jx=(hash(l*17+h)-.5)*jit*9*DPR*Math.sin(time*1.7+h+l);
+      const jy=(hash(l*31+h+3)-.5)*jit*9*DPR*Math.cos(time*1.3+h*2);
+      const x=CX+Math.cos(a)*R+jx,y=CY+Math.sin(a)*R+jy;
+      ctx.fillStyle=mix(PHASE,QUENCH,heat*(0.25+0.75*l/LAYERS));
+      ctx.beginPath();ctx.arc(x,y,(1.4+1.3*(1-jit))*DPR,0,7);ctx.fill();}}
+  // crossing pulse (fires while scrubbing over the sign change)
+  const sign=Math.sign(s.unseen||1);
+  if(sign>0&&lastSign<0){pulse=1} lastSign=sign;
+  if(pulse>0.01){ctx.strokeStyle=`rgba(121,224,146,${pulse})`;ctx.lineWidth=3*DPR;
+    ctx.beginPath();ctx.arc(CX,CY,(90+(1-pulse)*120)*DPR,0,7);ctx.stroke();pulse*=reduced?0:0.92;}
+  // HUD
+  document.getElementById('gC').textContent=s.loss.toFixed(3);
+  document.getElementById('gR').textContent=(s.unseen>=0?'+':'')+s.unseen.toFixed(2);
+  document.getElementById('gR').style.color=s.unseen>=0?'var(--cross)':'var(--alert)';
+  document.getElementById('gD').textContent=s.dl.toFixed(3);
+  document.getElementById('gS').textContent=s.swt.toFixed(3);
+  document.getElementById('stateL').textContent='CHECKPOINT step'+s.step;
+  document.getElementById('stateR').textContent='REGIME: '+(s.unseen<0?'ITEMS · ANTI-GEN':(heat>0.6?'RULES · QUENCHED':'RULES · PLASTIC'));
+}
+let pulse=0;
+/* mini sparklines (one pass, static) */
+function spark(id,k,color,logY){const c=document.getElementById(id),x=c.getContext('2d');
+  const w=c.width,h=c.height,vs=CK.map(r=>logY?Math.log10(r[k]):r[k]);
+  const mn=Math.min(...vs),mx=Math.max(...vs);
+  x.strokeStyle=color;x.lineWidth=1.5;x.beginPath();
+  vs.forEach((v,i)=>{const px=pos[i]*(w-6)+3,py=h-3-((v-mn)/(mx-mn))*(h-8);
+    i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke();
+  x.fillStyle=color;const lx=pos[5]*(w-6)+3,ly=h-3-((vs[5]-mn)/(mx-mn))*(h-8);
+  x.beginPath();x.arc(lx,ly,2.5,0,7);x.fill();}
+spark('mC',1,'#DCE5F1');spark('mR',2,'#79E092');spark('mD',4,'#F5A15A',true);spark('mS',5,'#F5A15A',true);
+/* loop: shimmer only; scrub redraws; paused when hidden; reduced-motion = no loop */
+const scrub=document.getElementById('scrub');
+scrub.addEventListener('input',()=>{T=scrub.value/1000;draw()});
+let raf=null;
+function loop(){time+=0.016;draw();raf=requestAnimationFrame(loop)}
+function start(){if(!reduced&&raf===null)raf=requestAnimationFrame(loop)}
+function stop(){if(raf!==null){cancelAnimationFrame(raf);raf=null}}
+document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
+draw(); start();
+</script>

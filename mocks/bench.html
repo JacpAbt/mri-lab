@@ -1,0 +1,186 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI-Lab Bench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* MOCK A — "BENCH": the minimal-tool extreme. 0 JS. Everything above the fold.
+   Identity: a lab-bench instrument readout — k9s/htop energy, verdicts as chips,
+   the glyph is a stamp, not a show. */
+:root{
+  --paper:#F5F6F3; --panel:#FCFCFA; --ink:#1B1E1C; --dim:#59605B; --line:#D8DCD6;
+  --teal:#0D7066; --ok:#1E6E41; --warn:#92590F; --block:#A31D40; --chip:#EDEFEA;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#2B312D;
+    --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590; --chip:#202522;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#2B312D;
+  --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590; --chip:#202522;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:13px/1.45 "IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums}
+header{display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel);
+  position:sticky;top:0}
+.brand{font-family:"IBM Plex Sans",system-ui,sans-serif;font-weight:600;letter-spacing:.08em}
+.brand b{color:var(--teal)}
+.subj{padding:2px 8px;border:1px solid var(--line);background:var(--chip);border-radius:3px}
+.chips{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.chip{padding:2px 8px;border-radius:3px;font-size:11.5px;letter-spacing:.04em;border:1px solid}
+.chip.ok{color:var(--ok);border-color:var(--ok)}
+.chip.warn{color:var(--warn);border-color:var(--warn)}
+.chip.block{color:var(--block);border-color:var(--block)}
+.chip.info{color:var(--teal);border-color:var(--teal)}
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:10px;padding:12px 16px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:10px 12px;min-width:0}
+h2{margin:0 0 8px;font:600 11px/1 "IBM Plex Sans",system-ui,sans-serif;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:flex;gap:8px;align-items:center}
+h2 .src{margin-left:auto;font-weight:400;letter-spacing:0;text-transform:none;color:var(--dim)}
+table{border-collapse:collapse;width:100%}
+td,th{padding:2.5px 8px 2.5px 0;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:400}
+td.v{text-align:right;font-weight:500}
+tr+tr td,tr+tr th{border-top:1px dashed var(--line)}
+.pos{color:var(--ok)} .neg{color:var(--block)} .mut{color:var(--dim)}
+.bar{position:relative;height:14px;background:var(--chip);border-radius:2px;margin:6px 0 2px}
+.bar i{position:absolute;top:0;bottom:0;border-left:2px solid var(--dim);opacity:.55}
+.bar b{position:absolute;top:-2px;bottom:-2px;border-left:3px solid var(--teal)}
+.bar span{position:absolute;top:16px;font-size:10px;color:var(--dim);transform:translateX(-50%)}
+.axis{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:14px}
+.refusal{border:1px solid var(--warn);border-left:4px solid var(--warn);
+  padding:6px 9px;border-radius:3px;margin-top:8px;color:var(--warn)}
+.claim{border-top:1px dashed var(--line);padding:6px 0}
+.claim:first-of-type{border-top:0}
+.cl{font-size:11px;color:var(--dim)}
+.sig{display:inline-block;width:10px;text-align:center}
+details{margin-top:4px} summary{cursor:pointer;color:var(--teal)}
+summary:focus-visible,a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.glyph{margin-left:auto}
+footer{padding:8px 16px;color:var(--dim);font-size:11px;border-top:1px solid var(--line);
+  display:flex;gap:18px;flex-wrap:wrap}
+kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:0 4px;background:var(--chip)}
+.new{color:var(--teal);font-size:10px;letter-spacing:.1em}
+</style>
+
+<header>
+  <span class="brand">MRI-<b>LAB</b> / bench</span>
+  <span class="subj">EleutherAI/pythia-160m @ step143000 · fp32 · sha d560…f87e</span>
+  <nav class="chips" aria-label="verdicts">
+    <span class="chip ok">READINESS: RULES</span>
+    <span class="chip ok">SAFETY: PAST CROSSING</span>
+    <span class="chip warn">INT4: RANK 6/6</span>
+    <span class="chip block">FT DAMAGE: 19.7×</span>
+  </nav>
+  <!-- the glyph as a stamp: 12 layer arcs, quench-tinted. Static. -->
+  <svg class="glyph" width="34" height="34" viewBox="0 0 34 34" aria-label="model glyph">
+    <g fill="none" stroke="var(--teal)" opacity=".9">
+      <circle cx="17" cy="17" r="4" stroke-width="1.6"/>
+      <circle cx="17" cy="17" r="7.5" stroke-width="1.2" opacity=".75"/>
+      <circle cx="17" cy="17" r="11" stroke-width="1" opacity=".55"/>
+      <circle cx="17" cy="17" r="14.5" stroke-width=".8" opacity=".4" stroke="var(--warn)"/>
+    </g>
+  </svg>
+</header>
+
+<main>
+<section>
+  <h2>Vitals <span class="src">panel v1.1 · exact Cell L seeds</span></h2>
+  <table>
+    <tr><th>C · held-out C4</th><td class="v">3.3796 nats</td></tr>
+    <tr><th>R · unseen gain @k=16</th><td class="v pos">+4.292 <span class="mut">[+3.60, +5.01]</span></td></tr>
+    <tr><th>R · seen gain</th><td class="v">+9.259</td></tr>
+    <tr><th>G_icl <span class="mut">(G1 clear)</span></th><td class="v">0.464</td></tr>
+    <tr><th>dL_abs · curvature face</th><td class="v">2.0207 <span class="mut">σ .177</span></td></tr>
+    <tr><th>S_wt · ×weight-scale</th><td class="v">2.1588 <span class="mut">σ .123</span></td></tr>
+    <tr><th>S_grad · curv <span class="mut">ρ=0.10</span></th><td class="v warn-t">31.86 <span class="mut">regime-flagged</span></td></tr>
+    <tr><th>weights</th><td class="v">48 mat · 84.93M</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Readiness <span class="src">surface: 22 pts · 2 families</span></h2>
+  <table>
+    <tr><th>verdict</th><td class="v pos">BELOW CROSSING → RULES</td></tr>
+    <tr><th>crossing band</th><td class="v">loss 4.7 – 5.5</td></tr>
+    <tr><th>matched-loss band</th><td class="v">~2.6×</td></tr>
+  </table>
+  <div class="bar" aria-hidden="true">
+    <i style="left:71%"></i><i style="left:86%"></i>
+    <b style="left:24%"></b>
+    <span style="left:24%">you 3.38</span>
+    <span style="left:71%">4.7</span><span style="left:86%">5.5</span>
+  </div>
+  <div class="axis"><span>loss 2.8</span><span>6.0</span></div>
+  <table style="margin-top:10px">
+    <tr><th class="mut">neighbor</th><th class="mut" style="text-align:right">loss</th><th class="mut" style="text-align:right">unseen</th></tr>
+    <tr><th>160m@40000</th><td class="v">3.376</td><td class="v pos">+3.47</td></tr>
+    <tr><th>410m@8000</th><td class="v">3.405</td><td class="v pos">+2.75</td></tr>
+    <tr><th>410m@6000</th><td class="v">3.333</td><td class="v pos">+2.93</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Safety <span class="new">NEW · CELL Q 09-01</span><span class="src">in-context · 21 ckpts · 70M–9B</span></h2>
+  <table>
+    <tr><th>safety crossing</th><td class="v">loss ≈ 3.46 <span class="mut">(dialect 4.60)</span></td></tr>
+    <tr><th>this checkpoint</th><td class="v pos">3.38 → past it</td></tr>
+    <tr><th>Δ vs neutral rule</th><td class="v">later by ~1.1 nats</td></tr>
+    <tr><th>cross-construct</th><td class="v pos">+2.87 / +4.25 · 3/3 CI-clear</td></tr>
+    <tr><th>null (21/21)</th><td class="v mut">CI spans 0 — honest</td></tr>
+  </table>
+  <p class="cl">bounds: in-context channel only; gradient install = Cell Q-bis; robust claim = the gap + 8/8 mature crossings, not the exact loss.</p>
+</section>
+
+<section>
+  <h2>Quantization <span class="src">the channel dL_abs prices · 6/6 · RTN</span></h2>
+  <table>
+    <tr><th class="mut">pair (dL_abs →)</th><th class="mut" style="text-align:right">int4 dmg</th></tr>
+    <tr><th>olmo 210B · .030</th><td class="v">+0.061</td></tr>
+    <tr><th>160m@40k · .172</th><td class="v">+0.195</td></tr>
+    <tr><th>olmo 4001B · .371</th><td class="v">+0.159</td></tr>
+    <tr><th>olmo st2 · .544</th><td class="v">+0.229</td></tr>
+    <tr><th>rejuv · .95</th><td class="v">+0.352</td></tr>
+    <tr><th><b>this · 2.021</b></th><td class="v neg"><b>+0.832 · rank 6/6</b></td></tr>
+  </table>
+  <p class="cl">rejuvenate-before-quantize: measured n=1 pair, RTN-simulated — nf4/GPTQ pending (Z-ter-b v2).</p>
+</section>
+
+<section>
+  <h2>Fine-tuning <span class="src">crash test only — measured, never predicted</span></h2>
+  <table>
+    <tr><th class="mut">probe @1e-5 ·200</th><th class="mut" style="text-align:right">damage</th><th class="mut" style="text-align:right">gain</th></tr>
+    <tr><th>this (anneal-sharp)</th><td class="v neg">+0.374</td><td class="v">+0.019</td></tr>
+    <tr><th>step40000 (flat twin)</th><td class="v">+0.0055</td><td class="v pos">+0.053</td></tr>
+    <tr><th>ratio at matched loss</th><td class="v neg" colspan="2">19.7× vs 0.10× — 200× collateral gap</td></tr>
+  </table>
+  <div class="refusal">⛔ dL_abs is NOT licensed to comment here — static gauges killed 4× on
+  the gradient channel (W, Z-bis, EQ, DP). Probe at your horizon.</div>
+</section>
+
+<section>
+  <h2>Claims · evidence <span class="src">registry 61b54c1e</span></h2>
+  <div class="claim"><span class="sig">▮</span> measured · <b>readiness-crossing</b>
+    <div class="cl">n: 22 pts, 5 sizes, 2 families · bounds: band 2.1–2.6× at matched loss; crossing location is payload-class-dependent (safety ~1.1 later)</div></div>
+  <div class="claim"><span class="sig">▮</span> measured · <b>safety-readiness-gated</b>
+    <div class="cl">n: 21 ckpts, 5 families, 2 constructs · bounds: in-context only; n=24/set; 32B stage pending</div></div>
+  <div class="claim"><span class="sig">◇</span> conjecture · <b>forbid-static-gauge-prediction</b>
+    <div class="cl">standing prediction — falsification localizes L4</div></div>
+  <details><summary>3 retractions carried (misses render as loudly as hits)</summary>
+    <div class="claim"><span class="sig">✕</span> WITHDRAWN · semantic-transfer-headline — ~70% was code format</div>
+    <div class="claim"><span class="sig">✕</span> KILLED · iso-damage-lr-rule — 1.79× vs band [4.0,36.1]</div>
+    <div class="claim"><span class="sig">✕</span> WITHDRAWN · dp-predictive-column — epoch-trap artifact</div>
+  </details>
+</section>
+</main>
+
+<footer>
+  <span><kbd>j</kbd>/<kbd>k</kbd> panels</span><span><kbd>/</kbd> find claim</span>
+  <span><kbd>r</kbd> re-run vitals</span><span><kbd>t</kbd> theme</span>
+  <span style="margin-left:auto">page ≈ 14 KB · 0 JS · renders &lt; 50 ms</span>
+</footer>

@@ -1,0 +1,207 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI-Lab Monograph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&family=Archivo:wght@500;700&display=swap">
+<style>
+/* MOCK D — "MONOGRAPH": the report as a living paper. Evidence is the design:
+   margin notes carry n + bounds, retractions are errata, the readiness surface
+   is a real chart with this checkpoint placed. One tiny tooltip script.
+   Layout note: content+aside share an explicit .row grid (auto-placed grid
+   children would each take their own row — the blank-band bug). */
+:root{
+  --stone:#F2F3EF; --sheet:#F9FAF7; --ink:#24271F; --dim:#6B7062; --rule:#DBDED2;
+  --vir:#39634C; --errata:#8C3B2E; --band:#E9ECE3;
+  --pythia:#2a78d6; --olmo:#1baf7a; --gridln:#E2E5DA;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --stone:#181A15; --sheet:#1E211B; --ink:#E5E7DD; --dim:#9BA190; --rule:#34382E;
+    --vir:#7FB596; --errata:#D98973; --band:#262A22;
+    --pythia:#3987e5; --olmo:#199e70; --gridln:#2B2F27;
+  }
+}
+:root[data-theme="dark"]{
+  --stone:#181A15; --sheet:#1E211B; --ink:#E5E7DD; --dim:#9BA190; --rule:#34382E;
+  --vir:#7FB596; --errata:#D98973; --band:#262A22;
+  --pythia:#3987e5; --olmo:#199e70; --gridln:#2B2F27;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--stone);color:var(--ink);
+  font:16.5px/1.62 "STIX Two Text",Georgia,serif}
+.page{max-width:980px;margin:0 auto;background:var(--sheet);min-height:100vh;
+  padding:52px 56px 40px;border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+.eyebrow{font:700 11px/1 Archivo,system-ui,sans-serif;letter-spacing:.26em;color:var(--vir);text-transform:uppercase}
+h1{font:600 40px/1.12 "STIX Two Text",Georgia,serif;margin:10px 0 6px;text-wrap:balance;letter-spacing:-.01em}
+.byline{color:var(--dim);font-style:italic}
+.abstract{border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);
+  margin:22px 0;padding:16px 0;max-width:66ch}
+.abstract b{font-variant:small-caps;letter-spacing:.05em}
+main{counter-reset:f}
+.row{display:grid;grid-template-columns:minmax(0,66ch) 15rem;column-gap:40px;
+  align-items:start;counter-increment:f}
+@media (max-width:880px){.row{grid-template-columns:1fr}
+  .row aside{border-left:3px solid var(--rule);padding-left:12px;margin:6px 0 4px}}
+h2{font:600 24px/1.2 "STIX Two Text";margin:34px 0 8px}
+h2::before{content:"F" counter(f) " · ";color:var(--vir)}
+p{max-width:66ch;margin:8px 0}
+aside{font:13px/1.5 Archivo,system-ui,sans-serif;color:var(--dim);margin-top:46px}
+aside b{color:var(--ink)} aside .sig{color:var(--vir)}
+.mono{font-family:ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums;font-size:.92em}
+strong.v{font-variant-numeric:tabular-nums}
+figure{margin:18px 0;padding:0;max-width:66ch}
+figcaption{font:13px/1.5 Archivo,sans-serif;color:var(--dim);margin-top:8px}
+svg text{font:11px Archivo,sans-serif;fill:var(--dim)}
+svg .lab{font-weight:700;font-size:11.5px}
+.bandrect{fill:var(--band)} .grid line{stroke:var(--gridln)} .ax{stroke:var(--dim);stroke-width:1.2}
+.g-olmo{fill:var(--olmo);stroke:var(--ink);stroke-width:.8} .g-pythia{fill:var(--pythia)}
+.ring{fill:none;stroke:var(--ink);stroke-width:2} .callout{stroke:var(--dim);stroke-dasharray:3 3}
+.lab-ink{fill:var(--ink)} .lab-olmo{fill:var(--olmo)} .lab-pythia{fill:var(--pythia)}
+.pt{cursor:pointer}
+.pt:hover{stroke:var(--ink);stroke-width:2}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--sheet);
+  font:12px/1.4 Archivo,sans-serif;padding:5px 9px;border-radius:3px;opacity:0;transition:opacity .12s;z-index:9}
+.errata{border:1px solid var(--errata);border-radius:3px;padding:14px 18px;margin:22px 0;max-width:66ch}
+.errata h3{margin:0 0 6px;font:700 12px/1 Archivo;letter-spacing:.2em;color:var(--errata)}
+.errata p{margin:6px 0;font-size:15px}
+.rule-note{border-top:1px solid var(--rule);margin-top:30px;padding-top:12px;
+  color:var(--dim);font:13px Archivo,sans-serif;display:flex;gap:24px;flex-wrap:wrap}
+a{color:var(--vir)}
+::selection{background:var(--vir);color:var(--sheet)}
+</style>
+
+<div class="page">
+  <div class="eyebrow">MRI-Lab · Model Report · rendered from registry 61b54c1e</div>
+  <h1>What pythia-160m at step 143000 is</h1>
+  <div class="byline">A measured biography — every claim with its evidence class, its n, and its bounds. Misses printed as loudly as hits.</div>
+
+  <div class="abstract">
+    <b>Summary.</b> A mature, rule-forming substrate (held-out loss
+    <strong class="v">3.3796</strong>, unseen-rule gain <strong class="v">+4.29</strong> nats) that is
+    also the most quantization-fragile artifact in the measured set: its final-training curvature
+    spike (<strong class="v">×17</strong> over the run minimum) prices the int4 channel at rank 6/6,
+    and its measured fine-tuning collateral is <strong class="v">19.7×</strong> damage per nat learned
+    at LR 1e-5 — <strong class="v">200×</strong> its capability-matched flat twin.
+  </div>
+
+  <main>
+    <div class="row">
+      <div>
+        <h2>It converts teaching into rules — including safety</h2>
+        <p>On the 22-point readiness surface this checkpoint sits well below the item→rule
+        crossing (loss band 4.7–5.5): taught families install as <em>rules</em>, not memorized
+        items. As of this morning's Cell Q, the same law is measured for safety payloads through
+        the context channel — with a twist: <em>safety crosses ~1.1 nats later</em> than a neutral
+        rule (loss ≈ 3.46 vs 4.60). This checkpoint, at 3.38, has passed both crossings.</p>
+      </div>
+      <aside><span class="sig">▮ measured</span> · <b>readiness-crossing</b><br>
+        n: 22 pts · 5 sizes · 2 families<br>bounds: 2.1–2.6× band at matched loss; verdicts
+        only where the CI clears zero; the 70m corner is the no-verdict boundary case.<br><br>
+        <span class="sig">▮ measured</span> · <b>safety-readiness-gated</b> <i>(2026-09-01)</i><br>
+        n: 21 ckpts · 2 constructs · null honest 21/21<br>bounds: in-context channel only;
+        the robust claim is the gap, not the exact loss.</aside>
+    </div>
+
+    <figure>
+      <svg viewBox="0 0 640 360" role="img" aria-label="readiness surface: unseen gain vs held-out loss, 22 measured points">
+        <rect class="bandrect" x="334" y="14" width="110.5" height="312"/>
+        <text x="389" y="340" text-anchor="middle">crossing 4.7–5.5</text>
+        <g class="grid"><line x1="44" y1="263.6" x2="624" y2="263.6"/><line x1="44" y1="180.4" x2="624" y2="180.4"/><line x1="44" y1="97.2" x2="624" y2="97.2"/></g>
+        <line class="ax" x1="44" y1="263.6" x2="624" y2="263.6"/>
+        <text x="99" y="352" text-anchor="middle">3.0</text><text x="237" y="352" text-anchor="middle">4.0</text><text x="375" y="352" text-anchor="middle">5.0</text><text x="514" y="352" text-anchor="middle">6.0 ← held-out loss</text>
+        <text x="38" y="267" text-anchor="end">0</text><text x="38" y="184" text-anchor="end">+2</text><text x="38" y="101" text-anchor="end">+4</text><text x="38" y="20" text-anchor="end">+6 nats unseen</text>
+        <g class="g-olmo">
+          <circle class="pt" cx="68.7" cy="32.3" r="5"/><circle class="pt" cx="82.1" cy="29" r="5"/>
+          <circle class="pt" cx="88.7" cy="53.1" r="5"/><circle class="pt" cx="105.9" cy="74.7" r="5"/>
+          <circle class="pt" cx="125.5" cy="167.5" r="5"/><circle class="pt" cx="598.2" cy="256.9" r="5"/>
+        </g>
+        <g class="g-pythia">
+          <circle class="pt" cx="77.6" cy="86.8" r="5"/><circle class="pt" cx="135.1" cy="89.3" r="5"/>
+          <circle class="pt" cx="145.2" cy="141.7" r="5"/><circle class="pt" cx="151.2" cy="119.2" r="5"/>
+          <circle class="pt" cx="155.2" cy="149.2" r="5"/><circle class="pt" cx="173" cy="132.1" r="5"/>
+          <circle class="pt" cx="173.1" cy="237.8" r="5"/><circle class="pt" cx="203.4" cy="276.5" r="5"/>
+          <circle class="pt" cx="220.6" cy="148.8" r="5"/><circle class="pt" cx="234.3" cy="219.1" r="5"/>
+          <circle class="pt" cx="240.4" cy="191.6" r="5"/><circle class="pt" cx="314.5" cy="217.4" r="5"/>
+          <circle class="pt" cx="326.7" cy="259" r="5"/><circle class="pt" cx="449.3" cy="296.9" r="5"/>
+          <circle class="pt" cx="486.2" cy="276.1" r="5"/>
+        </g>
+        <circle class="ring" cx="151.7" cy="85.1" r="9.5"/>
+        <text class="lab lab-ink" x="166" y="80">this checkpoint</text>
+        <text class="lab lab-olmo" x="70" y="17">OLMo-2-1B</text>
+        <text class="lab lab-pythia" x="250" y="235">pythia 70m–1.4b</text>
+        <line class="callout" x1="203.4" y1="276.5" x2="238" y2="305"/>
+        <text x="242" y="309">70m @300B — maturity ≠ capability</text>
+      </svg>
+      <figcaption><b>Fig. 1</b> — The readiness surface (unseen-rule gain at k=16 vs held-out
+      loss; every point measured, no fit drawn). Inside the shaded band the program issues no
+      verdict. Hover any point for its revision.</figcaption>
+    </figure>
+
+    <div class="row">
+      <div>
+        <h2>It is the most int4-fragile artifact measured</h2>
+        <p>Curvature here is a quench mark, not a health score: dL_abs sits at
+        <strong class="v">2.021</strong> against a run minimum of 0.119 — the endpoint spike —
+        and int4 RTN damage follows curvature order in 6 of 6 measured pairs across two
+        families. This checkpoint <em>is</em> the top pair: measured int4 damage
+        <strong class="v">+0.832</strong> nats. Its rejuvenated sibling (500 steps of fresh data)
+        halved that at +0.001 nats of C4.</p>
+      </div>
+      <aside><span class="sig">▮ measured</span> · <b>dl-abs-prices-int4</b><br>
+        n: 6/6 monotone · 2 families<br>bounds: RTN-simulated; prices the quantization channel
+        ONLY.<br><br><span class="sig">▮ measured</span> · <b>rejuvenate-before-quantize</b><br>
+        n: 1 pair · bounds: deployment-grade nf4/GPTQ pending (Z-ter-b v2).</aside>
+    </div>
+
+    <div class="row">
+      <div>
+        <h2>Its fine-tuning collateral is measured, not predicted</h2>
+        <p>No static gauge is allowed to forecast training here — that shortcut died four
+        separate deaths (W, Z-bis, EQ, DP). What stands is the probe: at LR 1e-5 for 200 steps
+        this checkpoint forgets <strong class="v">+0.374</strong> nats to learn
+        <strong class="v">+0.019</strong> — while step40000, matched in capability to 0.003 nats,
+        forgets +0.0055 to learn +0.053. Same optimizer, same data:
+        <strong class="v">≈200×</strong> the collateral per nat learned.</p>
+      </div>
+      <aside><span class="sig">▮ measured</span> · <b>crash-test-ranks</b><br>
+        n: ρ .976/.991 vs 200-step · 22 arms<br>bounds: ranks at its own horizon; never
+        extrapolates.<br><br><span class="sig">◇ standing prediction</span> ·
+        <b>forbid-static-gauge-prediction</b><br>a falsification would localize L4 — and be
+        welcomed as a result.</aside>
+    </div>
+
+    <div class="errata">
+      <h3>ERRATA CARRIED ON THIS PAGE</h3>
+      <p><b>Withdrawn.</b> “Semantic rule transfer, 5/5 families” — ~70% was code format;
+      retracted within a day of publication.</p>
+      <p><b>Killed.</b> The iso-damage LR rule (usable LR ∼ 1/dL_abs) — a 12× curvature gap
+      bought only 1.79× of usable LR.</p>
+      <p><b>Withdrawn.</b> The dataset-profile predictive column — its +0.800 was an
+      epoch-trap artifact of the author's own pools.</p>
+    </div>
+
+    <div class="rule-note">
+      <span>Typeset from measured rows · registry 61b54c1e · env fingerprint matched</span>
+      <span>▮ measured · ▯ literature · ◇ conjecture</span>
+      <span style="margin-left:auto">page ≈ 21 KB · 0.4 KB JS (tooltip)</span>
+    </div>
+  </main>
+</div>
+<div id="tip" role="status"></div>
+<script>
+/* the page's only script: a 20-line tooltip for Fig. 1 */
+const D={"68.7":"OLMo @4001B · loss 2.78 · +5.56","82.1":"OLMo @923B · 2.88 · +5.64",
+"88.7":"OLMo @210B · 2.92 · +5.06","105.9":"OLMo @49B · 3.05 · +4.54","125.5":"OLMo @21B · 3.19 · +2.31",
+"598.2":"OLMo @1B · 6.61 · +0.16","77.6":"1.4b @71000 · 2.84 · +4.25","135.1":"410m @12000 · 3.26 · +4.19",
+"145.2":"410m @6000 · 3.33 · +2.93","151.2":"160m @40000 · 3.38 · +3.47","151.7":"160m @143000 · 3.38 · +4.29",
+"155.2":"410m @8000 · 3.41 · +2.75","173":"160m @8000 · 3.53 · +3.16","173.1":"410m @4000 · 3.54 · +0.62",
+"203.4":"70m @143000 · 3.75 · −0.31","220.6":"410m @2000 · 3.88 · +2.76","234.3":"160m @2000 · 3.98 · +1.07",
+"240.4":"70m @3000 · 4.02 · +1.73","314.5":"160m @1000 · 4.56 · +1.11","326.7":"410m @1000 · 4.65 · +0.11",
+"449.3":"160m @512 · 5.53 · −0.81","486.2":"410m @512 · 5.80 · −0.30"};
+const tip=document.getElementById('tip');
+document.querySelectorAll('.pt').forEach(c=>{
+  c.addEventListener('pointerenter',e=>{tip.textContent=D[c.getAttribute('cx')]||'';tip.style.opacity=1});
+  c.addEventListener('pointermove',e=>{tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-10)+'px'});
+  c.addEventListener('pointerleave',()=>tip.style.opacity=0);
+});
+</script>
