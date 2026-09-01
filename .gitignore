@@ -1,0 +1,22 @@
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv*/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# local env
+.env
+
+# runtime state lives in the WSL workspace (/home/jacopo/mri-lab-data), never in the repo.
+# WSL->Windows result mirror (data, not code):
+WORKSPACE_BACKUP/
+
+# pytest-regressions scratch
+**/obtained/

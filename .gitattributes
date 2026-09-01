@@ -1,0 +1,12 @@
+# LF everywhere: provenance sha256s (vendored instruments, golden rows, surface bundle,
+# claims registry) must be line-ending-stable across the Windows edit tree and the WSL run tree.
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+
+# never mangle binaries
+*.pt binary
+*.png binary
