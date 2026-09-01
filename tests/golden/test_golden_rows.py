@@ -6,9 +6,12 @@ Per-field tolerance policy (declared here, tightened only with measurement):
 - seeded perturbation blocks (exact Cell L seeds): each val |delta| <= 5e-3,
   mean within 3x the stored seed-sd — the scored P-PAN1 criterion.
 - readiness gains (n=96 margins): |delta| <= 0.05 and inside the stored 95% CI.
-- 200-step trained damage/gain: nondeterminism COMPOUNDS through the optimizer;
-  first calibration band = max(30% relative, 2e-3 absolute). Tighten after the
-  first rerun measurement is recorded here.
+- 200-step trained damage/gain: nondeterminism COMPOUNDS through the optimizer.
+  CALIBRATED 2026-09-01 (three 410m@step12000 legal probes vs stored grid rows,
+  identical protocol): 1e-5 and 3e-5 reproduced to 4 DECIMALS
+  (0.0586/+0.3073, 0.1415/+0.2603); 1e-4 drifted 2.1% damage / 4.5% gain
+  (0.3936 vs 0.3855, +0.1009 vs +0.1056). Band tightened accordingly to
+  max(10% relative, 1e-3 absolute).
 - z_ter (CPU, deterministic given fp32): |delta| <= 2e-4 (= the noise floor).
 - induction at high score: |delta| <= 5e-3 (bf16; the instrument is
   dtype-sensitive only near its floor — this row reads 0.9658).
@@ -87,9 +90,10 @@ def test_crash_golden(settings, research_env, seeded_pools, tmp_path: Path) -> N
     # identical pool + identical eval batch -> bases must match tightly
     assert_close("c4_base", got["c4_base"], want["c4_base"], 5e-4)
     assert_close("target_base", got["target_base"], want["target_base"], 5e-4)
-    # trained outcomes: declared first-calibration band (see module docstring)
+    # trained outcomes: band calibrated 2026-09-01 (see module docstring —
+    # 4-decimal reproduction at 1e-5/3e-5; 2-5% drift at 1e-4)
     for k in ("damage", "gain"):
-        band = max(0.30 * abs(want[k]), 2e-3)
+        band = max(0.10 * abs(want[k]), 1e-3)
         assert_close(k, got[k], want[k], band)
 
 

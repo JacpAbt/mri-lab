@@ -25,7 +25,19 @@ and another session currently owns the GPU).
   - [ ] z_ter ×3 (pythia set incl. rejuv artifact after seeding): all values
         ≤2e-4 (the fp32 noise floor). ~25 min [cpu-heavy].
   - [ ] induction ×1 (pythia-1.4b@step71000): score ±5e-3 vs 0.9658 [gpu].
-- [ ] **M0 acceptance**:
+- [x] **M0 ACCEPTANCE COMPLETE 2026-09-01** — all three criteria green:
+      (1) stored-rows report reproduces known verdicts (tests + API + CLI);
+      (2) never-measured model end-to-end: Qwen3-1.7B vitals in ~31 min incl.
+      download (loss 3.0830, R +4.81 [3.81,5.77], dL_abs 1.3062, S_wt 0.2928)
+      → 26-claim report rendered; free third-family readiness consistency
+      point (sits on the surface beside OLMo@3.05 +4.54, 1.4b@2.84 +4.25; n=1);
+      (3) preflight pick = stored-grid optimum lr=1e-5, regret +0.0000 nats —
+      corrected probes reproduced stored rows to 4 DECIMALS at 1e-5/3e-5
+      (0.0586/+0.3073; 0.1415/+0.2603) and within 2.1%/4.5% at 1e-4
+      (0.3936 vs 0.3855; +0.1009 vs +0.1056). Take-1's epoch-trap firing and
+      the effective-params lint fix are recorded in the 3e3d411 commit.
+      Original checklist:
+  - [ ] **M0 acceptance**:
   1. [ ] `mrilab report model_report --label pythia-160m@step143000` renders
          the known verdicts purely from bundle + registry (no re-measurement).
          *(Already exercised by tests/unit/test_faces.py + the API smoke —
