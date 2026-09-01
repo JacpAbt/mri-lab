@@ -6,8 +6,12 @@ and another session currently owns the GPU).
 
 ## 1. Software gates (block shipping; all runnable today given a machine window)
 
-- [ ] **Golden lane green** (`pytest -m golden` on the WSL twin, research venv
-      matching runtime_lock.json — the conftest refuses on drift):
+- [x] **Golden lane GREEN 2026-09-01** — 6/6 in 12:39 on the WSL twin
+      (fingerprint gate passed; vitals ×2 + crash + readiness + z_ter ×3 +
+      induction all reproduced stored rows within their declared bands).
+      Note for the next rerun: tee the produced row values into the log so the
+      crash band can be tightened from measurement (this run recorded
+      pass/fail only). Original checklist:
   - [ ] vitals ×2 (pythia-160m@step143000, @step40000): loss to 4 decimals,
         dL_abs/S_wt within 3× stored seed-sd, R CI overlap (P-PAN1/2 criteria).
         ~5–10 min each [gpu].

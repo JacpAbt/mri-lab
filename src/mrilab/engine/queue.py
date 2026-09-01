@@ -48,9 +48,11 @@ def _utcnow() -> dt.datetime:
     return dt.datetime.now(dt.timezone.utc)
 
 
-def submit(settings: Settings, spec: JobSpec) -> Job:
+def submit(settings: Settings, spec: JobSpec, enqueue: bool = True) -> Job:
     """Create (or reuse) the Job row and enqueue it on its lane. Resubmitting a
-    FAILED/CANCELLED job re-queues the SAME row (content hash = identity)."""
+    FAILED/CANCELLED job re-queues the SAME row (content hash = identity).
+    enqueue=False creates/queues the row without dispatching to Huey — the CLI
+    --sync path uses it, then calls _run in-process."""
     job_id = spec.content_hash()
     warnings = lint_job({"kind": _job_kind(spec), **spec.params})
     blocked = [w for w in warnings if w.severity == "block"]
@@ -76,7 +78,7 @@ def submit(settings: Settings, spec: JobSpec) -> Job:
             job.error = None
         s.add(job)
         state = job.state
-    if state == JobState.QUEUED:
+    if state == JobState.QUEUED and enqueue:
         _enqueue(spec.lane, job_id, spec)
     return job
 

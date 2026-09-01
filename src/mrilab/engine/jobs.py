@@ -71,7 +71,12 @@ class JobSpec(BaseModel):
     # ---- CLI materialization -------------------------------------------------
 
     def output_dir(self, settings: Settings) -> Path:
-        return settings.rows_dir / self.instrument / self.subject.label
+        # params-hash leaf: instruments like erosion_arms write a FIXED filename
+        # (erosion.json), so two specs differing only in params (the 3-LR probe
+        # triplet) must not share a directory — the second would skip on the
+        # first's payload-valid row.
+        leaf = self.content_hash()[-8:]
+        return settings.rows_dir / self.instrument / self.subject.label / leaf
 
     def cli_args(self, settings: Settings) -> list[str]:
         """Instrument argv. params keys map to --kebab-case flags; True -> bare

@@ -49,8 +49,17 @@ def run(instrument: str, repo: str = typer.Option(None), revision: str = typer.O
                    dtype=dtype, params=json.loads(params))
     s = get_settings()
     if sync:
-        outcome = _run(spec.content_hash(), spec.model_dump_json())
-        typer.echo(f"{spec.content_hash()}: {outcome}")
+        # create the Job row first (skip enqueue), then run the full wrapper
+        # in-process: skip-check -> thermal gate -> subprocess -> validate ->
+        # fingerprint -> index
+        job = submit(s, spec, enqueue=False)
+        if job.state.value == "FAILED":
+            typer.echo(f"{job.id}: BLOCKED — {job.error}")
+            raise typer.Exit(1)
+        outcome = _run(job.id, spec.model_dump_json())
+        typer.echo(f"{job.id}: {outcome}")
+        if outcome == "failed":
+            raise typer.Exit(1)
     else:
         job = submit(s, spec)
         typer.echo(f"{job.id}: {job.state}")
