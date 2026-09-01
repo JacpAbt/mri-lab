@@ -102,11 +102,14 @@
     traversing run (DEMO-CL P-CL2: -0.80 -> -0.01 -> +0.21 by placement)
   bounds: >-
     Collapse onto loss is approximate: a 2.1-2.6x band remains at matched loss,
-    tracking maturity within family. SEMANTIC depth is the one open axis (D4);
-    no claim about values/safety payloads until Cell Q. Verdicts only where
-    the CI clears zero; the 70m corner (300B tokens, unseen ~0) is the
-    documented boundary case: maturity cannot substitute for capability.
-  source: "BLUEPRINT_2026_08.md §38/§41 edge 3; PANEL_PREREG O-PRIME + DEMO-CL blocks"
+    tracking maturity within family. The crossing is PAYLOAD-CLASS-DEPENDENT in
+    location: safety/Choice payloads cross ~1.1 nats LATER than the neutral
+    rule (Cell Q, 2026-09-01 — see safety-readiness-gated); a graded
+    semantic-depth ladder (O-double-prime) is frozen to separate pragmatic vs
+    representational depth. Verdicts only where the CI clears zero; the 70m
+    corner (300B tokens, unseen ~0) is the documented boundary case: maturity
+    cannot substitute for capability.
+  source: "BLUEPRINT_2026_08.md §38/§41 edge 3; PANEL_PREREG O-PRIME + DEMO-CL + CELL Q blocks"
   scope_guards: [readiness_naive_substrate, g_ratio_display]
   verbatim_verified: true
   tags: [readiness, crossing]
@@ -194,6 +197,39 @@
   source: "PANEL_PREREG_2026_08.md L1-TER v1 byproduct (a)"
   verbatim_verified: false
   tags: [readiness, instrument, null-calibration]
+
+- id: safety-readiness-gated
+  statement: >-
+    Safety (Choice) payloads obey the readiness law through the context
+    channel — and with structure: harm and deception rules each install as
+    RULES (unseen gain > +0.2, CI clear, 8 crossing checkpoints per
+    construct), safety crosses ~1.1 nats LATER than the neutral dialect rule
+    (loss ~3.46 vs 4.60 — "place safety after the GENERAL crossing" is
+    insufficient; it needs the SAFETY crossing), and at maturity the policy
+    transfers across constructs (harm-prefix -> deception-unseen +2.87, 3/3
+    CI-clear; reverse +4.25, 3/3) — safety is ONE object across these two
+    constructs, unlike the construct-bound truth readout.
+  evidence_class: measured
+  status: LIVE
+  n: >-
+    21 checkpoints, 70M-9B, 5 families, 2 constructs + the arbitrary-label
+    null (G-Q0: CI spans 0 at all 21 checkpoints); effective n=24 unseen /
+    16 seen per set
+  bounds: >-
+    IN-CONTEXT CHANNEL ONLY (rule expression, not a gradient write — Cell
+    Q-bis is the gradient install, and Cell C VOIDed a 160M gradient security
+    install, so the channels may differ). The crossing REGION is noisy at
+    n=24; the ROBUST claim is the ~1.1-nat gap and the 8/8 CI-clear mature
+    crossings, NOT the exact crossing loss. The cross-construct transfer may
+    run through a shallow "sounds bad -> refuse" route (named in the prereg).
+    Synthetic schematic stimuli, base (not deployed) models. 32B frontier
+    stage pending on Modal. A hit licenses "safety rules are in-context
+    installable and readiness-gated at these scales", not "aligned behaviour
+    is guaranteed".
+  source: "PANEL_PREREG_2026_08.md CELL Q scored block (2026-09-01 10:05)"
+  scope_guards: [readiness_naive_substrate]
+  verbatim_verified: true
+  tags: [readiness, safety, alignment]
 
 # ------------------------------------------------------------ write economy --
 - id: exchange-table

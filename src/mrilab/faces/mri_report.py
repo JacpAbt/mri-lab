@@ -92,15 +92,18 @@ def _readiness_section(loss: float) -> Section:
         kit.claim("readiness-crossing"),
         kit.claim("unseen-gain-primary"),
         kit.claim("maturity-residual"),
+        kit.claim("safety-readiness-gated"),
     ]
     if not naive:
         blocks.insert(0, kit.guard_gap(naive, "readiness gauge"))
     blocks.append(kit.gap(
-        "Semantic depth (D4) and Choice payloads (Cell Q)",
-        "The readiness law rests on five payload classes plus a null that "
-        "never fires; SEMANTIC depth is the one open axis, and whether Choice "
-        "(values/safety) payloads obey the law is untested.",
-        unlocked_by="semantic-depth axis cell; CELL Q (Modal)"))
+        "Open on this axis: gradient-channel safety installs; graded semantic depth",
+        "Cell Q (2026-09-01) closed the Choice-payload question for the "
+        "IN-CONTEXT channel (safety is readiness-gated, ~1.1 nats later than "
+        "a neutral rule). Still open: the gradient install (Cell Q-bis), the "
+        "graded semantic-depth ladder (O-double-prime, frozen), and the 32B "
+        "frontier stage (detached on Modal).",
+        unlocked_by="CELL Q-bis; O-double-prime; Q stage 2 (32B)"))
     return Section(id="readiness", title="Readiness (what a write becomes here)",
                    blocks=blocks)
 

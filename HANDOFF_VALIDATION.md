@@ -64,9 +64,18 @@ and another session currently owns the GPU).
       withdrawal).
 - [ ] **n≥20 seeds for any 3B clause** (cheap per clause | — | lifts the
       three_b_seed_rule refusal on 3B-class numbers).
-- [ ] **Semantic-depth axis (D4)** and **Cell Q** (Modal unfrozen Sept 1 |
-      per their preregs | readiness verdicts stop carrying "semantic depth
-      open; Choice payloads untested" — or inherit the kill).
+- [x] **Cell Q core LANDED 2026-09-01** (21 checkpoints, 70M-9B: P-Q1 HIT,
+      safety crossing ~1.1 nats later than dialect, cross-construct transfer
+      3/3+3/3 at maturity) → registry claim `safety-readiness-gated` added;
+      readiness-face wording updated. Still gated on it:
+  - [ ] Q stage 2 (32B frontier, detached on Modal — confirm and bank).
+  - [ ] **Cell Q-bis** (gradient-channel safety install | channels may differ:
+        Cell C voided a 160M gradient install | gates any wording beyond
+        "in-context channel").
+  - [ ] **O-double-prime** (graded semantic-depth ladder, frozen 2026-09-01,
+        chained behind L8 | flat result kills the depth reading of Q's gap |
+        decides whether the crossing-location axis is pragmatic or
+        representational depth).
 - [ ] **DEMO-CL v2** (calibrated + smoothed trigger | <0.7× best fixed |
       unlocks any recorder TRIGGER feature beyond advisory; until then the
       trigger_smoothing guard keeps raw probes un-renderable).
