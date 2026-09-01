@@ -190,6 +190,20 @@ character comes from the subject's own world — never from decoration.
      (dp_profile + erosion_arms jobs through the queue — backend already
      supports both; the door renders profiles as DESCRIPTIVE, per the DP v1.1
      withdrawal).
+  6. MATERIAL: CONSOLE (bordered panels, chip nav, kbd chrome) over the print
+     specimen treatment (round-3 A/B). Print survives only as salvage: the
+     stamp, FIG-style captions where a figure earns one.
+  7. THE LIFE KIT (user: "more life, same language") — warmth and micro-detail
+     from the lab's own world, applied system-wide:
+       · manila folder-tab section headers (lab folders; a warm second
+         MATERIAL tint, never a semantic color)
+       · verdict chips filled with a soft wash of their semantic color
+       · drafting registration marks on figure-panel corners + a ruler strip
+         along the figure edge + a center crosshair on the portrait
+       · the brand is the portrait: mini-glyph + wordmark in the subject bar
+       · discovered delight: hovering a legend-gauge row highlights that
+         channel on the portrait (everything else dims); buttons depress 1px
+       · still zero ambient animation; all of it holds in both themes.
 
 ## 8b. What "interesting" means here (position, adopted with §7)
 
