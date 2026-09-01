@@ -1,0 +1,54 @@
+{
+ "config": {
+  "repo": "EleutherAI/pythia-410m",
+  "revision": "step12000",
+  "target": "legal",
+  "lr": 3e-06,
+  "steps": 200,
+  "warmup": 50,
+  "eval_every": 50,
+  "batch_size": 4,
+  "accum": 8,
+  "n_train": 4096,
+  "n_target_eval": 32,
+  "seed": 0,
+  "device": "cuda",
+  "adam8bit": false,
+  "end_sens": false,
+  "output": "experiments/regimes/u2ter_out/grid_pythia-410m_step12000_lr3e-6"
+ },
+ "history": [
+  {
+   "step": 0,
+   "c4": 3.259533077478409,
+   "target": 2.7467277348041534
+  },
+  {
+   "step": 50,
+   "c4": 3.262828677892685,
+   "target": 2.536233574151993
+  },
+  {
+   "step": 100,
+   "c4": 3.271778017282486,
+   "target": 2.488906681537628
+  },
+  {
+   "step": 150,
+   "c4": 3.277988910675049,
+   "target": 2.466089129447937
+  },
+  {
+   "step": 200,
+   "c4": 3.283466875553131,
+   "target": 2.456575721502304
+  }
+ ],
+ "c4_base": 3.259533077478409,
+ "c4_final": 3.283466875553131,
+ "damage": 0.02393379807472229,
+ "target_base": 2.7467277348041534,
+ "target_final": 2.456575721502304,
+ "gain": 0.29015201330184937,
+ "damage_per_gain": 0.0824870997873229
+}

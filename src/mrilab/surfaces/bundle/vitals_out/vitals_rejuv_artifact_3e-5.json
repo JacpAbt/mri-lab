@@ -1,0 +1,50 @@
+{
+ "label": "rejuv_artifact_3e-5",
+ "repo": null,
+ "path": "experiments/regimes/rejuv_artifact_3e-5",
+ "revision": null,
+ "device": "cuda",
+ "batch_hash": "d560424d027af87f",
+ "loss": 3.3785784244537354,
+ "n_matrices": 48,
+ "n_params": 84934656,
+ "total_fro": 368.43191461091953,
+ "w2n": 0.001598194213017922,
+ "offload_orig": false,
+ "abs": {
+  "0.005": {
+   "mean": 0.9546610116958618,
+   "sd": 0.0747075679814274,
+   "vals": [
+    0.9013766348361969,
+    1.076634168624878,
+    0.9766463041305542,
+    0.9119659662246704,
+    0.9066819846630096
+   ]
+  }
+ },
+ "rel": {
+  "0.1": {
+   "mean": 0.7759009301662445,
+   "sd": 0.0316133648605973,
+   "vals": [
+    0.7827459573745728,
+    0.7472721636295319,
+    0.8256913423538208,
+    0.7732968628406525,
+    0.7504983246326447
+   ]
+  }
+ },
+ "dL_abs": 0.9546610116958618,
+ "S_wt": 0.7759009301662445,
+ "S_grad": {
+  "rho": 0.1,
+  "dL_plus": 30.302738904953003,
+  "dL_minus": 30.16289758682251,
+  "first_order": 0.06992065906524658,
+  "curvature": 30.232818245887756
+ },
+ "advisory": "WITHDRAWN 2026-08-27 (CELL W MISS, ratio 1.79x vs band [4.0,36.1]): dL_abs does NOT set the usable-LR scale across provenances \u2014 a warmup-sharp checkpoint tolerated ~the same LR as a 12x-flatter mid-run one. The U-prime iso-damage relation held anneal-sharp vs mid only (1 pair). Candidate restatement, UNTESTED: the rule applies only at low anisotropy (S_grad/S_wt small, i.e. annealed endpoints)."
+}

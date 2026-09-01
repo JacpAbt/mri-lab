@@ -1,0 +1,157 @@
+{
+ "config": {
+  "repo": "allenai/OLMo-2-0425-1B",
+  "revisions": [
+   "stage2-ingredient1-step1000-tokens3B",
+   "stage2-ingredient1-step4000-tokens9B",
+   "stage2-ingredient1-step8000-tokens17B",
+   "stage2-ingredient1-step16000-tokens34B",
+   "stage2-ingredient1-step23852-tokens51B"
+  ],
+  "batch_size": 4,
+  "seeds": 5,
+  "device": "cpu",
+  "rhos": [
+   0.1
+  ],
+  "gammas": [],
+  "output": "experiments/regimes/sens_ladder_olmo1b_stage2_cpu"
+ },
+ "rows": [
+  {
+   "repo": "allenai/OLMo-2-0425-1B",
+   "revision": "stage2-ingredient1-step1000-tokens3B",
+   "loss": 2.80395245552063,
+   "n_matrices": 112,
+   "n_params": 1073741824,
+   "total_fro": 664.9429291153436,
+   "fro_max_over_median": 2.457903237891248,
+   "abs": {},
+   "rel": {
+    "0.1": {
+     "mean": 0.039482873678207395,
+     "sd": 0.0029022159475952116,
+     "vals": [
+      0.04396212100982666,
+      0.036424845457077026,
+      0.03977471590042114,
+      0.037459343671798706,
+      0.03979334235191345
+     ]
+    }
+   },
+   "S_wt": 0.039482873678207395,
+   "beta_rel": NaN,
+   "beta_abs": NaN,
+   "c_rel": 3.948287367820739
+  },
+  {
+   "repo": "allenai/OLMo-2-0425-1B",
+   "revision": "stage2-ingredient1-step4000-tokens9B",
+   "loss": 2.801922619342804,
+   "n_matrices": 112,
+   "n_params": 1073741824,
+   "total_fro": 662.3379676375994,
+   "fro_max_over_median": 2.4589291105704865,
+   "abs": {},
+   "rel": {
+    "0.1": {
+     "mean": 0.039582884311676024,
+     "sd": 0.0033006570622292975,
+     "vals": [
+      0.04432561993598938,
+      0.03510558605194092,
+      0.039240628480911255,
+      0.038943976163864136,
+      0.04029861092567444
+     ]
+    }
+   },
+   "S_wt": 0.039582884311676024,
+   "beta_rel": NaN,
+   "beta_abs": NaN,
+   "c_rel": 3.9582884311676017
+  },
+  {
+   "repo": "allenai/OLMo-2-0425-1B",
+   "revision": "stage2-ingredient1-step8000-tokens17B",
+   "loss": 2.8021962642669678,
+   "n_matrices": 112,
+   "n_params": 1073741824,
+   "total_fro": 657.8763064457725,
+   "fro_max_over_median": 2.4603997840926084,
+   "abs": {},
+   "rel": {
+    "0.1": {
+     "mean": 0.04295417666435242,
+     "sd": 0.002671585661478832,
+     "vals": [
+      0.04763472080230713,
+      0.0420185923576355,
+      0.040859341621398926,
+      0.042037248611450195,
+      0.04222097992897034
+     ]
+    }
+   },
+   "S_wt": 0.04295417666435242,
+   "beta_rel": NaN,
+   "beta_abs": NaN,
+   "c_rel": 4.295417666435241
+  },
+  {
+   "repo": "allenai/OLMo-2-0425-1B",
+   "revision": "stage2-ingredient1-step16000-tokens34B",
+   "loss": 2.79632630944252,
+   "n_matrices": 112,
+   "n_params": 1073741824,
+   "total_fro": 648.4501829576466,
+   "fro_max_over_median": 2.465749526788114,
+   "abs": {},
+   "rel": {
+    "0.1": {
+     "mean": 0.0467644453048706,
+     "sd": 0.0022588464247971576,
+     "vals": [
+      0.05059555172920227,
+      0.04464542865753174,
+      0.04591694474220276,
+      0.04605835676193237,
+      0.04660594463348389
+     ]
+    }
+   },
+   "S_wt": 0.0467644453048706,
+   "beta_rel": NaN,
+   "beta_abs": NaN,
+   "c_rel": 4.67644453048706
+  },
+  {
+   "repo": "allenai/OLMo-2-0425-1B",
+   "revision": "stage2-ingredient1-step23852-tokens51B",
+   "loss": 2.784079611301422,
+   "n_matrices": 112,
+   "n_params": 1073741824,
+   "total_fro": 643.8900599258059,
+   "fro_max_over_median": 2.4693216662526463,
+   "abs": {},
+   "rel": {
+    "0.1": {
+     "mean": 0.0507792592048645,
+     "sd": 0.0021927600710950857,
+     "vals": [
+      0.05442321300506592,
+      0.04883888363838196,
+      0.04960542917251587,
+      0.049935102462768555,
+      0.05109366774559021
+     ]
+    }
+   },
+   "S_wt": 0.0507792592048645,
+   "beta_rel": NaN,
+   "beta_abs": NaN,
+   "c_rel": 5.077925920486449
+  }
+ ]
+}

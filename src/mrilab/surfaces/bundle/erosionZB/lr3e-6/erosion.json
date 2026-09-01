@@ -1,0 +1,52 @@
+{
+ "config": {
+  "repo": "experiments/regimes/rejuv_artifact_3e-5",
+  "revision": "main",
+  "target": "code",
+  "lr": 3e-06,
+  "steps": 200,
+  "warmup": 50,
+  "eval_every": 50,
+  "batch_size": 4,
+  "accum": 8,
+  "n_train": 8192,
+  "n_target_eval": 32,
+  "seed": 0,
+  "device": "cuda",
+  "output": "experiments/regimes/erosionZB/lr3e-6"
+ },
+ "history": [
+  {
+   "step": 0,
+   "c4": 3.3785784244537354,
+   "target": 2.3284838795661926
+  },
+  {
+   "step": 50,
+   "c4": 3.3917397260665894,
+   "target": 2.0089133232831955
+  },
+  {
+   "step": 100,
+   "c4": 3.4352751076221466,
+   "target": 1.9300865978002548
+  },
+  {
+   "step": 150,
+   "c4": 3.480987787246704,
+   "target": 1.8993471264839172
+  },
+  {
+   "step": 200,
+   "c4": 3.518445312976837,
+   "target": 1.884965419769287
+  }
+ ],
+ "c4_base": 3.3785784244537354,
+ "c4_final": 3.518445312976837,
+ "damage": 0.1398668885231018,
+ "target_base": 2.3284838795661926,
+ "target_final": 1.884965419769287,
+ "gain": 0.4435184597969055,
+ "damage_per_gain": 0.3153575357092221
+}

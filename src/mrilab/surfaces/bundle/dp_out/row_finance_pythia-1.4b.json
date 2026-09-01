@@ -1,0 +1,12 @@
+{
+ "corpus": "finance",
+ "repo": "EleutherAI/pythia-1.4b",
+ "revision": "step71000",
+ "n_chunks": 1024,
+ "dup_rate": 0.0,
+ "rep8_fraction": 0.027777777777777776,
+ "tokens_per_byte": 0.24463452827336235,
+ "token_entropy_bits": 10.363507118545181,
+ "sx_first_order_c4": -0.01455041766166687,
+ "sx_curvature_c4": 0.10400402545928955
+}

@@ -1,0 +1,53 @@
+{
+ "config": {
+  "repo": "EleutherAI/pythia-160m",
+  "revision": "step2000",
+  "target": "code",
+  "lr": 3e-05,
+  "steps": 200,
+  "warmup": 50,
+  "eval_every": 50,
+  "batch_size": 4,
+  "accum": 8,
+  "n_train": 8192,
+  "n_target_eval": 32,
+  "seed": 0,
+  "device": "cuda",
+  "end_sens": false,
+  "output": "experiments/regimes/u2_out/grid_pythia-160m_step2000_lr3e-5"
+ },
+ "history": [
+  {
+   "step": 0,
+   "c4": 3.9777989983558655,
+   "target": 2.403105303645134
+  },
+  {
+   "step": 50,
+   "c4": 3.9733009338378906,
+   "target": 2.3241423666477203
+  },
+  {
+   "step": 100,
+   "c4": 3.994579553604126,
+   "target": 2.3072997629642487
+  },
+  {
+   "step": 150,
+   "c4": 4.01663002371788,
+   "target": 2.282957151532173
+  },
+  {
+   "step": 200,
+   "c4": 4.034466564655304,
+   "target": 2.283931016921997
+  }
+ ],
+ "c4_base": 3.9777989983558655,
+ "c4_final": 4.034466564655304,
+ "damage": 0.05666756629943848,
+ "target_base": 2.403105303645134,
+ "target_final": 2.283931016921997,
+ "gain": 0.1191742867231369,
+ "damage_per_gain": 0.4755016191629267
+}

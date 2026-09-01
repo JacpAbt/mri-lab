@@ -1,0 +1,52 @@
+{
+ "config": {
+  "repo": "EleutherAI/pythia-410m",
+  "revision": "step12000",
+  "target": "code",
+  "lr": 3e-05,
+  "steps": 200,
+  "warmup": 50,
+  "eval_every": 50,
+  "batch_size": 4,
+  "accum": 8,
+  "n_train": 8192,
+  "n_target_eval": 32,
+  "seed": 0,
+  "device": "cuda",
+  "output": "experiments/regimes/erosionW/step12000_lr3e-5"
+ },
+ "history": [
+  {
+   "step": 0,
+   "c4": 3.259533077478409,
+   "target": 1.7880916893482208
+  },
+  {
+   "step": 50,
+   "c4": 3.2677952647209167,
+   "target": 1.755214512348175
+  },
+  {
+   "step": 100,
+   "c4": 3.277252346277237,
+   "target": 1.7631024271249771
+  },
+  {
+   "step": 150,
+   "c4": 3.290009915828705,
+   "target": 1.760226383805275
+  },
+  {
+   "step": 200,
+   "c4": 3.2996203899383545,
+   "target": 1.775780349969864
+  }
+ ],
+ "c4_base": 3.259533077478409,
+ "c4_final": 3.2996203899383545,
+ "damage": 0.04008731245994568,
+ "target_base": 1.7880916893482208,
+ "target_final": 1.775780349969864,
+ "gain": 0.012311339378356934,
+ "damage_per_gain": 3.256129266521423
+}

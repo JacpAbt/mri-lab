@@ -1,0 +1,12 @@
+{
+ "corpus": "code",
+ "repo": "EleutherAI/pythia-410m",
+ "revision": "step12000",
+ "n_chunks": 1024,
+ "dup_rate": 0.0,
+ "rep8_fraction": 0.15045262896825398,
+ "tokens_per_byte": 0.3074072597384018,
+ "token_entropy_bits": 9.075409452497535,
+ "sx_first_order_c4": -0.004084974527359009,
+ "sx_curvature_c4": 0.005114346742630005
+}

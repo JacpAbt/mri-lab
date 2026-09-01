@@ -1,0 +1,9 @@
+{
+ "skipped": true,
+ "reason": "pulled by user decision 2026-08-31 to shorten the window; 1e-6 has been below the damage floor and never gain-optimal in every grid measured (U-prime, W, U2, U2-bis, U2-ter@410m)",
+ "config": {
+  "lr": 1e-06,
+  "revision": "step71000",
+  "repo": "EleutherAI/pythia-1.4b"
+ }
+}

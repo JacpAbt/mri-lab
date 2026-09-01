@@ -1,0 +1,28 @@
+{
+ "pretrained": "allenai/OLMo-2-0425-1B",
+ "revision": "stage1-step1907359-tokens4001B",
+ "layer": 8,
+ "induction_score": 0.9545248749187001,
+ "fluency_dir": {
+  "_stripped": "2048 float(s) removed at bundle time"
+ },
+ "fluency_shift_norm": 5.674953645264935,
+ "blimp": {
+  "anaphor_number_agreement": 0.9900000095367432,
+  "determiner_noun_agreement_1": 0.9950000047683716,
+  "regular_plural_subject_verb_agreement_1": 0.9649999737739563,
+  "wh_questions_object_gap": 0.8299999833106995,
+  "passive_1": 0.9049999713897705,
+  "principle_A_domain_1": 0.9850000143051147,
+  "npi_present_1": 0.6100000143051147,
+  "existential_there_quantifiers_1": 0.9800000190734863,
+  "superlative_quantifiers_1": 0.8450000286102295,
+  "ellipsis_n_bar_1": 0.8550000190734863,
+  "coordinate_structure_constraint_object_extraction": 0.8799999952316284,
+  "irregular_past_participle_adjectives": 0.949999988079071
+ },
+ "grammar_dir": {
+  "_stripped": "2048 float(s) removed at bundle time"
+ },
+ "grammar_shift_norm": 0.2892806059130637
+}

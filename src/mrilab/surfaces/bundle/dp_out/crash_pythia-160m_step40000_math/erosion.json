@@ -1,0 +1,43 @@
+{
+ "config": {
+  "repo": "EleutherAI/pythia-160m",
+  "revision": "step40000",
+  "target": "math",
+  "lr": 1e-05,
+  "steps": 100,
+  "warmup": 50,
+  "eval_every": 50,
+  "batch_size": 4,
+  "accum": 8,
+  "n_train": 512,
+  "n_target_eval": 32,
+  "seed": 0,
+  "device": "cuda",
+  "end_sens": false,
+  "output": "experiments/regimes/dp_out/crash_pythia-160m_step40000_math"
+ },
+ "history": [
+  {
+   "step": 0,
+   "c4": 3.376342624425888,
+   "target": 2.6149114668369293
+  },
+  {
+   "step": 50,
+   "c4": 3.434520810842514,
+   "target": 1.9583271443843842
+  },
+  {
+   "step": 100,
+   "c4": 3.505128562450409,
+   "target": 1.8196209222078323
+  }
+ ],
+ "c4_base": 3.376342624425888,
+ "c4_final": 3.505128562450409,
+ "damage": 0.12878593802452087,
+ "target_base": 2.6149114668369293,
+ "target_final": 1.8196209222078323,
+ "gain": 0.795290544629097,
+ "damage_per_gain": 0.1619357087724252
+}

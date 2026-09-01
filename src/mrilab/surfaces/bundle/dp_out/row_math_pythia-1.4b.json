@@ -1,0 +1,12 @@
+{
+ "corpus": "math",
+ "repo": "EleutherAI/pythia-1.4b",
+ "revision": "step71000",
+ "n_chunks": 614,
+ "dup_rate": 0.0,
+ "rep8_fraction": 0.012307787698412698,
+ "tokens_per_byte": 0.29480019702527815,
+ "token_entropy_bits": 9.08284789055996,
+ "sx_first_order_c4": 0.013091355562210083,
+ "sx_curvature_c4": 0.0851668119430542
+}
