@@ -77,20 +77,20 @@ class Settings(BaseSettings):
     def queue_dir(self) -> Path:
         return self.workspace / "queues"
 
-    @property
-    def hf_cache_dir(self) -> Path:
-        return self.hf_cache if self.hf_cache is not None else self.workspace / "hfcache"
-
     def ensure_workspace(self) -> None:
-        for p in (
+        dirs = [
             self.runtime_cwd,
             self.pools_dir,
             self.rows_dir,
             self.reports_dir,
             self.logs_dir,
             self.queue_dir,
-            self.hf_cache_dir,
-        ):
+        ]
+        # hf_cache unset -> subprocesses inherit ~/.cache/huggingface (the
+        # research repo's cache: models already downloaded); nothing to create.
+        if self.hf_cache is not None:
+            dirs.append(self.hf_cache)
+        for p in dirs:
             p.mkdir(parents=True, exist_ok=True)
 
 

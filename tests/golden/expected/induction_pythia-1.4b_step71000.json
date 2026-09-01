@@ -1,0 +1,22 @@
+{
+  "pretrained": "EleutherAI/pythia-1.4b",
+  "revision": "step71000",
+  "layer": 12,
+  "induction_score": 0.9658309830648242,
+  "fluency_shift_norm": 40.55141105059309,
+  "blimp": {
+    "anaphor_number_agreement": 1.0,
+    "determiner_noun_agreement_1": 1.0,
+    "regular_plural_subject_verb_agreement_1": 0.9666666388511658,
+    "wh_questions_object_gap": 0.8166666626930237,
+    "passive_1": 0.8166666626930237,
+    "principle_A_domain_1": 0.9833333492279053,
+    "npi_present_1": 0.6333333253860474,
+    "existential_there_quantifiers_1": 1.0,
+    "superlative_quantifiers_1": 0.8666666746139526,
+    "ellipsis_n_bar_1": 0.8833333253860474,
+    "coordinate_structure_constraint_object_extraction": 0.8833333253860474,
+    "irregular_past_participle_adjectives": 0.9333333373069763
+  },
+  "grammar_shift_norm": 1.102632507163084
+}

@@ -44,7 +44,7 @@ packages = ["src/mrilab"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-m 'not gpu and not network' -q"
+addopts = "-m 'not gpu and not network and not golden' -q"
 markers = [
     "gpu: needs the RTX 3090 + research venv (run explicitly: pytest -m gpu)",
     "network: downloads from HF hub or elsewhere",

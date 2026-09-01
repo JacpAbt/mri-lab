@@ -30,7 +30,8 @@ def test_derived_layout_hangs_off_workspace(monkeypatch: pytest.MonkeyPatch) -> 
     # the pool subtree must mirror the research repo's relative layout exactly,
     # so vendored instruments' hardcoded "experiments/regimes/..." paths resolve
     assert s.pools_dir == Path("/home/jacopo/somewhere/runtime/experiments/regimes")
-    assert s.hf_cache_dir == Path("/home/jacopo/somewhere/hfcache")
+    # hf_cache defaults to None -> subprocesses inherit ~/.cache/huggingface
+    assert s.hf_cache is None
 
 
 def test_env_prefix_overrides(monkeypatch: pytest.MonkeyPatch) -> None:
