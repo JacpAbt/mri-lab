@@ -49,40 +49,46 @@ def _utcnow() -> dt.datetime:
 
 
 def submit(settings: Settings, spec: JobSpec) -> Job:
-    """Create (or return) the Job row and enqueue it on its lane."""
+    """Create (or reuse) the Job row and enqueue it on its lane. Resubmitting a
+    FAILED/CANCELLED job re-queues the SAME row (content hash = identity)."""
     job_id = spec.content_hash()
+    warnings = lint_job({"kind": _job_kind(spec), **spec.params})
+    blocked = [w for w in warnings if w.severity == "block"]
     with session(settings) as s:
         job = s.get(Job, job_id)
         if job is not None and job.state in (JobState.QUEUED, JobState.RUNNING,
                                              JobState.DONE, JobState.SKIPPED):
             return job
-        job = Job(
-            id=job_id, instrument=spec.instrument, lane=spec.lane,
-            dtype=spec.dtype, subject=spec.subject.label,
-            params_json=json.dumps(spec.params, sort_keys=True),
-            output_dir=str(spec.output_dir(settings)),
-        )
-        warnings = lint_job({"kind": _job_kind(spec), **spec.params})
+        if job is None:
+            job = Job(
+                id=job_id, instrument=spec.instrument, lane=spec.lane,
+                dtype=spec.dtype, subject=spec.subject.label,
+                params_json=json.dumps(spec.params, sort_keys=True),
+                output_dir=str(spec.output_dir(settings)),
+            )
         job.trap_warnings_json = json.dumps(
             [w.__dict__ for w in warnings]) if warnings else None
-        blocked = [w for w in warnings if w.severity == "block"]
         if blocked:
             job.state = JobState.FAILED
             job.error = "trap linter blocked: " + "; ".join(w.message for w in blocked)
-            s.add(job)
-            return job
+        else:
+            job.state = JobState.QUEUED
+            job.error = None
         s.add(job)
-    _enqueue(spec.lane, job_id, spec)
+        state = job.state
+    if state == JobState.QUEUED:
+        _enqueue(spec.lane, job_id, spec)
     return job
 
 
 def _job_kind(spec: JobSpec) -> str:
+    """Lint kind. The frozen panel instruments (vitals/sensitivity_ladder etc.)
+    declare their conventions and grids INTERNALLY (exact Cell L seeds), so the
+    perturbation-design traps do not apply to them — 'training' jobs get the
+    epoch/LR-grid/pool traps; everything else lints as inference."""
     training = {"erosion_arms", "repetition_arms", "kd_arms", "l8_arms", "u1_run"}
-    perturbation = {"vitals", "sensitivity_ladder", "s_cross", "dp_profile"}
     if spec.instrument in training:
         return "training"
-    if spec.instrument in perturbation:
-        return "perturbation"
     return "inference"
 
 

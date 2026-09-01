@@ -34,6 +34,8 @@ def get_engine(settings: Settings):
 
 @contextmanager
 def session(settings: Settings) -> Iterator[Session]:
-    with Session(get_engine(settings)) as s:
+    # expire_on_commit=False: rows returned from a closed session stay readable
+    # (routers serialize AFTER commit; single-writer patterns, staleness is moot)
+    with Session(get_engine(settings), expire_on_commit=False) as s:
         yield s
         s.commit()
