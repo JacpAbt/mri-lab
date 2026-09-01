@@ -1,0 +1,838 @@
+# mri-lab claims registry v1 (2026-09-01) — hand-curated from the research
+# program's scored corpus. THE USER REVIEWS THIS FILE (plan P4 checkpoint).
+#
+# Rules: `bounds` is faithful scope text from the source; entries whose bounds
+# were transcribed from session memory of scored blocks (not the document read
+# verbatim this pass) carry verbatim_verified: false until the review pass
+# checks them against PANEL_PREREG_2026_08.md / INSTRUMENT_PREREG_2026_08.md.
+# WITHDRAWN/STRUCK entries exist so the renderer can REFUSE them (and render
+# them as retractions); they are not quotable content.
+#
+# Sources: BLUEPRINT_2026_08.md (§ refs; status addendum 2026-08-31),
+# PANEL_PREREG_2026_08.md (scored blocks), INSTRUMENT_PREREG_2026_08.md,
+# TRACK_B_HANDOFF.md (quoting rules 2026-08-24), CONTROL_2026_08.md,
+# SATELLITE_CONTROL_ECONOMICS.md.
+
+# ------------------------------------------------------------------ clocks --
+- id: two-clocks
+  statement: >-
+    The machine has two independent time variables: structure forms on the
+    DATA clock (absolute tokens; window onset ~1-5B regardless of budget or
+    scale) and coordinates/curvature move on the SCHEDULE clock (LR x steps;
+    weights and directions freeze under the anneal).
+  evidence_class: measured
+  status: LIVE
+  n: >-
+    structure clock: 5 models, 3 scales, 3 architecture classes, blind-tested
+    at 32B (onset HIT dead center); schedule clock: weights 30x and directions
+    14x decline across the OLMo-2-1B stage2 anneal; 32B aligns at matched
+    training fraction; one causal data point (steward arms, §26)
+  bounds: >-
+    The boundary-jump half of §18 is confounded (LR re-warm co-varies with a
+    mix switch); the verdict rests on the within-anneal decline at constant
+    mix. Onset transports; transition WIDTH and completion LEVEL are
+    family/scale facts (32B PARTIAL, Hubble completion MISS).
+  source: "BLUEPRINT_2026_08.md §18/§18b/§21/§26; §42a L2"
+  verbatim_verified: true
+  tags: [clocks, pretraining]
+
+- id: window-descriptive-only
+  statement: >-
+    The developmental window (~1-20B absolute tokens) describes what a model
+    builds BY ITSELF; it is NOT when the model is teachable. Every causal test
+    of window-timed intervention failed (retention, gate-vs-tilt, rule-vs-item,
+    dial) — spontaneous formation is early, effective intervention is late.
+  evidence_class: measured
+  status: LIVE
+  n: "0-for-4 causal tests at 160M toy scale (§26/§29/§31/§29b); descriptive window: 5 models, 3 scales"
+  bounds: >-
+    Toy scale (160M), constructed lexical anchor, ~16M-token injections at the
+    window's EDGE (not traversal); a traversal-scale test needs ~100x tokens.
+    The descriptive timing law is untouched. MUST NOT be quoted: "the window
+    is when to intervene" in any form (TRACK_B quoting rules).
+  source: "BLUEPRINT_2026_08.md §4/§26/§29/§31/§29b; TRACK_B_HANDOFF.md update 2026-08-24"
+  verbatim_verified: true
+  tags: [window, curriculum]
+
+- id: norm-clock
+  statement: >-
+    ||W||^2/N grows on the data clock at constant LR and relaxes with LR late:
+    the weight-norm face of the ABS/REL split is itself schedule-structured,
+    and the stage2 decomposition closes multiplicatively.
+  evidence_class: measured
+  status: LIVE
+  n: "28 stored Cell L rows + OLMo stage1/stage2 revisions (zero new compute); stage2 closure 1.40 x 0.94 = 1.31 vs measured S_wt factor"
+  bounds: "Two families; descriptive regression over stored rows, no intervention."
+  source: "PANEL_PREREG_2026_08.md norm-clock block (scored 2026-08-26)"
+  verbatim_verified: false
+  tags: [clocks, norms]
+
+# --------------------------------------------------------------- readiness --
+- id: readiness-by-inference
+  statement: >-
+    Readiness — whether a substrate converts taught examples into a RULE or
+    into ITEMS — is measurable by pure inference (k demonstrations in context,
+    unseen family members held out), with no forks and no gradients, and
+    agrees with the training channel within a factor of 2 at matched
+    capability.
+  evidence_class: measured
+  status: LIVE
+  n: "channel agreement 1.5-1.8x at the primary dose (CELL J P-J3); surface: 22 points, 5 sizes, 2 families"
+  bounds: >-
+    One anchor family originally (dialect); the law now rests on five payload
+    classes plus an arbitrary-lookup null that never fires (24/25 CIs span
+    zero, 70M-9B). The k=4 column ran hotter (2.25x) and is the recorded miss.
+  source: "BLUEPRINT_2026_08.md §37/§38; status addendum 2026-08-31"
+  scope_guards: [readiness_naive_substrate]
+  verbatim_verified: true
+  tags: [readiness, instrument]
+
+- id: readiness-crossing
+  statement: >-
+    The item-to-rule crossing sits between held-out loss ~5.5 and ~4.7 in
+    every family measured; above it taught rules land as items and
+    anti-generalize, below it they land as rules. The crossing is
+    payload-independent on form familiarity.
+  evidence_class: measured
+  status: LIVE
+  n: >-
+    22-point surface (5 sizes, 2 families); five payload classes + null;
+    form-familiarity: 4-rung ladder, Spearman(NLL,C*)=0.000 with a LEVEL cliff
+    only at the orthographic extreme (O-PRIME); replicated INSIDE one
+    traversing run (DEMO-CL P-CL2: -0.80 -> -0.01 -> +0.21 by placement)
+  bounds: >-
+    Collapse onto loss is approximate: a 2.1-2.6x band remains at matched loss,
+    tracking maturity within family. SEMANTIC depth is the one open axis (D4);
+    no claim about values/safety payloads until Cell Q. Verdicts only where
+    the CI clears zero; the 70m corner (300B tokens, unseen ~0) is the
+    documented boundary case: maturity cannot substitute for capability.
+  source: "BLUEPRINT_2026_08.md §38/§41 edge 3; PANEL_PREREG O-PRIME + DEMO-CL blocks"
+  scope_guards: [readiness_naive_substrate, g_ratio_display]
+  verbatim_verified: true
+  tags: [readiness, crossing]
+
+- id: unseen-gain-primary
+  statement: >-
+    The readiness gauge reports UNSEEN GAIN IN NATS as primary and the ratio G
+    as secondary: the ratio's denominator makes points erratic where seen
+    gains are large, and G is not reported near the crossing at all
+    (denominator blowups).
+  evidence_class: measured
+  status: LIVE
+  n: "Spearman vs loss: unseen gain -0.88 vs G -0.84 across the 22-point surface; G formally corrected in L-ter (22/22)"
+  bounds: "Instrument-form statement; inherits the G1 floor gate (seen gain > 1.0 nats, CI clear)."
+  source: "BLUEPRINT_2026_08.md §37(i)/§38b; L-ter correction (campaign record 2026-08-26)"
+  scope_guards: [g_ratio_display]
+  verbatim_verified: true
+  tags: [readiness, instrument]
+
+- id: maturity-residual
+  statement: >-
+    At matched capability, more training still buys measurably more
+    abstraction and more gate-like writes — roughly a factor of 2 — and
+    capability carries the rest, including the sign flip.
+  evidence_class: measured
+  status: LIVE
+  n: "2.1x on the rule index (CELL F), 1.75x on gatedness (CELL I), reproduced by a third method on the surface (§38a-iii within-family pairs)"
+  bounds: >-
+    Capability matched on held-out C4 loss only (a single scalar); the
+    ICL-matched control is the named open confound. One causal family
+    (pythia), one lexical anchor.
+  source: "BLUEPRINT_2026_08.md §32/§33/§38a-iii"
+  verbatim_verified: true
+  tags: [readiness, maturity]
+
+- id: early-writes-anti-generalize
+  statement: >-
+    Below the crossing, dose does not buy the rule — it buys
+    anti-generalization: tripling the dose increased item learning while
+    driving unseen-member gain NEGATIVE with a CI clear of zero.
+  evidence_class: measured
+  status: LIVE
+  n: "dose 0.30 arm: unseen -1.98 [-2.40,-1.58] (CELL G, 160M); same signature with NO weight updates in the context channel (§37-ii); within-run replication at the early switch (DEMO-CL)"
+  bounds: "One anchor, one family; partially relaxes over retention (-1.98 -> -0.51 over 1000 steps)."
+  source: "BLUEPRINT_2026_08.md §31b/§35/§37"
+  verbatim_verified: true
+  tags: [readiness, curriculum]
+
+- id: placement-decides-fate-not-persistence
+  statement: >-
+    Placement decides what a write BECOMES (rule vs items); it does not — at
+    the scale tested — decide whether it SURVIVES continued training.
+    Fate and persistence are different quantities; steward-style designs must
+    aim at fate.
+  evidence_class: measured
+  status: LIVE
+  n: "persistence: retention 0.873 vs 0.906 at matched dose/schedule (P2 KILL, §26); fate: G by placement -0.80 -> +0.21 inside one run (P-CL2)"
+  bounds: "Persistence kill is toy-scale (160M, window-edge injection); fate-vs-persistence at traversal scale is dark edge D2."
+  source: "BLUEPRINT_2026_08.md §41 (the reconciliation), §26 vs §31b/DEMO-CL"
+  verbatim_verified: true
+  tags: [curriculum, strata]
+
+- id: item-channel-decays
+  statement: >-
+    The two ICL channels dissociate developmentally: in-context ITEM learning
+    of arbitrary associations falls with capability while the RULE channel
+    rises.
+  evidence_class: measured
+  status: LIVE
+  n: "n=2 anchors (seen-side decay +5.71 -> +1.41 across the ladder)"
+  bounds: "Two anchors, inference channel only."
+  source: "PANEL_PREREG_2026_08.md L1-TER v1 byproduct (b), scored 2026-08-28"
+  verbatim_verified: false
+  tags: [readiness]
+
+- id: readiness-null-calibration
+  statement: >-
+    The readiness gauge does not hallucinate generalization: a payload with no
+    inferable rule reads ~0 unseen gain across the full substrate range while
+    the dialect rule reads +5.0-5.4.
+  evidence_class: measured
+  status: LIVE
+  n: "24/25 CIs span zero across 70M-9B (unplanned null calibration, L1-TER v1)"
+  bounds: "Null payload was a no-inferable-rule word list; one construction."
+  source: "PANEL_PREREG_2026_08.md L1-TER v1 byproduct (a)"
+  verbatim_verified: false
+  tags: [readiness, instrument, null-calibration]
+
+# ------------------------------------------------------------ write economy --
+- id: exchange-table
+  statement: >-
+    The three write channels are priced and the price/persistence inversion is
+    exact: context buys ~0.23 nats/token and persists zero tokens past the
+    window; training buys ~1.4e-5 nats/token and retains ~90% over a
+    1000-step continuation; steering buys ~80 nats per unit relative norm,
+    runtime-only, in a linear regime ending near alpha 0.25.
+  evidence_class: measured
+  status: LIVE
+  n: "one disposition (constructed lexical rule), one model per column, one margin instrument; steering: 4 doses"
+  bounds: >-
+    The context row is content-matched, not token-matched; prices are margin
+    nats (an internal currency) until the margin->behaviour bridge runs; every
+    number <=1.4B params — treat ratios as order-of-magnitude claims, not
+    constants of nature.
+  source: "BLUEPRINT_2026_08.md §28 + CELL E; SATELLITE_CONTROL_ECONOMICS.md §2/§6"
+  verbatim_verified: true
+  tags: [economics, channels]
+
+- id: attacker-defender-asymmetry
+  statement: >-
+    Defenders buy durable behaviour at training prices; attackers rent
+    behaviour at context prices, ~10^4 cheaper per token — a structural
+    asymmetry that argues for input-side and monitoring defences on economic
+    grounds.
+  evidence_class: measured
+  status: LIVE
+  n: "derived from the exchange table (one disposition, one family)"
+  bounds: >-
+    Order-of-magnitude claim. Falsifiers (recorded): a second disposition
+    pricing context within ~10x of training; context gains persisting beyond
+    the window; training reaching context-like per-token rates at scale.
+  source: "SATELLITE_CONTROL_ECONOMICS.md §3/§7"
+  verbatim_verified: true
+  tags: [economics, security]
+
+- id: rising-susceptibility
+  statement: >-
+    A fixed-norm activation push buys 8-25x more behaviour change late in
+    pretraining than early (in per-checkpoint margin-SD units): the steering
+    channel gets cheaper as the model trains.
+  evidence_class: measured
+  status: LIVE
+  n: "3/3 dispositions, OLMo-2-1B family, 5 revisions; survives margin-SD normalization"
+  bounds: >-
+    IN-FAMILY ONLY: the one out-of-family attempt (Hubble, 100B budget) could
+    not reach the token regime where the effect appears and is recorded as a
+    miss — never present without this caveat (TRACK_B rule).
+  source: "BLUEPRINT_2026_08.md §16c/§30 B6-ii; TRACK_B_HANDOFF.md"
+  verbatim_verified: true
+  tags: [steering, economics]
+
+- id: multiplicative-transfer-law
+  statement: >-
+    A frozen intervention's effect over training reconstructs as
+    overlap(t) x gain(t): coordinate overlap decays while in-subspace gain
+    grows 7-9x, and the product stays order-one across 190x tokens. Effects
+    are products; single-factor decay laws fit half the phenomenon.
+  evidence_class: measured
+  status: LIVE
+  n: "near-exact reconstruction in 15/15 revision-cells, 3 sources (write_object cells)"
+  bounds: "One family (OLMo-2-1B), one layer; out-of-family transport untested."
+  source: "BLUEPRINT_2026_08.md §16d/§36c"
+  verbatim_verified: true
+  tags: [steering, theory]
+
+- id: re-dose-not-re-fit
+  statement: >-
+    Steering vectors expire by DOSE, not by direction: the small-alpha
+    response never inverts; an early-calibrated dose overshoots the late
+    model's narrower linear regime. Practical form: re-dose, don't re-fit.
+  evidence_class: measured
+  status: LIVE
+  n: "5 revisions x 3 dispositions (§16d P-A); linear regime ends near alpha 0.25 (CELL E)"
+  bounds: >-
+    The engineering variant "store control in token space" is WITHDRAWN
+    (killed 0.60x vs >=1.5x required, §16e) — this dose law is the pair's only
+    surviving practical recommendation.
+  source: "BLUEPRINT_2026_08.md §16d/§16e/§28-CELL-E"
+  verbatim_verified: true
+  tags: [steering, practice]
+
+# ----------------------------------------------------- sharpness / fragility --
+- id: anneal-freezes-coordinates-not-curvature
+  statement: >-
+    The final anneal freezes coordinates but not curvature: rotation falls
+    ~14x while isotropic curvature climbs monotonically through the same
+    revisions, with the growth rate peaking mid-anneal.
+  evidence_class: measured
+  status: LIVE
+  n: "same 5 stage2 revisions (rotation) + P-L4 6/6 monotone (curvature)"
+  bounds: "One family's anneal (OLMo-2-1B stage2); ABS/REL conventions measure different physics — the claim is the ABS (tr H) face."
+  source: "BLUEPRINT_2026_08.md §21 + status addendum (P-L4); INSTRUMENT_PREREG L-W battery"
+  verbatim_verified: true
+  tags: [anneal, sharpness]
+
+- id: quenched-endpoint
+  statement: >-
+    The annealed endpoint is OUT-OF-EQUILIBRIUM sharp (the anneal outruns
+    equilibration): 500 steps / 8.2M fresh tokens at 3e-5 HALVE its isotropic
+    curvature at +0.001 nats of held-out C4, flattening monotone in LR and
+    working below the schedule floor, while the same recipe leaves a mid-run
+    checkpoint unchanged.
+  evidence_class: measured
+  status: LIVE
+  n: "CELL Z HIT x2; n=1 substrate (pythia-160m endpoint); mid-run control = X fresh arm"
+  bounds: >-
+    The +0.001 cost is C4-SCOPED ONLY: the re-warm redistributed +0.44 nats of
+    code at exactly matched C4 (Z-bis) — any capability gate must name its
+    measurement domain. The repair is durable (EQ: survives a 100-step probe)
+    and changes NOTHING a fine-tuner can measure (matched-LR damage identical).
+  source: "PANEL_PREREG_2026_08.md CELL Z + Z-BIS + EQ scored blocks"
+  verbatim_verified: false
+  tags: [anneal, rejuvenation]
+
+- id: rejuvenate-before-quantize
+  statement: >-
+    Rejuvenation's payoff is the quantization channel: a brief fresh-data
+    re-warm of an over-annealed release halved int4 RTN damage (0.832 ->
+    0.352 vs a 0.60 bar) at ~0.003% of pretraining cost, with the ordering
+    matching dL_abs near-proportionally.
+  evidence_class: measured
+  status: LIVE
+  n: "n=1 pair (parent vs rejuvenated artifact) + control; RTN-simulated int4"
+  bounds: >-
+    RTN-SIMULATED only — nf4/GPTQ deployment-grade validation is queued
+    (Z-ter-b v2) and gates any stronger wording. Nearest neighbour: QAH
+    (2608.20953) heals by distillation; ours differs (plain re-warm, costed,
+    sensor-priced) and dies if the pricing fails on a second family.
+  source: "PANEL_PREREG_2026_08.md Z-TER scored block; CONTROL_2026_08.md C5"
+  scope_guards: [dl_abs_channel_guard]
+  verbatim_verified: false
+  tags: [quantization, recipe]
+
+- id: dl-abs-prices-int4
+  statement: >-
+    dL_abs (isotropic curvature) prices int4 RTN damage: damage is strictly
+    ordered by dL_abs across all measured artifacts, including under
+    intervention (the rejuvenated artifact).
+  evidence_class: measured
+  status: LIVE
+  n: "6/6 monotone across 2 families (pythia set + OLMo Z-TER-B v1 3/3)"
+  bounds: >-
+    RTN-simulated; per-output-channel symmetric quantization on the
+    sensitivity parameter set; deployment-grade nf4/GPTQ queued. The gauge
+    prices the weight-grid/random channel ONLY — it does not price the
+    gradient channel (see no-static-gauge-predicts-training).
+  source: "PANEL_PREREG_2026_08.md Z-TER / Z-TER-B v1 scored blocks"
+  scope_guards: [dl_abs_channel_guard]
+  verbatim_verified: false
+  tags: [quantization, sharpness]
+
+- id: anneal-costs-int4-fragility
+  statement: >-
+    OLMo's own stage2 anneal costs 1.44x int4 fragility at matched capability
+    — the quantization price of annealing, measured on a released trajectory.
+  evidence_class: measured
+  status: LIVE
+  n: "n=1 trajectory (OLMo-2-1B; base C4 2.7792 vs 2.7841)"
+  bounds: "One family, RTN-simulated, matched-capability pair from released revisions."
+  source: "PANEL_PREREG_2026_08.md Z-TER-B v1 free datapoint"
+  scope_guards: [dl_abs_channel_guard]
+  verbatim_verified: false
+  tags: [quantization, anneal, release]
+
+- id: no-static-gauge-predicts-training
+  statement: >-
+    No static gauge measured so far prices what a training trajectory will do
+    at matched LR — killed four independent ways — because gain is
+    non-monotone in horizon while damage accumulates. Trajectory outcomes must
+    be measured by trajectories, at the horizon of interest.
+  evidence_class: measured
+  status: LIVE
+  n: "four independent kills: CELL W (x2), Z-bis, EQ, DP v1.1; plus U2-ter (horizon flip at 1.4b)"
+  bounds: >-
+    "So far" = every static face built by the program (dL_abs, S_wt, S_grad,
+    S_x; best static correlate: curv_x got the coarse damaged/benign split at
+    19.8x for a 68x gap). Standing prediction AGAINST the pre-hoc fine-tuning
+    prediction subfield as currently posed (§42d); scale-bounded to what we
+    can test.
+  source: "BLUEPRINT_2026_08.md §41 edge 4 / §42a L4 / §42d; PANEL scored blocks W/Z-bis/EQ/DP"
+  verbatim_verified: true
+  tags: [law, fine-tuning, negative]
+
+- id: crash-test-ranks
+  statement: >-
+    The 100-step crash test (one short fine-tune at a declared reference LR,
+    reading damage, gain, and target_base) is the panel's ground-truth
+    fine-tuning-fragility instrument: its 100-step short form rank-agrees with
+    the 200-step outcome and separates corpora reproducibly across scale.
+    It RANKS; it never extrapolates.
+  evidence_class: measured
+  status: LIVE
+  n: "Spearman +0.976 (damage) / +0.991 (gain) vs 200-step over n=22 stored arms; corpus separation reproduced across a 3.4x parameter gap"
+  bounds: >-
+    Ranking only, at the probe's own horizon and reference LR; damage measured
+    in held-out nats, not task accuracy. ~4 min at 160m / 13 min at 1.4b per
+    100-step arm on the reference GPU.
+  source: "PANEL_PREREG_2026_08.md crash-test protocol v1 (frozen 2026-08-27) + DP blocks"
+  scope_guards: [horizon_match]
+  verbatim_verified: false
+  tags: [crash-test, instrument]
+
+- id: probe-at-your-horizon
+  statement: >-
+    Three crash probes at the horizon you intend to train select the
+    fine-tuning LR at grid-optimum quality for ~30-60% of grid cost — but a
+    probe licenses ONLY its own horizon: gain rank flips between 100 and 200
+    steps (damage accumulates; gain peaks).
+  evidence_class: measured
+  status: LIVE
+  n: >-
+    horizon-matched selection regret 0.0000 at both 410m and 1.4b (from stored
+    grids); across-horizon transport KILLED at 1.4b (regret 0.0291 vs 0.020
+    bar); earlier exact hits 3/4 checkpoints at the 100-step horizon
+  bounds: >-
+    CIRCULARITY CAVEAT recorded: in the stored-grid check the optimum lay
+    inside the probe triplet; one GPU cell on a new domain (U2-quater) closes
+    it and gates any stronger wording. Selection is 2-D by construction:
+    damage cap AND gain rank (gain is non-monotone in LR).
+  source: "PANEL_PREREG_2026_08.md U2/U2-bis/U2-ter/U2-quater-look blocks"
+  scope_guards: [horizon_match]
+  verbatim_verified: false
+  tags: [crash-test, preflight, lr]
+
+- id: curvature-provenance
+  statement: >-
+    Curvature's meaning depends on its provenance: warmup-sharp checkpoints
+    are benign (negative damage at small LR, more gain per damage) while
+    anneal-sharp checkpoints are brittle. A 12x dL_abs gap bought only a 1.79x
+    difference in usable LR — the iso-damage rule is dead as a dL_abs-only law.
+  evidence_class: measured
+  status: LIVE
+  n: "CELL W MISS x2 (ratio 1.79x vs pre-registered band [4.0, 36.1]); U-prime held anneal-sharp-vs-mid only (1 pair)"
+  bounds: "One family/size pair per provenance; the vitals advisory that used the iso-damage rule is WITHDRAWN."
+  source: "PANEL_PREREG_2026_08.md CELL W scored block + synthesis"
+  verbatim_verified: false
+  tags: [sharpness, fine-tuning]
+
+- id: local-geometry-vs-equilibrium
+  statement: >-
+    Local sharpness and matched-LR damage are INDEPENDENT quantities: damage
+    histories re-equilibrate in ~100 steps and then run at the substrate's own
+    rate; an artificial repair moves every static gauge while damage stays
+    identical, and the repair itself survives the probe. Static gauges read
+    LOCAL GEOMETRY (schedule-clocked, repairable); damage answers to
+    EQUILIBRIUM BEHAVIOUR (a substrate property).
+  evidence_class: measured
+  status: LIVE
+  n: "CELL SX + CELL EQ (P-EQ1 kill against the program's own mechanism; rejuv ends 1.07 vs parent 1.94 local sharpness at identical damage); n=5 artifacts"
+  bounds: "One family; correlated across natural checkpoints, dissociated under artificial repair — the dissociation is the claim."
+  source: "PANEL_PREREG_2026_08.md SX + EQ scored blocks (2026-08-27)"
+  verbatim_verified: false
+  tags: [sharpness, theory]
+
+- id: sgrad-regime-flag
+  statement: >-
+    Directional (gradient-face) probes need ~300x smaller rho than random ones
+    (rho_dir 3e-4 vs 0.10); anisotropy numbers taken at rho=0.10 are
+    saturation artifacts. In the clean regime, anisotropy is ~3e4 and
+    training-invariant within 2x, and the gradient face follows the same
+    schedule-clock U-shape.
+  evidence_class: measured
+  status: LIVE
+  n: "SG-SURFACE 15/15 valid-regime points; two voided attempts at rho 0.10/0.01 caught by G-SX1"
+  bounds: "P-PAN3's 170x->15x anisotropy trajectory is formally SUPERSEDED (saturation artifact); Z-BIS-B was retracted on the same grounds."
+  source: "PANEL_PREREG_2026_08.md SG-SURFACE block; SX amendment 1"
+  verbatim_verified: false
+  tags: [sharpness, instrument, regime]
+
+- id: zero-sum-onset-curvature-driven
+  statement: >-
+    The onset of zero-sum fine-tuning (where "damage" starts to exist) is
+    CURVATURE-driven, not alignment-driven: cross-domain first-order stays in
+    the everything-helps regime to 300B tokens while directional curvature
+    explodes at the endpoints.
+  evidence_class: measured
+  status: LIVE
+  n: "SG-SURFACE sweep (curv_x 0.003 -> 0.28 at endpoints; first-order everything-helps to 300B), one family"
+  bounds: "Descriptive sweep; the crossing hunt was the exploratory half."
+  source: "PANEL_PREREG_2026_08.md SG-SURFACE scored block"
+  verbatim_verified: false
+  tags: [fine-tuning, sharpness]
+
+- id: redistribution-hidden
+  statement: >-
+    Benign continued training redistributes capability invisibly to a
+    single-domain gate: 8.2M tokens of C4 re-warm cost +0.44 nats of CODE at
+    exactly matched C4 loss. Capability gates must name their measurement
+    domain; erosion rows are vectors over domains, not scalars.
+  evidence_class: measured
+  status: LIVE
+  n: "n=1 run (the Z-bis confound, restated as a finding)"
+  bounds: "One recipe, one domain pair; forecastability of redistribution is untested (IDEAS-34)."
+  source: "PANEL_PREREG_2026_08.md Z-BIS scored block; IDEAS_2026_08.md 34"
+  verbatim_verified: false
+  tags: [fine-tuning, redistribution]
+
+- id: epoch-safety
+  statement: >-
+    At small scale, ~2 epochs of pool reuse is safe on both axes (no hidden
+    sharpening at the capability-preserving dose; at 4 epochs the loss already
+    sees it) — repetition is not a hidden-fragility dial at this scale.
+  evidence_class: measured
+  status: LIVE
+  n: "X-bis: 1.05x sharpening (inside noise) at 2 epochs, n=1 substrate/recipe; the 64-epoch arm detonated capability (+2.24 nats, G-X2 void)"
+  bounds: "Small-model recipe result (pythia-160m mid-run); the pythia endpoint spike remains unattributed."
+  source: "PANEL_PREREG_2026_08.md CELL X / X-BIS scored blocks"
+  verbatim_verified: false
+  tags: [epochs, recipe]
+
+- id: kd-regulariser
+  statement: >-
+    Pure knowledge distillation is a powerful regulariser against small-pool
+    overfitting: at matched everything, CE lost 1.29-1.77 nats of held-out
+    capability while KD stayed flat or improved — 15-35x less damage. And pure
+    KD is NET HARMFUL when the teacher leads by only ~0.4 nats: there is a
+    teacher-student gap threshold.
+  evidence_class: measured
+  status: LIVE
+  n: "3 substrates, 2 teacher sizes, ONE pool size / epoch count / family (KD v2 byproduct); gap threshold: single cell"
+  bounds: >-
+    n=1 configuration — named CELL KD-REG for its own prereg before any
+    stronger claim; the mimicry-vs-advantage design tension means the two KD
+    clauses cannot share a cell (v3a/v3b split).
+  source: "PANEL_PREREG_2026_08.md KD v2 scored block (2026-08-31)"
+  verbatim_verified: false
+  tags: [distillation, recipe]
+
+# -------------------------------------------------------- post-training/read --
+- id: sft-double-ratchet
+  statement: >-
+    Post-training operates two one-way ratchets measured by different
+    instruments: GLOBAL curvature jumps 2-3x at SFT and never re-softens
+    through DPO/Instruct (both families), while per-disposition stiffness is
+    recipe-dependent (OLMo hardens up to 95x at SFT; SmolLM3 softens 0/4) —
+    stiffness and curvature are two different objects.
+  evidence_class: measured
+  status: LIVE
+  n: "CELL AA (2 families for the curvature jump; stiffness: OLMo + SmolLM3 blind test B1)"
+  bounds: >-
+    "SFT hardens the selector" is an OLMo-2 recipe fact, NOT a law (TRACK_B
+    boundary); SmolLM3 3B seed-SD ~10x OLMo's — any 3B clause needs n>=20
+    seeds. AA as operationalized was MISS x2; the two-object split is the
+    surviving substance.
+  source: "PANEL_PREREG_2026_08.md CELL AA scored block; BLUEPRINT §7/§22"
+  scope_guards: [three_b_seed_rule]
+  verbatim_verified: false
+  tags: [post-training, audit]
+
+- id: post-training-readiness-cost
+  statement: >-
+    Post-training costs readiness: R_unseen falls monotonically through the
+    release ladder (5.40 -> 3.85, ~29%) from base to Instruct.
+  evidence_class: measured
+  status: LIVE
+  n: "n=1 family ladder (OLMo-2-1B base/SFT/DPO/Instruct), free column from CELL AA"
+  bounds: "One family; the release audit's readiness-cost column, not a law."
+  source: "PANEL_PREREG_2026_08.md CELL AA free datapoint"
+  scope_guards: [readiness_naive_substrate]
+  verbatim_verified: false
+  tags: [post-training, audit, readiness]
+
+- id: sycophancy-sft-signature
+  statement: >-
+    The behavioural signature of imitative post-training transfers across
+    families: SFT at least doubles sycophancy on KNOWN facts while honesty
+    COHERENCE stays untouched — and pressure-resistance improves under
+    pretraining alone (0.19 -> 0.06 across the base trajectory).
+  evidence_class: measured
+  status: LIVE
+  n: "OLMo ladder + SmolLM3 blind test (B2 HIT: 2.15x vs predicted >=1.5x; coherence within +-0.08)"
+  bounds: >-
+    The DPO-repairs clause did NOT transfer (SmolLM3 final = SFT, recorded
+    miss). Reconciliation with Perez/Sharma (sycophancy rises with RLHF) is
+    axis/regime-specific: known facts, base-model pressure-resistance.
+  source: "BLUEPRINT_2026_08.md §17/§22; TRACK_B blind-tested tier"
+  verbatim_verified: true
+  tags: [post-training, honesty]
+
+- id: truth-decomposition
+  statement: >-
+    "Truthfulness" is a portmanteau with no cross-dataset coherence at any
+    checkpoint or scale; it decomposes into KNOWLEDGE (distributed, accreting),
+    a TRUTH READOUT (a real statement-probe plane, topic-bounded), and HONESTY
+    (the choice to assert known facts under pressure — the strongest-cohering
+    value object measured). Truth is READ, not chosen-by: probe and preference
+    directions are nearly different objects on identical text.
+  evidence_class: measured
+  status: LIVE
+  n: "probe-vs-preference cos 0.22-0.32; honesty coherence 0.49-0.76 raw on ~0.90 ceilings; portmanteau failure reproduced blind on Qwen3.5-9B (corrected -0.011)"
+  bounds: >-
+    The truth readout is topic-universal only (0.996-1.0 within constructs,
+    0.58-0.85 across); the L3 teaching channel is construct-bound the same way
+    (sciq->halu installs, sciq->TruthfulQA zero, CELL O). No truthfulness
+    benchmark movement is interpretable without this split (§42d).
+  source: "BLUEPRINT_2026_08.md §8/§23/§39b; CELL O P-O3/L3"
+  verbatim_verified: true
+  tags: [objects, truth, eval]
+
+- id: gemma-format-boundary
+  statement: >-
+    The preference battery is not architecture-neutral: Gemma-3 organizes
+    preference directions by INPUT FORMAT (code-shaped sources agree
+    regardless of content) where OLMo and Qwen organize by category — and
+    Gemma-class outlier-channel domination (top-5 dims carrying up to 0.95 of
+    direction norm) destabilizes split-half estimators into impossible
+    corrected cosines.
+  evidence_class: measured
+  status: LIVE
+  n: "3 depths x 2 categories (format signal survives de-outliering: 0.51 vs 0.17 background); root cause quantified (top-5 mass 0.21-0.95 vs Qwen 0.05-0.30)"
+  bounds: >-
+    The raw 0.92 magnitude was outlier-inflated and must not be quoted. Rule:
+    top-5 mass > 0.5 or a negative split-half ceiling quarantines the cell
+    automatically — quarantined cells render as instrument failure, never as
+    findings.
+  source: "BLUEPRINT_2026_08.md §25/§27"
+  scope_guards: [family_quarantine]
+  verbatim_verified: true
+  tags: [battery, instrument, quarantine]
+
+- id: format-share-controls
+  statement: >-
+    Constructed payloads separate category from surface by construction:
+    format twins read ~zero format share (median -0.01 across 24 checkpoints)
+    where borrowed payloads read ~70% — and the security "semantic transfer"
+    headline decomposed as roughly 70% code format.
+  evidence_class: measured
+  status: LIVE
+  n: "P-O2 HIT (24 checkpoints); 39g code control (+0.696 SD off-category vs +0.53 demonstrated)"
+  bounds: "Format-pair contrast is mandatory on every battery claim (the §25/§39 lesson, arrived three times)."
+  source: "BLUEPRINT_2026_08.md §39f/§39g; PANEL_PREREG CELL O P-O2"
+  verbatim_verified: true
+  tags: [instrument, controls]
+
+- id: induction-dtype-floor
+  statement: >-
+    The random-token induction probe is dtype-sensitive near its floor (0.1496
+    bf16 vs 0.2722 fp32 on the same checkpoint; identical to 4 decimals where
+    the score is high): low readings must carry their dtype.
+  evidence_class: measured
+  status: LIVE
+  n: "one checkpoint pair (the discrepancy), high-score identity across the measured ladders"
+  bounds: "Instrument note; the induction clock's onset claims are unaffected (high-score regime)."
+  source: "instrument-battery-traps ledger (2026-08); ENVIRONMENT.md dtype notes"
+  scope_guards: [dtype_disclosure]
+  verbatim_verified: false
+  tags: [instrument, clocks]
+
+- id: trigger-discipline
+  statement: >-
+    Live training triggers need calibration IN-POPULATION plus smoothing and
+    hysteresis: a threshold imported from released checkpoints was unreachable
+    in a compressed fork, and an n=24 single probe swings +-0.8 on noise
+    (would have fired spuriously). The closed-loop claim itself remains
+    UNDISCHARGED — no interface may expose a raw single-probe trigger.
+  evidence_class: measured
+  status: LIVE
+  n: "DEMO-CL (G-CL2 failed; P-CL1 not scored; two instrument findings); requirement: k-consecutive readings at n>=96"
+  bounds: "The fallback arm's win was a fixed policy, not a decision; DEMO-CL v2 (post-crossing fork or 10x budget, calibrated + smoothed trigger) is the named next test."
+  source: "PANEL_PREREG_2026_08.md DEMO-CL scored block (2026-08-28)"
+  scope_guards: [trigger_smoothing]
+  verbatim_verified: false
+  tags: [control, recorder]
+
+- id: transport-calculus
+  statement: >-
+    Laws, ranks, crossings, and dissociations transport across models;
+    directions, thresholds, and absolute levels are family-private. A claim's
+    replication probability is read off its tier — which is why this system
+    reports ranks and crossings and never extrapolates magnitudes across
+    families.
+  evidence_class: measured
+  status: LIVE
+  n: "the program's own scoreboard: 4 families of blind tests (invariants predicted, shapes did not); every panel-week kill was an extrapolated threshold/horizon/population"
+  bounds: "Meta-law (L1 corollary); enforced structurally in this backend (rank/crossing language only)."
+  source: "BLUEPRINT_2026_08.md §2/§20b/§30/§41 edge 9/§42a L1/§42c U4"
+  verbatim_verified: true
+  tags: [law, method]
+
+# ------------------------------------------------------------- lit anchors --
+- id: lit-posttraining-reweights
+  statement: >-
+    Post-training adds no machinery: model diffing attributes ~88% of
+    post-training change to reweighting existing structure, and RLVR reweights
+    without adding capability.
+  evidence_class: lit
+  status: LIVE
+  n: "external results (diffing; RLVR analyses)"
+  bounds: "Literature anchor for L6 (gating); cited, not re-proven here."
+  source: "BLUEPRINT_2026_08.md §7 [LIT: 2504.13837 et al.]"
+  verbatim_verified: true
+  tags: [post-training, lit]
+
+- id: lit-fine-tuning-api-screening
+  statement: >-
+    Pointwise data screening of fine-tuning APIs is fundamentally limited —
+    the OPTIMIZATION channel (learning-rate policy) is the policeable one.
+  evidence_class: lit
+  status: LIVE
+  n: "external proof (2502.14828); provider LR bounds exist but are calibrated to nothing"
+  bounds: "Motivates the per-checkpoint LR-cap policy idea (IDEAS-25), which is GATED on unlanded cells."
+  source: "IDEAS_2026_08.md 25 [LIT: 2502.14828]"
+  verbatim_verified: true
+  tags: [lit, policy]
+
+# ---------------------------------------------------- standing predictions --
+- id: forbid-static-gauge-prediction
+  statement: >-
+    STANDING PREDICTION: no static (weights-only) gauge will predict
+    fine-tuning outcomes at matched LR, at any scale we can test. Ground truth
+    is the crash test at the deployment horizon; submissions are scored
+    against stored and reproducible erosion rows.
+  evidence_class: conjecture
+  status: LIVE
+  n: "risked on the L4 kills (W, Z-bis, EQ, DP v1.1, U2-ter)"
+  bounds: "Falsifiable; a confirmed counterexample localizes L4 as wrong and is a result, not an embarrassment."
+  source: "BLUEPRINT_2026_08.md §42d"
+  verbatim_verified: true
+  tags: [arena, prediction]
+
+- id: forbid-posttraining-structure
+  statement: >-
+    STANDING PREDICTION: no post-training method will add structure absent
+    from the base model (depth schedule, formation-clock products).
+  evidence_class: conjecture
+  status: LIVE
+  n: "risked on L6 + the invariant depth schedule under instruct-tuning"
+  bounds: "Falsifiable via a post-training run that moves the depth-displacement schedule or completes a missing clock."
+  source: "BLUEPRINT_2026_08.md §42d"
+  verbatim_verified: true
+  tags: [arena, prediction]
+
+- id: forbid-arch-endpoint
+  statement: >-
+    STANDING PREDICTION: at matched scale, architecture choice moves formation
+    TIMING, not endpoints (bounded: the scales measured).
+  evidence_class: conjecture
+  status: LIVE
+  n: "risked on edge 1 (SSM commits mid-depth 0.60 vs 0.89; endpoints converge 0.24 vs 0.28)"
+  bounds: "Explicitly scale-bounded; a matched-scale endpoint separation kills it."
+  source: "BLUEPRINT_2026_08.md §42d / §6 / §19"
+  verbatim_verified: true
+  tags: [arena, prediction]
+
+- id: forbid-coordinate-transport
+  statement: >-
+    STANDING PREDICTION: no coordinate-level object (steering vector, probe
+    direction, absolute threshold) transports across families.
+  evidence_class: conjecture
+  status: LIVE
+  n: "risked on L1 + every cross-family attempt to date"
+  bounds: "Operations and laws transport; coordinates are gauge."
+  source: "BLUEPRINT_2026_08.md §42d / §2"
+  verbatim_verified: true
+  tags: [arena, prediction]
+
+# ------------------------------------------------ retractions (unquotable) --
+- id: semantic-transfer-headline
+  statement: >-
+    [WITHDRAWN] "Semantic rule transfer is real and family-invariant; the
+    section-34 gap is closed" — retracted within a day: ~70% of the apparent
+    security transfer is CODE FORMAT (the code-formatted control moved MORE
+    than the demonstrated set).
+  evidence_class: measured
+  status: WITHDRAWN
+  n: "39g code control on OLMo-2-1B (+0.696 SD off-category vs +0.53 demonstrated); Qwen3.5 same shape"
+  bounds: "P-K2 UNRESOLVED; section 34's gap OPEN; only the negative rows of Cell K are clean."
+  source: "BLUEPRINT_2026_08.md §39a (withdrawn by §39f/§39g)"
+  verbatim_verified: true
+  tags: [retraction]
+
+- id: token-space-control
+  statement: >-
+    [KILLED] "Store control as a token-space target and re-solve the direction
+    per checkpoint" — killed as pre-registered (retention 0.60x vs the >=1.5x
+    bar).
+  evidence_class: measured
+  status: WITHDRAWN
+  n: "CELL D (vocab_anchor_security), fit 21B applied 4001B"
+  bounds: "The fingerprint-stability MEASUREMENT survives; the engineering recommendation does not. Re-dose-don't-re-fit is the surviving practice."
+  source: "BLUEPRINT_2026_08.md §16e"
+  verbatim_verified: true
+  tags: [retraction, steering]
+
+- id: iso-damage-lr-rule
+  statement: >-
+    [KILLED] "dL_abs sets the usable fine-tuning LR scale (iso-damage LR ~
+    1/dL_abs)" — dead as a dL_abs-only law: a warmup-sharp checkpoint
+    tolerated ~the same LR as a 12x-flatter mid-run one.
+  evidence_class: measured
+  status: KILLED
+  n: "CELL W MISS x2 (ratio 1.79x vs band [4.0, 36.1]); the vitals advisory was withdrawn per the kill"
+  bounds: "Provenance decides curvature's meaning (see curvature-provenance); U-prime's relation held for one anneal-sharp-vs-mid pair only."
+  source: "PANEL_PREREG_2026_08.md CELL W scored block; vitals.py advisory history"
+  verbatim_verified: false
+  tags: [retraction, fine-tuning]
+
+- id: dp-predictive-column
+  statement: >-
+    [WITHDRAWN] "The dataset profile predicts crash-test damage rank
+    (Spearman +0.800)" — v1's positive was an artifact of 512-chunk
+    epoch-trap crash pools; clean pools give Spearman +0.300/+0.200 with 4
+    inversions (P-DP1 KILL). The descriptive profile and per-corpus probe
+    survive; the predictive column does not.
+  evidence_class: measured
+  status: WITHDRAWN
+  n: "DP v1.1 on both reference checkpoints (410m, 1.4b)"
+  bounds: "Crash profiles remain reproducible descriptions (math/wikitext disruptive, code benign, across a 3.4x param gap); Mode B keeps the descriptive profile only."
+  source: "PANEL_PREREG_2026_08.md DP v1/v1.1 scored blocks"
+  verbatim_verified: false
+  tags: [retraction, data]
+
+- id: window-value-installation
+  statement: >-
+    [KILLED] "Time value-relevant data into the plastic window for lock-in" —
+    0-for-4 causally at toy scale; placement bought no retention, wrote tilts
+    not gates, items not rules.
+  evidence_class: measured
+  status: KILLED
+  n: "steward arms P2 KILL (retention 0.873 vs 0.906, threshold >=1.5); §29/§31/§29b"
+  bounds: "Toy scale, lexical anchor, window-edge injection; the revival path is a traversal-scale or structure-stratum test (dark edge D2)."
+  source: "BLUEPRINT_2026_08.md §26 + §10 steward status"
+  verbatim_verified: true
+  tags: [retraction, curriculum]
+
+- id: panel-anisotropy-trajectory
+  statement: >-
+    [STRUCK] "S_grad/S_wt anisotropy falls 170x -> 15x with training" — a
+    rho=0.10 saturation artifact; clean-regime anisotropy is ~3e4 and
+    training-invariant within 2x. Z-BIS-B's S_grad invariance claim was
+    retracted on the same grounds.
+  evidence_class: measured
+  status: STRUCK
+  n: "SG-SURFACE 15/15 valid-regime remeasurement"
+  bounds: "See sgrad-regime-flag for the surviving statement."
+  source: "PANEL_PREREG_2026_08.md P-PAN3 flag + SG-SURFACE block"
+  superseded_by: sgrad-regime-flag
+  verbatim_verified: false
+  tags: [retraction, sharpness]
