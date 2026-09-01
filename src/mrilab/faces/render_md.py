@@ -19,6 +19,8 @@ _KIND_BADGE = {
 
 def _fmt_value(v) -> str:
     if isinstance(v, float):
+        if v != 0 and abs(v) < 0.005:
+            return f"{v:g}"  # small magnitudes (LRs, floors) keep their form
         return f"{v:+.4f}" if abs(v) < 100 else f"{v:.4g}"
     return str(v)
 

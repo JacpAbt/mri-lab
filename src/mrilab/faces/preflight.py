@@ -23,16 +23,31 @@ from mrilab.settings import Settings
 from mrilab.surfaces import placement
 
 PROBE_LRS = (1e-5, 3e-5, 1e-4)  # the U2 probe triplet
-DEFAULT_DAMAGE_CAP = 0.05       # U2's declared probe damage bound (held-out nats)
+# U2's declared damage bound is 0.05 held-out nats AT THE 100-STEP HORIZON;
+# damage accumulates with steps (the stored 200-step grids used 0.10), so the
+# cap scales with the declared horizon.
+DAMAGE_CAP_PER_100_STEPS = 0.05
+# Probe pool size pinned to the stored-grid protocol (4096 chunks -> 1.56
+# epochs at 200x4x8 draws). NEVER left to the instrument default: erosion_arms
+# defaults to 512 chunks, which at 6400 draws is 12.5 epochs — the epoch trap
+# (trap #3) fired exactly this way on the first acceptance run (2026-09-01:
+# target loss dipped 2.75->2.50 then detonated to 2.85; gains read negative).
+PROBE_N_TRAIN = 4096
+
+
+def damage_cap(horizon_steps: int) -> float:
+    return DAMAGE_CAP_PER_100_STEPS * horizon_steps / 100
 
 
 def probe_specs(subject: Subject, target: str, horizon_steps: int,
                 lrs: tuple[float, ...] = PROBE_LRS) -> list[JobSpec]:
-    """The three crash probes AT THE DEPLOYMENT HORIZON."""
+    """The three crash probes AT THE DEPLOYMENT HORIZON, on the stored-grid
+    protocol (pool size and warmup pinned — defaults are part of the spec)."""
     return [
         JobSpec(instrument="erosion_arms", subject=subject, dtype="fp32",
                 params={"target": target, "lr": lr, "steps": horizon_steps,
-                        "warmup": max(1, horizon_steps // 5),
+                        "n_train": PROBE_N_TRAIN,
+                        "warmup": max(1, horizon_steps // 4),
                         "eval_every": max(1, horizon_steps // 4)})
         for lr in lrs
     ]
@@ -51,20 +66,19 @@ def _existing_probe_rows(settings: Settings, subject: Subject, target: str,
     return out
 
 
-def select_lr(probe_rows: list[dict], damage_cap: float = DEFAULT_DAMAGE_CAP
-              ) -> dict | None:
-    """The 2-D rule: among probes with damage <= cap, pick max gain; if none
-    clears the cap, pick min damage and say so. Requires matched target_base
-    (trap 7) — enforced by the caller's trap block."""
+def select_lr(probe_rows: list[dict], cap: float) -> dict | None:
+    """The 2-D rule: among probes with damage <= cap (horizon-scaled), pick max
+    gain; if none clears the cap, pick min damage and say so. Requires matched
+    target_base (trap 7) — enforced by the caller's trap block."""
     if not probe_rows:
         return None
-    ok = [r for r in probe_rows if r["damage"] <= damage_cap]
+    ok = [r for r in probe_rows if r["damage"] <= cap]
     if ok:
         best = max(ok, key=lambda r: r["gain"])
-        rule = f"max gain subject to damage <= {damage_cap}"
+        rule = f"max gain subject to damage <= {cap:g} (horizon-scaled)"
     else:
         best = min(probe_rows, key=lambda r: r["damage"])
-        rule = f"no probe cleared damage <= {damage_cap}: min-damage fallback"
+        rule = f"no probe cleared damage <= {cap:g}: min-damage fallback"
     return {"lr": best["config"]["lr"], "rule": rule,
             "damage": best["damage"], "gain": best["gain"],
             "n_probes": len(probe_rows), "source": best.get("_path")}
@@ -118,7 +132,7 @@ def build(settings: Settings, subject: Subject, target: str,
         tb = check_target_base_match(probe_rows)
         if tb:
             lr_blocks.append(kit.trap_block(tb))
-        pick = select_lr(probe_rows)
+        pick = select_lr(probe_rows, cap=damage_cap(horizon_steps))
         lr_blocks.append(kit.reading(
             "LR selection (2-D rule: damage cap + gain rank)",
             pick, body_md="Selected from measured probes at YOUR horizon; the "

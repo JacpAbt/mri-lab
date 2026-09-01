@@ -54,7 +54,7 @@ def submit(settings: Settings, spec: JobSpec, enqueue: bool = True) -> Job:
     enqueue=False creates/queues the row without dispatching to Huey — the CLI
     --sync path uses it, then calls _run in-process."""
     job_id = spec.content_hash()
-    warnings = lint_job({"kind": _job_kind(spec), **spec.params})
+    warnings = lint_job(_lint_params(spec))
     blocked = [w for w in warnings if w.severity == "block"]
     with session(settings) as s:
         job = s.get(Job, job_id)
@@ -92,6 +92,29 @@ def _job_kind(spec: JobSpec) -> str:
     if spec.instrument in training:
         return "training"
     return "inference"
+
+
+# Instrument CLI defaults the trap linter must SEE: an undeclared default is
+# still part of the effective run. erosion_arms defaults n_train=512, which at
+# 200x4x8 draws is 12.5 epochs — trap #3 fired through exactly this hole on the
+# first M0 acceptance run (2026-09-01) because the spec never declared the pool.
+_LINT_DEFAULTS: dict[str, dict] = {
+    "erosion_arms": {"n_train": 512, "steps": 200, "batch_size": 4, "accum": 8},
+    "repetition_arms": {"n_train": 16000, "steps": 500, "batch_size": 4, "accum": 8},
+    "kd_arms": {"steps": 150, "batch_size": 4, "accum": 8},
+    "l8_arms": {"batch_size": 4, "accum": 8},
+    "u1_run": {"batch_size": 4, "accum": 8},
+}
+
+
+def _lint_params(spec: JobSpec) -> dict:
+    """Effective params for the linter: instrument defaults overlaid by the
+    spec. n_train maps to the linter's pool_chunks."""
+    eff = {**_LINT_DEFAULTS.get(spec.instrument, {}), **spec.params}
+    p = {"kind": _job_kind(spec), **eff}
+    if "n_train" in eff and "pool_chunks" not in p:
+        p["pool_chunks"] = eff["n_train"]
+    return p
 
 
 def _enqueue(lane: str, job_id: str, spec: JobSpec) -> None:
