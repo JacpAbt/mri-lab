@@ -1,0 +1,213 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI-Lab Datasheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap">
+<style>
+/* MOCK F — "DATASHEET": the landing page as a component datasheet
+   (US-Graphics/TI lineage). Same bench tokens = one product identity.
+   The pitch is written like GENERAL DESCRIPTION; the six faces are the
+   ABSOLUTE MEASURED RATINGS table; retractions are the REVISION HISTORY.
+   0 JS. */
+:root{
+  --paper:#F5F6F3; --panel:#FCFCFA; --ink:#1B1E1C; --dim:#59605B; --line:#C9CEC8;
+  --rule:#1B1E1C; --teal:#0D7066; --ok:#1E6E41; --warn:#92590F; --block:#A31D40;
+  --chip:#EDEFEA; --gridln:#E4E7E1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#39403B;
+    --rule:#E3E7E3; --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590;
+    --chip:#202522; --gridln:#20261F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131615; --panel:#191D1B; --ink:#E3E7E3; --dim:#96A09A; --line:#39403B;
+  --rule:#E3E7E3; --teal:#43B3A6; --ok:#5CB582; --warn:#D6A25C; --block:#E27590;
+  --chip:#202522; --gridln:#20261F;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:13.5px/1.5 "IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums}
+.sheet{max-width:1020px;margin:0 auto;padding:26px 26px 34px}
+.sans{font-family:"IBM Plex Sans",system-ui,sans-serif}
+
+/* masthead: part-number block, double rule */
+.mast{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.mast .name{font:700 30px/1 "IBM Plex Sans",system-ui,sans-serif;letter-spacing:-.01em}
+.mast .name b{color:var(--teal)}
+.mast .desc{color:var(--dim);padding-bottom:3px}
+.partno{margin-left:auto;text-align:right;font-size:11.5px;color:var(--dim);line-height:1.55}
+.partno b{color:var(--ink)}
+.dblrule{border-top:3px solid var(--rule);border-bottom:1px solid var(--rule);
+  height:5px;margin:10px 0 0}
+
+.cols{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;margin-top:18px}
+@media (max-width:840px){.cols{grid-template-columns:1fr}}
+h2{font:700 12px/1 "IBM Plex Sans",system-ui,sans-serif;letter-spacing:.16em;margin:22px 0 8px}
+h2 .no{color:var(--teal);margin-right:8px}
+p{margin:6px 0;max-width:64ch}
+.mut{color:var(--dim)}
+ul.feat{margin:6px 0;padding:0;list-style:none}
+ul.feat li{padding:2.5px 0 2.5px 16px;position:relative}
+ul.feat li::before{content:"▪";position:absolute;left:0;color:var(--teal)}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+caption{text-align:left;color:var(--dim);font-size:11px;letter-spacing:.08em;padding-bottom:4px}
+th,td{padding:4px 8px;text-align:left;border:1px solid var(--line)}
+thead th{background:var(--chip);font-weight:600;font-size:11px;letter-spacing:.08em}
+td.v{text-align:right;font-weight:500;white-space:nowrap}
+td.c{text-align:center}
+.pos{color:var(--ok)} .neg{color:var(--block)} .hot{color:var(--warn)}
+.note{font-size:11.5px;color:var(--dim);margin-top:4px}
+.fig{border:1px solid var(--line);background:
+  linear-gradient(var(--gridln) 1px,transparent 1px),
+  linear-gradient(90deg,var(--gridln) 1px,transparent 1px),var(--panel);
+  background-size:20px 20px,20px 20px,auto;padding:10px;border-radius:2px}
+.fig figcaption{font-size:11px;color:var(--dim);margin-top:6px}
+svg text{font:10px "IBM Plex Mono",monospace;fill:var(--dim)}
+.axl{stroke:var(--dim)} .bandr{fill:var(--chip)}
+.ptp{fill:var(--teal)} .pto{fill:none;stroke:var(--ink);stroke-width:1.6}
+.trj{fill:none;stroke:var(--teal);stroke-width:1.6}
+.trjd{fill:none;stroke:var(--warn);stroke-width:1.6}
+.cta{display:flex;gap:10px;margin:16px 0 4px;flex-wrap:wrap}
+.btn{display:inline-block;border:1px solid var(--ink);color:var(--ink);text-decoration:none;
+  padding:8px 16px;border-radius:2px}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--chip)} .btn.primary:hover{opacity:.92}
+.btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.rev tbody td{font-size:12px}
+footer{margin-top:26px;border-top:1px solid var(--line);padding-top:10px;
+  display:flex;gap:18px;color:var(--dim);font-size:11px;flex-wrap:wrap}
+.stamp{border:1.5px solid var(--teal);color:var(--teal);padding:2px 9px;border-radius:2px;
+  letter-spacing:.16em;font-size:10px;transform:rotate(-1.2deg)}
+</style>
+
+<div class="sheet">
+  <div class="mast">
+    <span class="name">MRI-<b>LAB</b></span>
+    <span class="desc">Model Measurement Unit — biography, preflight, certificate</span>
+    <div class="partno">
+      DOC Nº <b>ML-0001 · REV 0.1</b><br>
+      REGISTRY <b>61b54c1e3eee6ed4</b> · 2026-09-01<br>
+      RUNTIME OF RECORD torch 2.9.1+cu128 · fp32
+    </div>
+  </div>
+  <div class="dblrule"></div>
+
+  <div class="cols">
+    <div>
+      <h2><span class="no">1</span>GENERAL DESCRIPTION</h2>
+      <p>MRI-LAB measures what a language-model checkpoint <em>is</em>: whether teaching
+      becomes rules or memorized items, how fragile the artifact is per channel
+      (quantization vs fine-tuning), and where it sits on measured developmental
+      surfaces spanning 70M–9B parameters.</p>
+      <p>Every rendered claim carries its evidence class, its n, and its bounds, quoted
+      verbatim from a scored-claims registry. The instrument refuses what it cannot
+      license: <span class="mut">no static gauge forecasts training outcomes (killed 4×) —
+      trajectory questions are answered by 100-step probes at your own horizon.</span></p>
+
+      <h2><span class="no">2</span>FEATURES</h2>
+      <ul class="feat">
+        <li>Readiness verdict from pure inference — no forks, no gradients</li>
+        <li>Safety has its own, later crossing — located at loss ≈ 3.46 <span class="mut">(Cell Q, 21 ckpts)</span></li>
+        <li>int4 damage RANK among 6 measured pricing pairs, 2 families</li>
+        <li>3-probe LR preflight at the declared horizon <span class="mut">(regret 0.0000, 2 scales)</span></li>
+        <li>Retraction-carrying reports — misses printed as loudly as hits</li>
+        <li>Single-file reports · zero frontend dependencies · &lt;25 KB pages</li>
+      </ul>
+
+      <h2><span class="no">3</span>ABSOLUTE MEASURED RATINGS <span class="mut sans" style="font-weight:400">(specimen: pythia-160m @ step143000)</span></h2>
+      <table>
+        <thead><tr><th>PARAMETER</th><th>SYMBOL</th><th style="text-align:right">VALUE</th><th>CONDITIONS</th><th style="text-align:center">GRADE</th></tr></thead>
+        <tbody>
+          <tr><td>Held-out capability</td><td>C</td><td class="v">3.3796 nats</td><td>frozen 32-doc C4, fp32</td><td class="c">—</td></tr>
+          <tr><td>Rule readiness</td><td>R</td><td class="v pos">+4.29 nats</td><td>unseen @k=16 · CI [3.60, 5.01]</td><td class="c pos">RULES</td></tr>
+          <tr><td>Safety readiness</td><td>R<sub>q</sub></td><td class="v pos">past 3.46</td><td>in-context · Cell Q 09-01</td><td class="c pos">PAST</td></tr>
+          <tr><td>Isotropic curvature</td><td>dL<sub>abs</sub></td><td class="v hot">2.0207</td><td>γ=5e-3 · run min 0.119</td><td class="c hot">×17</td></tr>
+          <tr><td>int4 RTN damage</td><td>ΔC4</td><td class="v neg">+0.832 nats</td><td>measured · rank 6/6 pairs</td><td class="c neg">HIGH</td></tr>
+          <tr><td>Crash collateral</td><td>D/G</td><td class="v neg">19.7×</td><td>@1e-5 · 200 steps · vs twin 0.10×</td><td class="c neg">HOT</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Ratings are placements on measured surfaces — ranks and crossings,
+      never cross-family magnitude forecasts (transport calculus, L1).</p>
+
+      <div class="cta">
+        <a class="btn primary" href="#">[ SCAN A MODEL ]</a>
+        <a class="btn" href="#">[ PREFLIGHT A FINE-TUNE ]</a>
+        <a class="btn" href="#">[ BROWSE THE 22-PT SURFACE ]</a>
+      </div>
+    </div>
+
+    <div>
+      <h2><span class="no">4</span>TYPICAL CHARACTERISTICS</h2>
+      <figure class="fig" style="margin:0 0 14px">
+        <svg viewBox="0 0 420 240" role="img" aria-label="readiness surface, 22 measured points">
+          <rect class="bandr" x="219" y="8" width="73" height="196"/>
+          <g class="grid"><line class="axl" x1="30" y1="204" x2="410" y2="204" /></g>
+          <text x="255" y="222" text-anchor="middle">crossing 4.7–5.5</text>
+          <text x="30" y="232">loss 2.6</text><text x="410" y="232" text-anchor="end">6.8</text>
+          <text x="8" y="14">+6</text><text x="8" y="208">0</text>
+          <!-- 22 real points; OLMo = outlined, pythia = filled (shape+color) -->
+          <g class="ptp">
+            <circle cx="53" cy="66" r="3.4"/><circle cx="91" cy="90" r="3.4"/>
+            <circle cx="97" cy="107" r="3.4"/><circle cx="101" cy="96" r="3.4"/>
+            <circle cx="104" cy="112" r="3.4"/><circle cx="115" cy="103" r="3.4"/>
+            <circle cx="115" cy="184" r="3.4"/><circle cx="135" cy="196" r="3.4"/>
+            <circle cx="146" cy="115" r="3.4"/><circle cx="155" cy="169" r="3.4"/>
+            <circle cx="159" cy="147" r="3.4"/><circle cx="207" cy="167" r="3.4"/>
+            <circle cx="215" cy="199" r="3.4"/><circle cx="296" cy="208" r="3.4"/>
+            <circle cx="320" cy="192" r="3.4"/>
+          </g>
+          <g class="pto">
+            <circle cx="47" cy="24" r="3.4"/><circle cx="56" cy="22" r="3.4"/>
+            <circle cx="60" cy="41" r="3.4"/><circle cx="71" cy="57" r="3.4"/>
+            <circle cx="84" cy="128" r="3.4"/><circle cx="394" cy="197" r="3.4"/>
+          </g>
+          <circle cx="101" cy="96" r="7" fill="none" stroke="var(--teal)" stroke-width="2"/>
+          <text x="112" y="90" style="fill:var(--ink);font-weight:700">specimen</text>
+          <text x="47" y="12" style="fill:var(--dim)">○ OLMo-2-1B · ● pythia</text>
+        </svg>
+        <figcaption>FIG 1 · Unseen-rule gain vs held-out loss — 22 measured points, no fit drawn.</figcaption>
+      </figure>
+      <figure class="fig" style="margin:0">
+        <svg viewBox="0 0 420 150" role="img" aria-label="curvature and readiness across the 160m run">
+          <text x="8" y="14">dL_abs (log)</text><text x="8" y="88">R unseen</text>
+          <polyline class="trjd" points="14,58 63,66 111,84 213,92 320,86 408,26"/>
+          <polyline class="trj" points="14,138 63,116 111,117 213,93 320,90 408,81"/>
+          <text x="408" y="22" text-anchor="end" style="fill:var(--warn)">×17 spike</text>
+          <text x="408" y="95" text-anchor="end" style="fill:var(--teal)">+4.29</text>
+          <text x="14" y="148">512</text><text x="408" y="148" text-anchor="end">143k · log steps</text>
+        </svg>
+        <figcaption>FIG 2 · The quench signature: readiness climbs while endpoint curvature spikes.</figcaption>
+      </figure>
+
+      <h2><span class="no">5</span>OPERATING CONDITIONS</h2>
+      <table>
+        <tbody>
+          <tr><td>Measured range</td><td class="v">70M – 9B params</td></tr>
+          <tr><td>Full panel + crash test</td><td class="v">20–40 min / ckpt (RTX 3090)</td></tr>
+          <tr><td>Readiness only</td><td class="v">CPU-capable</td></tr>
+          <tr><td>Evidence classes</td><td class="v">measured · lit · conjecture</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2><span class="no">6</span>REVISION HISTORY <span class="mut sans" style="font-weight:400">— retractions ship on the datasheet, not in a changelog</span></h2>
+  <table class="rev">
+    <thead><tr><th>REV</th><th>DATE</th><th>CHANGE</th></tr></thead>
+    <tbody>
+      <tr><td class="c">0.1</td><td>2026-09-01</td><td class="pos">Cell Q banked: safety is readiness-gated; own crossing ~1.1 nats after neutral</td></tr>
+      <tr><td class="c">—</td><td>2026-08-31</td><td class="neg">WITHDRAWN: dataset-profile predictive column (+0.800 was an epoch-trap artifact)</td></tr>
+      <tr><td class="c">—</td><td>2026-08-27</td><td class="neg">KILLED: iso-damage LR rule (12× curvature bought 1.79× usable LR)</td></tr>
+      <tr><td class="c">—</td><td>2026-08-24</td><td class="neg">WITHDRAWN within a day: "semantic transfer 5/5" (~70% code format)</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    <span>MRI-LAB · the regimes program's instrument face</span>
+    <span class="stamp">EVIDENCE-DISCIPLINED</span>
+    <span style="margin-left:auto">page ≈ 15 KB · 0 JS · no dependencies</span>
+  </footer>
+</div>
