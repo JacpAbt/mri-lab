@@ -174,19 +174,56 @@ character comes from the subject's own world — never from decoration.
   - Wit is allowed in microcopy ("No sedation required."), one per room, never
     on refusals or retractions.
 
-## 8. Open between us (decide before round 3)
+## 8. DECIDED 2026-09-01 (user)
 
-  1. DEFAULT THEME: lab-paper light-first (my lean: it separates us — AI
-     tools default dark; instruments live on paper) vs dark-first deck-mood.
-  2. ROOM NAMES: functional (Readiness/Fragility/…) vs bench metaphor
-     everywhere (Gate/Scan/Observatory…). Mixed now — pick one register?
-  3. THE PORTRAIT'S CANON: freeze the encoding (tremor=loss, spokes=readiness,
-     hatch=curvature, ring=norms) as THE app-wide glyph, or iterate once more?
-  4. STACK (later, but principles constrain it): server-rendered HTML from
-     report JSON + vanilla islands (my lean: fits §6 budgets trivially) vs a
-     light framework. Decide at round 3, not now.
-  5. RECIPE DOOR SCOPE v1: sensor-plan + placement advisories only (measured),
-     or also the corpus crash-profile runner (needs GPU jobs from day one)?
+  1. THEME: lab-paper LIGHT-FIRST, with a full considered dark theme.
+  2. ROOM NAMES: FUNCTIONAL register — Load, Overview, Readiness, Fragility,
+     Economics, Lineage, Preflight, Run Monitor, Registry, Arena, Queue.
+     (The bench-metaphor words survive only inside copy, never as nav.)
+  3. THE PORTRAIT IS CANON, frozen: tremor = held-out loss · spokes =
+     unseen-rule gain (readiness) · warm hatch = isotropic curvature ·
+     dashed tolerance ring = ‖W‖²/N · red shards = anti-generalization ·
+     crossing pulse at sign change. Any change to this encoding is a
+     versioned decision recorded here, like an instrument revision.
+  4. STACK: server-rendered HTML from report JSON + vanilla-JS islands.
+  5. RECIPE DOOR v1 INCLUDES the GPU corpus crash-profile runner from day one
+     (dp_profile + erosion_arms jobs through the queue — backend already
+     supports both; the door renders profiles as DESCRIPTIVE, per the DP v1.1
+     withdrawal).
+
+## 8b. What "interesting" means here (position, adopted with §7)
+
+Interest in a tool has four durable sources, in this order:
+
+  1. THE PHENOMENON, NOT THE PAINT. The most interesting object on any page
+     is that the subject is real and alive: a model quenching, a crossing you
+     can scrub across, a probe landing and a verdict ticking over. Design's
+     job is to put the viewer's hand on the instrument — presence of
+     measurement beats decoration of it, always. (Most AI-built frontends are
+     boring because there is nothing under them; we have a phenomenon.)
+  2. OPINION IN THE DETAILS. Character is the accumulation of choices nobody
+     else would make: refusals styled as features, retractions as furniture,
+     verdict decals, VOID-BY-GATE as interface vocabulary, the stamp. The web
+     feels identical not for lack of ornament but for lack of conviction —
+     our epistemics are the one thing no other tool can copy, so they carry
+     the identity.
+  3. DISCOVERED DELIGHT, NEVER PERFORMED. The earned moment per room (§7)
+     rewards attention instead of demanding it: the figure highlighting a
+     channel when you hover its legend gauge, the overlay teaching you once,
+     the stamp's 1.2° tilt. If a delight plays before the user does anything,
+     cut it.
+  4. TEXTURE OVER MOTION. The lost "style" of the web is material, not
+     animation: graph-paper grounds, double-rule mastheads, figure numbers
+     and captions, tabular numerals, revision tables — print-grade care that
+     makes the page feel like a made object. Our material world is the
+     instrument/datasheet lineage; that reads as character to professionals
+     because it signals care, not branding.
+
+  THE GOVERNING TENSION: first-visit wow decays; hundredth-visit affection
+  compounds. We design for the hundredth visit (speed, keyboard flow,
+  density, a voice you'd miss) and let the first visit's wow be the
+  phenomenon itself — the portrait is allowed to be spectacular BECAUSE it
+  is honest.
 
 ## 9. Acceptance test for any future page
 
