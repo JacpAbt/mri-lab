@@ -205,6 +205,36 @@ character comes from the subject's own world — never from decoration.
          channel on the portrait (everything else dims); buttons depress 1px
        · still zero ambient animation; all of it holds in both themes.
 
+## 8.8. ROUND 4 REALIZED 2026-09-02 — the constitution is now code
+
+The mocks retired into `src/mrilab/ui/` (SSR from the face builders in-process,
+no HTTP round-trip; templates + prerendered block fragments; islands ≤1.2 KB):
+
+  · `portrait.py` — the canon glyph SERVER-SIDE from measured values; the
+    normalization anchors ARE the stored surfaces (sens/readiness ranges), so
+    the portrait is itself a placement. Unmeasured channel ⇒ nothing drawn.
+    Deterministic (sha256 layout hashes; no RNG, no time). Mini-face = the
+    same physiology at 30 px (subject bars, recents, brand).
+  · `chart.py` — the readiness surface as figure-as-instrument (§4 fully):
+    every stored point, CI-hollow discipline, crossing band, safety line
+    (claim-referenced), subject RINGED never interpolated, HOW-TO-READ
+    overlay togglable (server-rendered initial state via ?anno=).
+  · `render.py` — the HTML twin of render_md (one-renderer, §3): block chrome
+    with structural evidence law — claim cards always show class + n +
+    verbatim bounds + UNVERIFIED-BOUNDS chip while user review is pending;
+    refusals/retractions/gaps are first-class furniture.
+  · `routes.py` + templates — rooms per §2: `/` load (3 doors + measured
+    subjects w/ mini faces), `/m/{label}` overview, rooms readiness/
+    fragility/economics/lineage from report sections, `/m/{label}/preflight`
+    (intent form → verdict + probe plan + queue-3-probes POST), `/recipe`
+    (stored corpus crash-profiles, descriptive-only with the DP kill on the
+    page), `/registry` (claims + retraction wall), `/queue`, `/reports`.
+  · islands.js — channel highlight, overlay toggle, g+letter room keys.
+
+Economics got its own report section (exchange/asymmetry/susceptibility/
+transfer/re-dose/decay/placement claims + the DEMO-CL v2 gap) — added to
+mri_report and the section-id contract test.
+
 ## 8b. What "interesting" means here (position, adopted with §7)
 
 Interest in a tool has four durable sources, in this order:

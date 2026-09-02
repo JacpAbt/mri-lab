@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ room_title }} &#183; {{ subject_label }} &#183; MRI-LAB{% endblock %}
+{% block content %}
+  <h1>{{ question }}</h1>
+  {% if answer_html %}<p class="answer">{{ answer_html|safe }}</p>{% endif %}
+  {% if chart_html %}
+  <section class="figpanel" id="fig-main" data-anno="{{ 'on' if anno else 'off' }}">
+    <h2>{{ chart_title }} <span class="src">{{ chart_src }}</span></h2>
+    <div class="ruler" aria-hidden="true"></div>
+    {{ chart_html|safe }}
+    <div class="figbar"><span>{{ chart_caption }}</span>
+      <button class="toggle" data-anno-target="#fig-main"
+              aria-pressed="{{ 'true' if anno else 'false' }}">? how to read</button>
+    </div>
+  </section>
+  {% endif %}
+  {{ sections_html|safe }}
+{% endblock %}
+{% block footer_extra %}<span>{{ source_note }}</span>{% endblock %}

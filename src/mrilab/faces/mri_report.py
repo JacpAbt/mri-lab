@@ -182,6 +182,24 @@ def _finetuning_section(settings: Settings, label: str) -> Section:
                    title="Fine-tuning channel (crash test only)", blocks=blocks)
 
 
+def _economics_section() -> Section:
+    return Section(id="economics", title="Write economics (channel prices)", blocks=[
+        kit.claim("exchange-table"),
+        kit.claim("attacker-defender-asymmetry"),
+        kit.claim("rising-susceptibility"),
+        kit.claim("multiplicative-transfer-law"),
+        kit.claim("re-dose-not-re-fit"),
+        kit.claim("item-channel-decays"),
+        kit.claim("placement-decides-fate-not-persistence"),
+        kit.gap(
+            "The margin -> behaviour bridge is unpriced",
+            "Nats-per-token prices are measured on loss margins; the exchange "
+            "into task behaviour (and any closed-loop trigger built on it) "
+            "waits on a calibrated, smoothed DEMO-CL union.",
+            unlocked_by="DEMO-CL v2"),
+    ])
+
+
 def _posttraining_section() -> Section:
     return Section(id="post-training", title="Post-training fingerprint", blocks=[
         kit.claim("sft-double-ratchet"),
@@ -230,6 +248,7 @@ def build_from_stored(settings: Settings, label: str,
         _readiness_section(row["loss"]),
         _quantization_section(row.get("dL_abs")),
         _finetuning_section(settings, label),
+        _economics_section(),
         _posttraining_section(),
         _honesty_section(),
         _integrity_section(),

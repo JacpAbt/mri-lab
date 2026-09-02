@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Registry &#183; MRI-LAB{% endblock %}
+{% block content %}
+  <h1>The claims registry</h1>
+  <p class="answer">The only path a claim takes into any page: {{ n_live }}
+  quotable entries, each with evidence class, n, and verbatim bounds &#8212;
+  and the retraction wall, rendered with the same prominence as the hits.</p>
+
+  {% for group in groups %}
+  <section>
+    <h2>{{ group.title }} <span class="src">{{ group.cards|length }} entries</span></h2>
+    {% for c in group.cards %}{{ c|safe }}{% endfor %}
+  </section>
+  {% endfor %}
+
+  <section>
+    <h2>The retraction wall <span class="src">misses shown first-class</span></h2>
+    {% for c in wall %}{{ c|safe }}{% endfor %}
+  </section>
+{% endblock %}

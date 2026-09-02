@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}MRI-LAB{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="/ui/static/mrilab.css">
+</head>
+<body{% if subject_label %} data-subject="{{ subject_label }}"{% endif %}>
+<div class="page">
+  <div class="subject">
+    <a class="brand" href="/">MRI-<b>LAB</b></a>
+    {% if face_svg %}<span class="dim">/</span>{{ face_svg|safe }}{% endif %}
+    {% if who %}<span class="who">{{ who }}</span>{% endif %}
+    {% if sha %}<span class="sha">{{ sha }}</span>{% endif %}
+    <span class="act">{% block action %}{% endblock %}</span>
+  </div>
+  <nav>
+    {% if subject_label %}{% set base = '/m/' ~ subject_label %}
+    <a href="{{ base }}" {% if room == 'overview' %}class="on"{% endif %}>OVERVIEW</a>
+    <a href="{{ base }}/readiness" {% if room == 'readiness' %}class="on"{% endif %}>READINESS</a>
+    <a href="{{ base }}/fragility" {% if room == 'fragility' %}class="on"{% endif %}>FRAGILITY</a>
+    <a href="{{ base }}/economics" {% if room == 'economics' %}class="on"{% endif %}>ECONOMICS</a>
+    <a href="{{ base }}/lineage" {% if room == 'lineage' %}class="on"{% endif %}>LINEAGE</a>
+    <a href="{{ base }}/preflight" {% if room == 'preflight' %}class="on"{% endif %}>PREFLIGHT</a>
+    <span class="navsep"></span>
+    {% endif %}
+    <a href="/recipe" {% if room == 'recipe' %}class="on"{% endif %}>RECIPE</a>
+    <a href="/registry" {% if room == 'registry' %}class="on"{% endif %}>REGISTRY</a>
+    <a href="/queue" {% if room == 'queue' %}class="on"{% endif %}>QUEUE</a>
+    <a href="/reports" {% if room == 'reports' %}class="on"{% endif %}>REPORTS</a>
+    <span class="hint"><kbd>g</kbd>+<kbd>r</kbd> readiness &#183; <kbd>g</kbd>+<kbd>q</kbd> queue</span>
+  </nav>
+{% block content %}{% endblock %}
+  <footer>
+    <span>rendered from rows &#183; registry {{ registry_version }}</span>
+    {% block footer_extra %}{% endblock %}
+    <span style="margin-left:auto">every claim carries class &#183; n &#183; bounds</span>
+  </footer>
+</div>
+<script src="/ui/static/islands.js"></script>
+</body>
+</html>

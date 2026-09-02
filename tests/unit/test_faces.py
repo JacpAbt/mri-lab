@@ -19,7 +19,7 @@ def test_model_report_from_bundle(settings) -> None:
     rep = mri_report.build_from_stored(settings, "pythia-160m@step143000")
     ids = [s.id for s in rep.sections]
     assert ids == ["vitals", "readiness", "quantization", "fine-tuning",
-                   "post-training", "objects", "integrity"]
+                   "economics", "post-training", "objects", "integrity"]
     # every claim block carries class + n + bounds (the discipline, structurally)
     n_claims = 0
     for sec in rep.sections:

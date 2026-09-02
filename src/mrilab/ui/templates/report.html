@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ face }} &#183; {{ subject_label }} &#183; MRI-LAB{% endblock %}
+{% block content %}
+  <h1>{{ face }} &#8212; {{ subject_label }}</h1>
+  <p class="answer">Persisted report {{ report_id }} &#183; built
+    {{ created_at.strftime('%Y-%m-%d %H:%M UTC') }} &#183;
+    <a href="/api/v1/reports/{{ report_id }}.md">markdown</a> &#183;
+    <a href="/api/v1/reports/{{ report_id }}">json</a></p>
+  {{ sections_html|safe }}
+{% endblock %}
+{% block footer_extra %}<span>report registry {{ report_registry }}</span>{% endblock %}

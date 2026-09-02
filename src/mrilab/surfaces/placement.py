@@ -91,6 +91,13 @@ def dl_abs_percentile(dl_abs: float, family: str | None = None) -> Percentile:
     return _percentile_among(dl_abs, rows)
 
 
+def s_wt_percentile(s_wt: float, family: str | None = None) -> Percentile:
+    rows = [(f"{r.family}@{r.revision}", r.family, r.loss, r.s_wt, r.source)
+            for r in loaders.sens_rows()
+            if family is None or r.family.startswith(family)]
+    return _percentile_among(s_wt, rows)
+
+
 @dataclass(frozen=True)
 class Int4Rank:
     dl_abs: float

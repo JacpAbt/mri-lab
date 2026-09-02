@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Reports &#183; MRI-LAB{% endblock %}
+{% block content %}
+  <h1>Built reports</h1>
+  <p class="answer">Every report is a JSON document (the wire truth) with this
+  HTML view and a markdown twin rendered from the same blocks.</p>
+  <section>
+    <h2>Index <span class="src">{{ reports|length }} most recent</span></h2>
+    <div class="scroll"><table>
+      <thead><tr><th>created</th><th>face</th><th>subject</th><th>registry</th><th></th></tr></thead>
+      <tbody>
+      {% for r in reports %}
+      <tr>
+        <td>{{ r.created_at.strftime('%m-%d %H:%M') }}</td>
+        <td>{{ r.face }}</td>
+        <td>{{ r.subject }}</td>
+        <td>{{ r.registry_version[:8] }}</td>
+        <td><a href="/reports/{{ r.id }}">open</a> &#183;
+            <a href="/api/v1/reports/{{ r.id }}.md">md</a> &#183;
+            <a href="/api/v1/reports/{{ r.id }}">json</a></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+    {% if not reports %}<div class="gapblk"><b>EMPTY:</b> no reports built yet
+      &#8212; open a subject and its rooms build on the fly, or POST
+      /api/v1/reports/&lt;face&gt; to persist one.</div>{% endif %}
+  </section>
+{% endblock %}

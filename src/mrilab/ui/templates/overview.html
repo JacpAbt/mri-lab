@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ subject_label }} &#183; MRI-LAB{% endblock %}
+{% block action %}<a class="btn" href="/m/{{ subject_label }}/preflight">[ PREFLIGHT ]</a>{% endblock %}
+{% block content %}
+  <div class="verdict">
+    <p>{{ verdict_text }}</p>
+    <span class="chips">
+      {% for c in chips %}<span class="chip {{ c.cls }}"{% if c.title %} title="{{ c.title }}"{% endif %}>{{ c.label }}</span>{% endfor %}
+    </span>
+  </div>
+
+  <div class="hero">
+    <section class="figpanel">
+      <h2>State portrait <span class="src">canon v1 &#183; anchors = the stored surfaces</span></h2>
+      <div class="ruler" aria-hidden="true"></div>
+      {{ portrait|safe }}
+      <div class="figcap"><span>Every mark is a measured quantity; an unmeasured
+        channel draws nothing.</span>
+        <a href="/m/{{ subject_label }}/readiness">? how to read this</a></div>
+    </section>
+    <section>
+      <h2>Legend = gauges <span class="src">hover a row &#8594; its channel</span></h2>
+      {% for g in gauges %}
+      <div class="g" data-ch="{{ g.ch }}"><span class="sym {{ g.symcls }}">{{ g.sym|safe }}</span>
+        <span class="name"><b>{{ g.name }}</b>{{ g.sub }}</span>
+        <span class="val {{ g.valcls }}">{{ g.val }}<small>{% if g.link %}<a href="{{ g.link.href }}">{{ g.link.text }} &#8594;</a>{% else %}{{ g.small }}{% endif %}</small></span></div>
+      {% endfor %}
+    </section>
+  </div>
+
+  <div class="rooms">
+    {% for r in rooms %}
+    <a class="room" href="/m/{{ subject_label }}/{{ r.slug }}">
+      <span class="t">{{ r.title }} <span class="n {{ r.ncls }}">{{ r.n }}</span></span>
+      <span class="d">{{ r.desc }}</span>
+      <span class="go">[ OPEN &#8594; ]</span></a>
+    {% endfor %}
+  </div>
+
+  {% if gaps_html %}{{ gaps_html|safe }}{% endif %}
+{% endblock %}
+{% block footer_extra %}<span>{{ source_note }}</span>{% endblock %}

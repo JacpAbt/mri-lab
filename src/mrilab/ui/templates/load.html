@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}MRI-LAB{% endblock %}
+{% block content %}
+  <h1>What is this checkpoint, really?</h1>
+  <p class="answer">Load a subject and get its measured placement on the
+  program's stored surfaces &#8212; readiness, fragility, write economics &#8212;
+  with every claim carrying its evidence class, its n, and its verbatim bounds.</p>
+
+  <div class="doors">
+    <div class="door">
+      <div class="t">CHECKPOINT</div>
+      <div class="d">A trained artifact (HF repo@revision or local path).
+        Vitals &#8776;20&#8201;min on a 3090 at &#8804;2B; placement from stored
+        rows is instant.</div>
+      <form class="row" action="/go" method="get">
+        <label class="f">subject label
+          <input name="label" list="known-labels" placeholder="pythia-160m@step143000" required>
+        </label>
+        <datalist id="known-labels">
+          {% for lb in known_labels %}<option value="{{ lb }}">{% endfor %}
+        </datalist>
+        <button class="btn primary" type="submit">OPEN &#8594;</button>
+      </form>
+    </div>
+    <div class="door">
+      <div class="t">RECIPE</div>
+      <div class="d">No weights yet &#8212; an architecture and a data mix.
+        Corpus crash-profiles measured on probe substrates (descriptive, never
+        predictive: the predictive column was killed).</div>
+      <a class="btn" href="/recipe">CRASH-PROFILES &#8594;</a>
+    </div>
+    <div class="door">
+      <div class="t">LIVE RUN</div>
+      <div class="d">A training run producing checkpoints. The recorder face
+        watches the panel per checkpoint; jobs and lanes live in the queue.</div>
+      <a class="btn" href="/queue">QUEUE &#8594;</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Measured subjects <span class="src">{{ recents|length }} with stored vitals rows</span></h2>
+    <div class="rcards">
+      {% for r in recents %}
+      <a class="rcard" href="/m/{{ r.label }}">
+        {{ r.face|safe }}
+        <span><span class="who">{{ r.label }}</span><br>
+          <span class="sub">loss {{ r.loss }}{% if r.gain is not none %} &#183; unseen {{ r.gain }}{% endif %}</span></span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
+{% block footer_extra %}<span>{{ bundle_note }}</span>{% endblock %}

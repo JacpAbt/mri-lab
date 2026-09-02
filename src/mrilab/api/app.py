@@ -1,14 +1,18 @@
-"""FastAPI app (prefix /api/v1). CORS configured now — the frontend dev server
-runs on Windows against this WSL-bound service (bind 0.0.0.0; WSL2 localhost
-forwarding is flaky after sleep/VPN, documented in ops notes)."""
+"""FastAPI app: JSON API under /api/v1 + the server-rendered UI at the root
+(same process, same face builders — no second source of truth). CORS stays for
+external API consumers; the UI itself is same-origin."""
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from mrilab.api.routers import arena, browse, ci, jobs, meta, reports
 from mrilab.settings import get_settings
+from mrilab.ui import routes as ui_routes
 
 
 def create_app() -> FastAPI:
@@ -25,6 +29,10 @@ def create_app() -> FastAPI:
     for r in (meta.router, jobs.router, reports.router, browse.router,
               ci.router, arena.router):
         app.include_router(r, prefix="/api/v1")
+    app.mount("/ui/static",
+              StaticFiles(directory=Path(ui_routes.__file__).parent / "static"),
+              name="ui-static")
+    app.include_router(ui_routes.router)
     return app
 
 

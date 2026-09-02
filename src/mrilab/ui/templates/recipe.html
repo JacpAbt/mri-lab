@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Recipe &#183; MRI-LAB{% endblock %}
+{% block content %}
+  <h1>What does this data do to a substrate?</h1>
+  <p class="answer">Corpus crash-profiles: measured (damage, gain) of short
+  fine-tune arms per target corpus on probe substrates. <b>Descriptive only</b>
+  &#8212; the predictive data-quality column was killed and is on the wall below.</p>
+
+  {% for grp in profiles %}
+  <section>
+    <h2>{{ grp.target }} <span class="src">{{ grp.rows|length }} measured arms</span></h2>
+    <div class="scroll"><table>
+      <thead><tr><th>substrate</th><th>lr</th><th>steps</th><th>damage (c4 nats)</th>
+        <th>gain (target nats)</th><th>source</th></tr></thead>
+      <tbody>
+      {% for r in grp.rows %}
+      <tr><td>{{ r.label }}</td><td>{{ r.lr }}</td><td>{{ r.steps }}</td>
+        <td class="{{ 'bad' if r.damage > 0.05 else '' }}">{{ '%+.4f' % r.damage }}</td>
+        <td class="{{ 'good' if r.gain > 0 else 'bad' }}">{{ '%+.4f' % r.gain }}</td>
+        <td class="dim">{{ r.source }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+  </section>
+  {% endfor %}
+
+  <section>
+    <h2>Why descriptive only</h2>
+    {{ retraction_html|safe }}
+    <div class="gapblk"><b>NOT MEASURED:</b> profiles at the 4096-chunk protocol
+      for external quoting &#8212; the stored column ran a 512-chunk epoch-trap
+      variant. <div class="unlock">unlock: DP v1.1 re-run (queued in
+      HANDOFF_VALIDATION &#167;3)</div></div>
+    <p class="body">Fresh profiles for a new corpus: run the PREFLIGHT room of a
+      probe substrate with your target &#8212; same instrument, pinned protocol.</p>
+  </section>
+{% endblock %}

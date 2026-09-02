@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Preflight &#183; {{ subject_label }} &#183; MRI-LAB{% endblock %}
+{% block content %}
+  <h1>MRI before surgery</h1>
+  <p class="answer">Declare the intent &#8212; target domain, training horizon,
+  required persistence &#8212; and get the readiness verdict, the 3-probe plan
+  <b>at your horizon</b> (probes license only their own horizon), and the LR
+  pick once probe rows exist.</p>
+
+  <section>
+    <h2>Intent</h2>
+    <form class="row" action="/m/{{ subject_label }}/preflight" method="get">
+      <label class="f">target domain
+        <select name="target">
+          {% for t in targets %}<option value="{{ t }}" {% if t == target %}selected{% endif %}>{{ t }}</option>{% endfor %}
+        </select></label>
+      <label class="f">horizon (steps)
+        <input name="horizon" type="number" min="10" max="5000" value="{{ horizon or 200 }}"></label>
+      <label class="f">persistence
+        <select name="persistence">
+          {% for p in ['durable', 'session'] %}<option value="{{ p }}" {% if p == persistence %}selected{% endif %}>{{ p }}</option>{% endfor %}
+        </select></label>
+      <button class="btn primary" type="submit">BUILD PREFLIGHT &#8594;</button>
+    </form>
+    {% if queued %}<div class="gapblk" style="border-color:var(--ok)"><b style="color:var(--ok)">QUEUED:</b>
+      {{ queued }} probe job(s) submitted &#8212; watch them in the <a href="/queue">queue</a>;
+      rebuild this page when they land.</div>{% endif %}
+  </section>
+
+  {% if sections_html %}
+    {{ sections_html|safe }}
+    {% if can_queue_probes %}
+    <section>
+      <h2>Run the probes</h2>
+      <p class="body">The three crash probes at lr={{ probe_lrs }} for
+        {{ horizon }} steps on '{{ target }}' (protocol pinned: n_train=4096,
+        warmup=steps/4 &#8212; the stored-grid protocol, never the instrument default).</p>
+      <form action="/m/{{ subject_label }}/preflight/probes" method="post">
+        <input type="hidden" name="target" value="{{ target }}">
+        <input type="hidden" name="horizon" value="{{ horizon }}">
+        <input type="hidden" name="persistence" value="{{ persistence }}">
+        <button class="btn primary" type="submit">QUEUE 3 PROBES (gpu lane)</button>
+      </form>
+    </section>
+    {% endif %}
+  {% endif %}
+{% endblock %}
